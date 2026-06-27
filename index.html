@@ -257,6 +257,103 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 .exercise-editor-name{flex:1;font-size:12px;color:var(--text2);}
 .exercise-editor-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;}
 
+/* ═══ FOCUS MODE (مد تمرکز) ═══ */
+#focus-mode-overlay{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;flex-direction:column;overflow:hidden;}
+#focus-mode-overlay.active{display:flex;}
+.focus-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;background:var(--glass-bg);backdrop-filter:var(--blur);border-bottom:1px solid var(--glass-border);}
+.focus-day-name{font-size:15px;font-weight:700;color:var(--text);}
+.focus-timer-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--green-soft);border:1px solid rgba(34,197,94,0.25);border-radius:20px;font-size:14px;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;}
+.focus-exit-btn{background:var(--glass2);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:12px;font-family:inherit;font-weight:600;padding:6px 12px;cursor:pointer;}
+.focus-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;gap:20px;}
+.focus-exercise-name{font-size:22px;font-weight:800;text-align:center;color:var(--text);line-height:1.3;}
+.focus-exercise-meta{font-size:13px;color:var(--text3);text-align:center;}
+.focus-set-counter{display:flex;align-items:center;gap:12px;margin:4px 0;}
+.focus-set-dot{width:14px;height:14px;border-radius:50%;background:var(--bg4);border:2px solid var(--border);transition:var(--transition);}
+.focus-set-dot.done{background:var(--green);border-color:var(--green);box-shadow:0 0 8px rgba(34,197,94,0.5);}
+.focus-set-dot.current{background:var(--accent);border-color:var(--accent);box-shadow:0 0 10px var(--accent-glow);transform:scale(1.3);}
+.focus-inputs{display:flex;gap:16px;width:100%;max-width:300px;}
+.focus-input-group{flex:1;display:flex;flex-direction:column;gap:6px;align-items:center;}
+.focus-input-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;}
+.focus-input{background:var(--bg3);border:2px solid var(--border2);border-radius:14px;color:var(--text);font-family:inherit;font-size:28px;font-weight:800;padding:16px 12px;text-align:center;outline:none;width:100%;transition:var(--transition);}
+.focus-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+.focus-last-hint{font-size:12px;color:var(--text3);text-align:center;}
+.focus-last-hint span{color:var(--accent);font-weight:700;}
+.focus-done-btn{width:100%;max-width:300px;padding:18px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;border-radius:16px;color:#fff;font-family:inherit;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 8px 28px var(--accent-glow);transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:10px;}
+.focus-done-btn:active{transform:scale(0.96);}
+.focus-done-btn.rest-done{background:linear-gradient(135deg,rgba(34,197,94,0.85),rgba(22,163,74,0.85));box-shadow:0 8px 28px rgba(34,197,94,0.3);}
+.focus-rest-display{font-size:64px;font-weight:900;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1;text-align:center;}
+.focus-rest-label{font-size:14px;color:var(--text3);text-align:center;margin-top:4px;}
+.focus-rest-skip{background:var(--glass2);border:1px solid var(--border);border-radius:12px;color:var(--text2);font-size:14px;font-family:inherit;font-weight:600;padding:12px 28px;cursor:pointer;transition:var(--transition);margin-top:8px;}
+.focus-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 28px;gap:10px;}
+.focus-nav-btn{flex:1;padding:12px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:12px;color:var(--text2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--transition);}
+.focus-nav-btn:active{transform:scale(0.95);}
+.focus-progress-bar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin:0 20px;}
+.focus-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.5s ease;}
+
+/* ═══ STREAK & BADGES ═══ */
+.streak-banner{margin:12px 16px 0;padding:14px 16px;background:linear-gradient(135deg,rgba(251,191,36,0.12),rgba(249,115,22,0.08));border:1px solid rgba(251,191,36,0.25);border-radius:var(--radius);display:flex;align-items:center;gap:14px;backdrop-filter:blur(10px);}
+.streak-fire{font-size:32px;line-height:1;}
+.streak-info{flex:1;}
+.streak-num{font-size:22px;font-weight:900;color:var(--yellow);}
+.streak-label{font-size:11px;color:var(--text3);margin-top:1px;}
+.streak-badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(251,191,36,0.15);color:var(--yellow);border:1px solid rgba(251,191,36,0.3);}
+.badges-grid{display:flex;gap:10px;overflow-x:auto;padding:12px 16px;scrollbar-width:none;}
+.badges-grid::-webkit-scrollbar{display:none;}
+.badge-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;width:64px;}
+.badge-icon-wrap{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border);background:var(--glass-card);transition:var(--transition);}
+.badge-icon-wrap.earned{border-color:var(--yellow);background:rgba(251,191,36,0.12);box-shadow:0 0 16px rgba(251,191,36,0.2);}
+.badge-icon-wrap.locked{filter:grayscale(1);opacity:0.4;}
+.badge-item-name{font-size:10px;color:var(--text3);text-align:center;line-height:1.3;}
+
+/* ═══ CALENDAR ═══ */
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:12px 16px;}
+.cal-day-label{font-size:10px;color:var(--text3);text-align:center;padding:4px 0;font-weight:600;}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text3);background:var(--glass);border:1px solid transparent;transition:var(--transition);}
+.cal-day.has-workout{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);box-shadow:0 0 8px var(--accent-glow);}
+.cal-day.today{border-color:var(--green);color:var(--green);}
+.cal-day.today.has-workout{background:var(--green-soft);border-color:var(--green);color:var(--green);box-shadow:0 0 8px rgba(34,197,94,0.3);}
+.cal-day.empty{background:none;border-color:transparent;}
+.cal-month-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 4px;}
+.cal-month-title{font-size:14px;font-weight:700;}
+.cal-nav-btn{background:var(--glass2);border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:16px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+
+/* ═══ SMART SUGGESTIONS ═══ */
+.smart-card{margin:0 16px 12px;padding:14px 16px;background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(34,197,94,0.03));border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius);backdrop-filter:blur(10px);}
+.smart-card-title{font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.smart-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(34,197,94,0.1);}
+.smart-item:last-child{border-bottom:none;padding-bottom:0;}
+.smart-item-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0;}
+.smart-item-text{flex:1;font-size:12px;color:var(--text2);}
+.smart-item-text strong{color:var(--text);display:block;font-size:13px;}
+
+/* ═══ FATIGUE WARNING ═══ */
+.fatigue-card{margin:0 16px 12px;padding:14px 16px;background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(249,115,22,0.04));border:1px solid rgba(239,68,68,0.2);border-radius:var(--radius);backdrop-filter:blur(10px);}
+.fatigue-card-title{font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+
+/* ═══ MUSCLE MAP ═══ */
+.muscle-bars{display:flex;flex-direction:column;gap:8px;padding:12px 16px;}
+.muscle-bar-row{display:flex;align-items:center;gap:10px;}
+.muscle-bar-label{width:70px;font-size:12px;color:var(--text2);flex-shrink:0;}
+.muscle-bar-track{flex:1;height:8px;background:var(--bg4);border-radius:4px;overflow:hidden;}
+.muscle-bar-fill{height:100%;border-radius:4px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1);}
+.muscle-bar-pct{width:36px;font-size:11px;color:var(--text3);text-align:left;flex-shrink:0;}
+
+/* ═══ WEEKLY COMPARE ═══ */
+.weekly-compare-card{margin:0 16px 12px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(10px);}
+.wc-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.wc-title{font-size:13px;font-weight:700;}
+.wc-pct{font-size:18px;font-weight:900;}
+.wc-pct.up{color:var(--green);}
+.wc-pct.down{color:var(--red);}
+.wc-pct.same{color:var(--text3);}
+.wc-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);gap:10px;}
+.wc-row:last-child{border-bottom:none;}
+.wc-label{flex:1;font-size:12px;color:var(--text3);}
+.wc-vals{display:flex;align-items:center;gap:8px;font-size:12px;}
+.wc-this{font-weight:700;color:var(--text);}
+.wc-arrow{color:var(--text3);}
+.wc-prev{color:var(--text3);}
+
 /* ═══ WELCOME SCREEN ═══ */
 #welcome-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;overflow:hidden;}
 #welcome-screen.hidden{display:none;}
@@ -354,6 +451,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
   </div>
 </div>
 
+<!-- ═══ FOCUS MODE ═══ -->
+<div id="focus-mode-overlay">
+  <div class="focus-header">
+    <div class="focus-day-name" id="focus-day-name">روز اول</div>
+    <div class="focus-timer-badge" id="focus-session-timer">00:00</div>
+    <button class="focus-exit-btn" onclick="exitFocusMode()">خروج ✕</button>
+  </div>
+  <div class="focus-progress-bar"><div class="focus-progress-fill" id="focus-progress-fill" style="width:0%"></div></div>
+  <div class="focus-body" id="focus-body">
+    <!-- content rendered dynamically -->
+  </div>
+  <div class="focus-nav">
+    <button class="focus-nav-btn" id="focus-prev-btn" onclick="focusNavExercise(-1)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      قبلی
+    </button>
+    <div style="font-size:12px;color:var(--text3);text-align:center;flex:1;" id="focus-ex-counter">حرکت ۱ از ۱</div>
+    <button class="focus-nav-btn" id="focus-next-btn" onclick="focusNavExercise(1)">
+      بعدی
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</div>
+
 <div id="app">
 
 <!-- ═══ WORKOUT ═══ -->
@@ -372,6 +493,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
   </div>
   <div id="day-selector-view">
     <div id="install-banner-wrap"></div>
+    <div id="streak-banner-wrap"></div>
+    <div id="smart-suggestions-wrap"></div>
     <div id="monthly-goal-banner"></div>
     <div class="sec-title">انتخاب روز تمرین</div>
     <div class="day-cards-wrapper" id="day-cards-container"></div>
@@ -383,6 +506,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
         برگشت
       </button>
       <span class="selected-day-title" id="selected-day-title"></span>
+      <button class="btn btn-primary btn-sm" onclick="enterFocusMode()" style="margin-right:auto;margin-left:0;" title="مد تمرکز">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M3 12h2M19 12h2M12 3v2M12 19v2"/></svg>
+        مد تمرکز
+      </button>
     </div>
     <div class="exercise-section" id="exercise-list"></div>
     <button class="finish-day-btn" onclick="finishDay()">✓ پایان جلسه و ذخیره</button>
@@ -403,6 +530,25 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 <div class="page" id="page-stats">
   <div class="page-header"><h1>آمار</h1><p>پیشرفت و رکوردها</p></div>
   <div class="stats-grid" id="stats-cards"></div>
+
+  <div class="sec-title">مقایسه با هفته قبل</div>
+  <div id="weekly-compare-wrap"></div>
+
+  <div class="sec-title">تقویم تمرین</div>
+  <div class="card" style="margin:0 16px 12px;">
+    <div class="cal-month-nav">
+      <button class="cal-nav-btn" onclick="calNavMonth(-1)">›</button>
+      <div class="cal-month-title" id="cal-month-title"></div>
+      <button class="cal-nav-btn" onclick="calNavMonth(1)">‹</button>
+    </div>
+    <div class="calendar-grid" id="calendar-grid"></div>
+  </div>
+
+  <div class="sec-title">نقشه عضلات (این ماه)</div>
+  <div class="card" style="margin:0 16px 12px;">
+    <div class="muscle-bars" id="muscle-map"></div>
+  </div>
+
   <div class="sec-title">وزن بدن</div>
   <div style="padding:0 16px;">
     <div class="chart-container">
@@ -667,49 +813,6 @@ const THEMES = [
   {id:'light',  name:'روشن', bg:'linear-gradient(135deg,#f0f2f8,#d0d4eb)',accent:'#7c6fff'},
 ];
 
-const DEFAULT_DAYS = [
-  {id:'d1',name:'روز اول',icon:'💪',desc:'سینه، سرشانه، پشت بازو، جلو بازو',totalSets:25,exercises:[
-    {id:'e1', name:'پرس تخت سینه هالتر',     reps:'6-10', sets:4,category:'heavy', superset:null},
-    {id:'e2', name:'پرس بالا سینه دمبل',      reps:'8-10', sets:3,category:'medium',superset:'سوپرست با کراس از پایین'},
-    {id:'e3', name:'نشر جانب دمبل / سیمکش',  reps:'12-15',sets:4,category:'light', superset:null},
-    {id:'e4', name:'پشت بازو سیمکش بالای سر',reps:'10-12',sets:4,category:'medium',superset:null},
-    {id:'e5', name:'پشت بازو هالتر خوابیده', reps:'8-10', sets:3,category:'medium',superset:null},
-    {id:'e6', name:'جلو بازو هالتر دست جمع', reps:'8-12', sets:4,category:'medium',superset:null},
-    {id:'e7', name:'جلو بازو چکشی دمبل',     reps:'8-12', sets:3,category:'light', superset:null},
-  ]},
-  {id:'d2',name:'روز دوم',icon:'🦵',desc:'پا، ساق، شکم',totalSets:26,exercises:[
-    {id:'e8', name:'اسکوات هالتر',    reps:'8-12', sets:4,category:'heavy', superset:null},
-    {id:'e9', name:'پرس پا دستگاه',   reps:'10-12',sets:4,category:'medium',superset:null},
-    {id:'e10',name:'جلو ران دستگاه',  reps:'12-15',sets:3,category:'light', superset:null},
-    {id:'e11',name:'پشت ران دستگاه',  reps:'10-12',sets:4,category:'medium',superset:null},
-    {id:'e12',name:'ددلیفت رومانیایی',reps:'8-10', sets:4,category:'heavy', superset:null},
-    {id:'e13',name:'خیاطه دمبل',      reps:'10-12',sets:3,category:'medium',superset:null},
-    {id:'e14',name:'ساق پا ایستاده',  reps:'12-15',sets:4,category:'light', superset:null},
-  ]},
-  {id:'d3',name:'روز سوم',icon:'🏋️',desc:'کول، پشت شانه، بازوها',totalSets:30,exercises:[
-    {id:'e15',name:'پرس سرشانه دمبل',        reps:'8-12', sets:3,category:'medium',superset:null},
-    {id:'e16',name:'زیربغل هالتر خم',        reps:'8-10', sets:4,category:'heavy', superset:null},
-    {id:'e17',name:'لت سیمکش دست باز',       reps:'8-12', sets:4,category:'medium',superset:null},
-    {id:'e18',name:'قایقی دست باز',          reps:'10-12',sets:3,category:'medium',superset:null},
-    {id:'e19',name:'فیس پول سیمکش',          reps:'12-15',sets:3,category:'light', superset:null},
-    {id:'e20',name:'فلای معکوس',             reps:'12-15',sets:3,category:'light', superset:null},
-    {id:'e21',name:'نشر جانب سیمکش تک دست', reps:'12-15',sets:3,category:'light', superset:null},
-    {id:'e22',name:'پشت بازو سیمکش طنابی',  reps:'10-12',sets:3,category:'medium',superset:null},
-    {id:'e23',name:'کیک بک پشت بازو',       reps:'10-12',sets:3,category:'light', superset:null},
-    {id:'e24',name:'جلو بازو دمبل',          reps:'8-12', sets:4,category:'medium',superset:null},
-  ]},
-  {id:'d4',name:'روز چهارم',icon:'⚡',desc:'سینه، کول، شکم',totalSets:27,exercises:[
-    {id:'e25',name:'پرس بالا سینه دمبل', reps:'8-10', sets:3,category:'medium',superset:null},
-    {id:'e26',name:'پرس تخت سینه هالتر',reps:'6-10', sets:3,category:'heavy', superset:null},
-    {id:'e27',name:'پرس زیر سینه هالتر',reps:'6-10', sets:3,category:'medium',superset:'سوپرست با کراس از بالا'},
-    {id:'e28',name:'شراگ هالتر / دمبل', reps:'12',   sets:3,category:'medium',superset:null},
-    {id:'e29',name:'بک اکستنشن',         reps:'12',   sets:3,category:'light', superset:null},
-    {id:'e30',name:'خلبانی دمبل',        reps:'15-20',sets:4,category:'light', superset:'سوپرست با پهلو دمبل'},
-    {id:'e31',name:'شکم سیمکش',          reps:'15-20',sets:4,category:'light', superset:null},
-    {id:'e32',name:'ساعد',               reps:'15-20',sets:4,category:'light', superset:null},
-  ]},
-];
-
 // ═══════════════════════════════════════════════════
 //  STATE
 // ═══════════════════════════════════════════════════
@@ -924,8 +1027,25 @@ function switchPage(page) {
 // ═══════════════════════════════════════════════════
 function renderDayCards() {
   renderGoalBanner();
+  renderStreakBanner();
+  renderSmartSuggestions();
   const container = document.getElementById('day-cards-container');
   container.innerHTML = '';
+
+  if (!appData.days || appData.days.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center;padding:48px 24px 32px;">
+        <div style="font-size:56px;margin-bottom:16px;">🏋️</div>
+        <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;">هنوز برنامه‌ای نداری!</div>
+        <div style="font-size:13px;color:var(--text3);margin-bottom:24px;line-height:1.7;">از تنظیمات، روزهای تمرینی و حرکاتت را اضافه کن</div>
+        <button class="btn btn-primary" onclick="switchPage('settings');setTimeout(()=>{const dm=document.getElementById('day-manager');if(dm)dm.scrollIntoView({behavior:'smooth',block:'start'});},300);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          ساخت برنامه تمرینی
+        </button>
+      </div>`;
+    return;
+  }
+
   appData.days.forEach(day => {
     const progress = getDayProgress(day.id);
     const card = document.createElement('div');
@@ -949,10 +1069,12 @@ function renderGoalBanner() {
   const banner = document.getElementById('monthly-goal-banner');
   if (!banner) return;
   const goal = appData.monthlyGoal || 12;
-  const now = new Date();
+  const nowG = new Date();
+  const nowJ2 = toJalali(nowG.getFullYear(), nowG.getMonth()+1, nowG.getDate());
   const count = appData.history.filter(s => {
     const d = new Date(s.date);
-    return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+    const j = toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+    return j.y===nowJ2.y && j.m===nowJ2.m;
   }).length;
   const pct = Math.min(100, Math.round((count/goal)*100));
   banner.innerHTML = `<div style="margin:12px 16px 0;padding:14px 16px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);backdrop-filter:blur(10px);">
@@ -1820,10 +1942,8 @@ function buildCoachReportText(session) {
   return lines.join('\n');
 }
 
-// تبدیل عدد به فارسی
-function toPersianNum(n) {
-  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-}
+// تبدیل عدد به فارسی (alias برای سازگاری)
+function toPersianNum(n) { return toFarsiNum(n); }
 
 // ═══════════════════════════════════════════════════
 //  STATS PAGE
@@ -1831,6 +1951,7 @@ function toPersianNum(n) {
 function renderStats() {
   renderStatCards(); renderWeightSection();
   renderExProgressChart(); renderPRList(); renderVolumeList();
+  renderCalendar(); renderMuscleMap(); renderWeeklyCompare();
 }
 
 function renderStatCards() {
@@ -1845,9 +1966,11 @@ function renderStatCards() {
     });
   }));
   const now=new Date();
+  const nowJ = toJalali(now.getFullYear(), now.getMonth()+1, now.getDate());
   const thisMonth=appData.history.filter(s=>{
     const d=new Date(s.date);
-    return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
+    const j=toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+    return j.y===nowJ.y && j.m===nowJ.m;
   }).length;
   document.getElementById('stats-cards').innerHTML=`
     <div class="stat-card"><div class="stat-card-val">${appData.history.length}</div><div class="stat-card-label">کل جلسات</div></div>
@@ -2085,7 +2208,7 @@ function editDayName(dayId) {
 
 // FIX #6: deleteDay — ریست وضعیت تمرین اگر روز فعال حذف شود
 function deleteDay(dayId) {
-  if(appData.days.length<=1){showToast('❌ حداقل یک روز باید وجود داشته باشد');return;}
+  if(appData.days.length<1) return;
   showConfirm('حذف روز','این روز و تمام حرکاتش حذف شود؟','🗑️',true,ok=>{
     if(!ok)return;
     const idx=appData.days.findIndex(d=>d.id===dayId);
@@ -2167,7 +2290,7 @@ function importData(input) {
         if(!ok)return;
         const mig=migrateData(parsed);
         appData=Object.assign({},appData,mig);
-        if(!appData.days?.length) appData.days=JSON.parse(JSON.stringify(DEFAULT_DAYS));
+        if(!appData.days?.length) appData.days=[];
         saveData();applyTheme(appData.settings.theme||'default');applyAppName(appData.settings.appName);
         renderSettings();renderDayCards();showToast('✅ بکاپ بازیابی شد');
       });
@@ -2289,12 +2412,566 @@ function registerSW() {
 }
 
 // ═══════════════════════════════════════════════════
+//  STREAK SYSTEM
+// ═══════════════════════════════════════════════════
+const BADGES_DEF = [
+  {id:'first',icon:'🎯',name:'اولین قدم',desc:'اولین تمرین',req:s=>s>=1},
+  {id:'week',  icon:'🔥',name:'یه هفته',  desc:'۷ روز streak',  req:(s,streak)=>streak>=7},
+  {id:'month', icon:'💎',name:'یه ماه',   desc:'۳۰ جلسه',       req:s=>s>=30},
+  {id:'iron',  icon:'🏆',name:'آهنین',    desc:'۵۰ جلسه',       req:s=>s>=50},
+  {id:'beast', icon:'💪',name:'ماشین',    desc:'۱۰۰ جلسه',      req:s=>s>=100},
+  {id:'early', icon:'🌅',name:'صبح‌زود',  desc:'۵ تمرین قبل ۸', req:(s,str,h)=>h>=5},
+];
+
+function calcStreak() {
+  if (!appData.history.length) return 0;
+  const dates = [...new Set(appData.history.map(s => s.date.split('T')[0]))].sort().reverse();
+  let streak = 0;
+  const today = new Date().toISOString().split('T')[0];
+  const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0];
+  if (dates[0] !== today && dates[0] !== yesterday) return 0;
+  let prev = dates[0];
+  for (const d of dates) {
+    const diff = (new Date(prev) - new Date(d)) / 86400000;
+    if (diff <= 1) { streak++; prev = d; }
+    else break;
+  }
+  return streak;
+}
+
+function calcEarlyMornings() {
+  return appData.history.filter(s => {
+    if (!s.startTime) return false;
+    const h = new Date(s.startTime).getHours();
+    return h >= 5 && h < 8;
+  }).length;
+}
+
+function getEarnedBadges() {
+  const total  = appData.history.length;
+  const streak = calcStreak();
+  const early  = calcEarlyMornings();
+  return BADGES_DEF.map(b => ({...b, earned: b.req(total, streak, early)}));
+}
+
+function renderStreakBanner() {
+  const wrap = document.getElementById('streak-banner-wrap');
+  if (!wrap) return;
+  const streak = calcStreak();
+  const badges = getEarnedBadges();
+  const earnedCount = badges.filter(b=>b.earned).length;
+  if (streak === 0 && !earnedCount) { wrap.innerHTML=''; return; }
+  wrap.innerHTML = `
+    <div class="streak-banner">
+      <div class="streak-fire">${streak>=7?'🔥':streak>=3?'⚡':'✨'}</div>
+      <div class="streak-info">
+        <div class="streak-num">${streak} روز</div>
+        <div class="streak-label">رگه پیوسته تمرین ${streak>=7?'— عالیه! 💪':''}</div>
+      </div>
+      <div class="streak-badge">${earnedCount} نشان</div>
+    </div>
+    ${earnedCount?`<div class="badges-grid">${badges.map(b=>`
+      <div class="badge-item">
+        <div class="badge-icon-wrap ${b.earned?'earned':'locked'}">${b.icon}</div>
+        <div class="badge-item-name">${b.name}</div>
+      </div>`).join('')}</div>`:''}`;
+}
+
+// ═══════════════════════════════════════════════════
+//  SMART SUGGESTIONS (پیشنهاد افزایش وزن + خستگی)
+// ═══════════════════════════════════════════════════
+function analyzePerformance() {
+  const suggestions = [], fatigues = [];
+  appData.days.forEach(day => {
+    day.exercises.forEach(ex => {
+      const recent = getRecentSessions(ex.id, 3);
+      if (recent.length < 2) return;
+
+      // پیشنهاد افزایش وزن: ۳ جلسه آخر همه ست‌ها انجام شده
+      const allComplete = recent.every(sess =>
+        sess.sets && sess.sets.filter(s=>s.done).length >= (ex.sets||3)
+      );
+      if (allComplete && recent.length >= 2) {
+        const maxW = Math.max(...recent[0].sets.filter(s=>s.done&&s.weight).map(s=>parseFloat(s.weight)||0));
+        if (maxW > 0) suggestions.push({ex: ex.name, w: maxW, newW: Math.round((maxW+2.5)*10)/10});
+      }
+
+      // تشخیص خستگی: حجم نزولی ۲ جلسه پشت سر هم
+      if (recent.length >= 3) {
+        const vols = recent.map(sess =>
+          (sess.sets||[]).filter(s=>s.done).reduce((a,s)=>(a+(parseFloat(s.weight)||0)*(parseInt(s.reps)||0)),0)
+        );
+        if (vols[0] < vols[1]*0.85 && vols[1] < vols[2]*0.85 && vols[2]>0) {
+          fatigues.push({ex: ex.name, drop: Math.round((1-vols[0]/vols[2])*100)});
+        }
+      }
+    });
+  });
+  return {suggestions: suggestions.slice(0,3), fatigues: fatigues.slice(0,2)};
+}
+
+function getRecentSessions(exId, count) {
+  const result = [];
+  for (let i=appData.history.length-1; i>=0 && result.length<count; i--) {
+    const exData = appData.history[i].exercises?.[exId];
+    if (exData?.sets?.length) result.push(exData);
+  }
+  return result;
+}
+
+function renderSmartSuggestions() {
+  const wrap = document.getElementById('smart-suggestions-wrap');
+  if (!wrap || appData.history.length < 2) { if(wrap) wrap.innerHTML=''; return; }
+  const {suggestions, fatigues} = analyzePerformance();
+  let html = '';
+  if (suggestions.length) {
+    html += `<div class="smart-card">
+      <div class="smart-card-title">💡 پیشنهاد هوشمند</div>
+      ${suggestions.map(s=>`<div class="smart-item">
+        <div class="smart-item-icon">⬆️</div>
+        <div class="smart-item-text"><strong>${s.ex}</strong>وقتشه وزن رو از ${s.w}kg به ${s.newW}kg ببری</div>
+      </div>`).join('')}
+    </div>`;
+  }
+  if (fatigues.length) {
+    html += `<div class="fatigue-card">
+      <div class="fatigue-card-title">⚠️ هشدار خستگی</div>
+      ${fatigues.map(f=>`<div class="smart-item">
+        <div class="smart-item-icon">📉</div>
+        <div class="smart-item-text"><strong>${f.ex}</strong>عملکرد ${f.drop}٪ افت داشته — استراحت بیشتر بده</div>
+      </div>`).join('')}
+    </div>`;
+  }
+  wrap.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════
+//  JALALI (SHAMSI) CALENDAR ENGINE
+// ═══════════════════════════════════════════════════
+// ─── تبدیل میلادی به شمسی ───
+function toJalali(gy, gm, gd) {
+  var g_y=gy-1600, g_m=gm-1, g_d=gd-1;
+  var g_d_no=365*g_y+Math.floor((g_y+3)/4)-Math.floor((g_y+99)/100)+Math.floor((g_y+399)/400);
+  var gml=[31,28+((g_y%4==0&&(g_y%100!=0||g_y%400==0))?1:0),31,30,31,30,31,31,30,31,30,31];
+  for(var i=0;i<g_m;i++) g_d_no+=gml[i];
+  g_d_no+=g_d;
+  var j_d_no=g_d_no-79;
+  var j_np=Math.floor(j_d_no/12053); j_d_no%=12053;
+  var jy=979+33*j_np+4*Math.floor(j_d_no/1461); j_d_no%=1461;
+  if(j_d_no>=366){jy+=Math.floor((j_d_no-1)/365);j_d_no=(j_d_no-1)%365;}
+  var jml=[31,31,31,31,31,31,30,30,30,30,30,29];
+  var jm=0;
+  for(var i=0;i<11&&j_d_no>=jml[i];i++) j_d_no-=jml[i];
+  jm=i+1;
+  return {y:jy,m:jm,d:j_d_no+1};
+}
+
+// ─── تبدیل شمسی به میلادی ───
+function jalaliToGregorian(jy,jm,jd) {
+  jy-=979;jm-=1;jd-=1;
+  var j_day_no=365*jy+Math.floor(jy/33)*8+Math.floor((jy%33+3)/4);
+  var jml=[31,31,31,31,31,31,30,30,30,30,30,29];
+  for(var i=0;i<jm;i++) j_day_no+=jml[i];
+  j_day_no+=jd;
+  var g_day_no=j_day_no+79;
+  var gy=1600+400*Math.floor(g_day_no/146097); g_day_no%=146097;
+  var leap=true;
+  if(g_day_no>=36525){g_day_no--;gy+=100*Math.floor(g_day_no/36524);g_day_no%=36524;if(g_day_no>=365)g_day_no++;else leap=false;}
+  gy+=4*Math.floor(g_day_no/1461); g_day_no%=1461;
+  if(g_day_no>=366){leap=false;g_day_no--;gy+=Math.floor(g_day_no/365);g_day_no%=365;}
+  var gml=[31,leap?29:28,31,30,31,30,31,31,30,31,30,31];
+  var gm=0;
+  for(var i=0;g_day_no>=gml[i];i++) g_day_no-=gml[i];
+  gm=i+1;
+  return {y:gy,m:gm,d:g_day_no+1};
+}
+
+function jalaliMonthLen(jy,jm) {
+  if(jm<=6) return 31;
+  if(jm<=11) return 30;
+  return isJalaliLeap(jy)?30:29;
+}
+
+function isJalaliLeap(jy) {
+  var b=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+  var jp=b[0],jm2=0,jump=0;
+  for(var i=1;i<b.length;i++){var jb=b[i];jump=jb-jp;if(jy<jb)break;jm2+=Math.floor(jump/2820)*683;jp=jb;}
+  jm2+=Math.floor((jy-jp)*683/2820);
+  return (jm2+29)%2820<684;
+}
+
+function jalaliFirstWeekday(jy,jm) {
+  // 0=شنبه … 6=جمعه
+  var g=jalaliToGregorian(jy,jm,1);
+  var jsDay=new Date(g.y,g.m-1,g.d).getDay(); // 0=Sun..6=Sat
+  return (jsDay+1)%7; // Sat→0
+}
+
+const JALALI_MONTH_NAMES = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+
+// ═══════════════════════════════════════════════════
+//  CALENDAR STATE & RENDERING
+// ═══════════════════════════════════════════════════
+// calViewYear/Month توسط IIFE شمسی مقداردهی می‌شوند
+var calViewYear  = 0;
+var calViewMonth = 0;
+
+function calNavMonth(dir) {
+  calViewMonth += dir;
+  if (calViewMonth > 12) { calViewMonth=1; calViewYear++; }
+  if (calViewMonth < 1)  { calViewMonth=12; calViewYear--; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const grid  = document.getElementById('calendar-grid');
+  const title = document.getElementById('cal-month-title');
+  if (!grid || !title) return;
+
+  title.textContent = `${JALALI_MONTH_NAMES[calViewMonth-1]} ${toFarsiNum(calViewYear)}`;
+
+  // تبدیل تاریخ‌های تمرین به شمسی
+  const workoutDates = new Set(
+    appData.history.map(s => {
+      const d = new Date(s.date);
+      const j = toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+      return `${j.y}-${j.m}-${j.d}`;
+    })
+  );
+
+  // امروز به شمسی
+  const nowG = new Date();
+  const nowJ = toJalali(nowG.getFullYear(), nowG.getMonth()+1, nowG.getDate());
+  const todayKey = `${nowJ.y}-${nowJ.m}-${nowJ.d}`;
+
+  const daysInMonth = jalaliMonthLen(calViewYear, calViewMonth);
+  // روز هفته اول ماه: 0=شنبه ... 6=جمعه
+  const startShift  = jalaliFirstWeekday(calViewYear, calViewMonth);
+
+  // سرستون: شنبه تا جمعه
+  const dayLabels = ['ش','ی','د','س','چ','پ','ج'];
+  let html = dayLabels.map(d=>`<div class="cal-day-label">${d}</div>`).join('');
+
+  // خانه‌های خالی ابتدا
+  for (let i=0; i<startShift; i++) html += `<div class="cal-day empty"></div>`;
+
+  // روزها
+  for (let d=1; d<=daysInMonth; d++) {
+    const key     = `${calViewYear}-${calViewMonth}-${d}`;
+    const isToday = key === todayKey;
+    const hasW    = workoutDates.has(key);
+    const label   = toFarsiNum(d);
+    html += `<div class="cal-day${hasW?' has-workout':''}${isToday?' today':''}">${label}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function toFarsiNum(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+// ═══════════════════════════════════════════════════
+//  MUSCLE MAP
+// ═══════════════════════════════════════════════════
+const MUSCLE_KEYWORDS = {
+  'سینه':     ['سینه','پرس','فلای','خلبانی','کراس'],
+  'پشت/کول':  ['زیربغل','لت','قایقی','بک','ددلیفت','شراگ'],
+  'سرشانه':   ['سرشانه','نشر','فیس پول'],
+  'پا':       ['پا','اسکوات','پرس پا','جلو ران','پشت ران','ساق','خیاطه'],
+  'بازو':     ['بازو','جلو','پشت بازو','کیک','چکشی'],
+  'شکم':      ['شکم','پلانک','کرانچ'],
+};
+const MUSCLE_COLORS = {
+  'سینه':'#7c6fff','پشت/کول':'#38bdf8','سرشانه':'#f472b6',
+  'پا':'#4ade80','بازو':'#fbbf24','شکم':'#f97316'
+};
+
+function renderMuscleMap() {
+  const el = document.getElementById('muscle-map');
+  if (!el) return;
+  const nowG = new Date();
+  const nowJ = toJalali(nowG.getFullYear(), nowG.getMonth()+1, nowG.getDate());
+  const monthSessions = appData.history.filter(s => {
+    const d=new Date(s.date);
+    const j=toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+    return j.y===nowJ.y && j.m===nowJ.m;
+  });
+  if (!monthSessions.length) {
+    el.innerHTML='<div style="padding:12px;text-align:center;color:var(--text3);font-size:12px;">هنوز تمرینی این ماه ثبت نشده</div>';
+    return;
+  }
+  const volMap = {};
+  Object.keys(MUSCLE_KEYWORDS).forEach(m=>volMap[m]=0);
+  monthSessions.forEach(sess => {
+    Object.entries(sess.exercises||{}).forEach(([exId, exData]) => {
+      const exDef = appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+      if (!exDef) return;
+      const vol = (exData.sets||[]).filter(s=>s.done).reduce((a,s)=>(a+(parseFloat(s.weight)||0)*(parseInt(s.reps)||0)),0);
+      for (const [muscle, kws] of Object.entries(MUSCLE_KEYWORDS)) {
+        if (kws.some(kw=>exDef.name.includes(kw))) { volMap[muscle]+=vol; break; }
+      }
+    });
+  });
+  const total = Object.values(volMap).reduce((a,v)=>a+v,0)||1;
+  const sorted = Object.entries(volMap).sort((a,b)=>b[1]-a[1]).filter(([,v])=>v>0);
+  if (!sorted.length) {
+    el.innerHTML='<div style="padding:12px;text-align:center;color:var(--text3);font-size:12px;">داده‌ای برای نمایش نیست</div>';
+    return;
+  }
+  el.innerHTML = sorted.map(([m,v])=>{
+    const pct = Math.round(v/total*100);
+    const color = MUSCLE_COLORS[m]||'var(--accent)';
+    return `<div class="muscle-bar-row">
+      <div class="muscle-bar-label">${m}</div>
+      <div class="muscle-bar-track"><div class="muscle-bar-fill" style="width:${pct}%;background:${color};"></div></div>
+      <div class="muscle-bar-pct">${pct}٪</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════
+//  WEEKLY COMPARE
+// ═══════════════════════════════════════════════════
+function renderWeeklyCompare() {
+  const wrap = document.getElementById('weekly-compare-wrap');
+  if (!wrap) return;
+  const now = Date.now();
+  const weekMs = 7*24*60*60*1000;
+  const thisWeek = appData.history.filter(s=>now-new Date(s.date).getTime()<weekMs);
+  const prevWeek = appData.history.filter(s=>{
+    const age=now-new Date(s.date).getTime();
+    return age>=weekMs && age<2*weekMs;
+  });
+  if (!thisWeek.length && !prevWeek.length) { wrap.innerHTML=''; return; }
+
+  const calcStats = (sessions) => {
+    let sets=0, vol=0, dur=0;
+    sessions.forEach(s=>{
+      Object.values(s.exercises||{}).forEach(ex=>ex.sets?.forEach(st=>{
+        if(st.done){sets++;vol+=(parseFloat(st.weight)||0)*(parseInt(st.reps)||0);}
+      }));
+      dur+=s.duration||0;
+    });
+    return {sessions:sessions.length, sets, vol:Math.round(vol), dur};
+  };
+
+  const tw = calcStats(thisWeek);
+  const pw = calcStats(prevWeek);
+  const volDiff = pw.vol > 0 ? Math.round((tw.vol-pw.vol)/pw.vol*100) : null;
+  const pctLabel = volDiff===null ? '' : volDiff>0 ? `+${volDiff}٪` : `${volDiff}٪`;
+  const pctCls = volDiff===null?'same':volDiff>0?'up':'down';
+
+  wrap.innerHTML = `<div class="weekly-compare-card">
+    <div class="wc-header">
+      <div class="wc-title">📊 این هفته در مقابل هفته قبل</div>
+      ${pctLabel?`<div class="wc-pct ${pctCls}">${pctLabel}</div>`:''}
+    </div>
+    ${[
+      ['جلسات',tw.sessions,pw.sessions,''],
+      ['ست‌ها',tw.sets,pw.sets,''],
+      ['حجم (kg)',tw.vol.toLocaleString(),pw.vol.toLocaleString(),''],
+      ['مدت',formatTime(tw.dur),formatTime(pw.dur),''],
+    ].map(([l,t,p])=>`<div class="wc-row">
+      <div class="wc-label">${l}</div>
+      <div class="wc-vals"><span class="wc-this">${t}</span><span class="wc-arrow">←</span><span class="wc-prev">${p}</span></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+//  FOCUS MODE
+// ═══════════════════════════════════════════════════
+let focusExIdx   = 0;
+let focusSetIdx  = 0;
+let focusResting = false;
+let focusRestTimer = null;
+let focusRestRemaining = 0;
+let focusTimerInterval = null;
+
+function enterFocusMode() {
+  const day = appData.days.find(d=>d.id===currentDayId);
+  if (!day || !day.exercises.length) { showToast('❌ برنامه‌ای برای این روز وجود ندارد'); return; }
+  focusExIdx   = 0;
+  focusSetIdx  = 0;
+  focusResting = false;
+  document.getElementById('focus-day-name').textContent = day.name;
+  document.getElementById('focus-mode-overlay').classList.add('active');
+  startFocusSessionTimer();
+  renderFocusBody();
+}
+
+function exitFocusMode() {
+  document.getElementById('focus-mode-overlay').classList.remove('active');
+  stopFocusTimers();
+  renderExercises();
+}
+
+function stopFocusTimers() {
+  if (focusTimerInterval) { clearInterval(focusTimerInterval); focusTimerInterval=null; }
+  if (focusRestTimer)     { clearInterval(focusRestTimer);     focusRestTimer=null; }
+}
+
+function startFocusSessionTimer() {
+  stopFocusTimers();
+  focusTimerInterval = setInterval(()=>{
+    if (!sessionStartTime) return;
+    const el = document.getElementById('focus-session-timer');
+    if (el) el.textContent = formatTime(Math.floor((Date.now()-sessionStartTime)/1000));
+  }, 1000);
+}
+
+function renderFocusBody() {
+  const day = appData.days.find(d=>d.id===currentDayId);
+  if (!day) return;
+  const exList = day.exercises;
+  const ex = exList[focusExIdx];
+  if (!ex) return;
+  const session = currentSession[ex.id];
+  if (!session) return;
+
+  const totalExercises = exList.length;
+  const totalSets = exList.reduce((a,e)=>(a+(currentSession[e.id]?.sets?.length||0)),0);
+  const doneSets  = exList.reduce((a,e)=>(a+(currentSession[e.id]?.sets?.filter(s=>s.done).length||0)),0);
+  const progress  = totalSets>0 ? (doneSets/totalSets*100) : 0;
+
+  document.getElementById('focus-progress-fill').style.width = progress+'%';
+  document.getElementById('focus-ex-counter').textContent = `حرکت ${focusExIdx+1} از ${totalExercises}`;
+
+  const prevSets = prevSessionSetsCache[ex.id] || [];
+  const curSet   = session.sets[focusSetIdx];
+  const prevSet  = prevSets[focusSetIdx];
+
+  if (focusResting) {
+    // نمایش استراحت
+    document.getElementById('focus-body').innerHTML = `
+      <div style="font-size:14px;color:var(--text3);">استراحت</div>
+      <div class="focus-rest-display" id="focus-rest-disp">${formatTime(focusRestRemaining)}</div>
+      <div class="focus-rest-label">ست ${focusSetIdx} از ${session.sets.length} — ${ex.name}</div>
+      <button class="focus-rest-skip" onclick="focusSkipRest()">رد کردن ✕</button>`;
+    startFocusRestTick();
+    return;
+  }
+
+  const dotsHtml = session.sets.map((s,i)=>
+    `<div class="focus-set-dot ${s.done?'done':i===focusSetIdx?'current':''}"></div>`
+  ).join('');
+
+  const lastHint = prevSet && (prevSet.weight||prevSet.reps)
+    ? `<div class="focus-last-hint">جلسه قبل: <span>${prevSet.weight||'—'}kg × ${prevSet.reps||'—'} تکرار</span></div>`
+    : '';
+
+  document.getElementById('focus-body').innerHTML = `
+    <div class="focus-exercise-name">${ex.name}</div>
+    <div class="focus-exercise-meta">${ex.reps||''} تکرار &nbsp;•&nbsp; ست ${focusSetIdx+1} از ${session.sets.length}</div>
+    <div class="focus-set-counter">${dotsHtml}</div>
+    ${lastHint}
+    <div class="focus-inputs">
+      <div class="focus-input-group">
+        <div class="focus-input-label">وزن (kg)</div>
+        <input class="focus-input" id="focus-weight" type="number" inputmode="decimal" step="2.5" placeholder="${prevSet?.weight||'0'}" value="${curSet?.weight||''}">
+      </div>
+      <div class="focus-input-group">
+        <div class="focus-input-label">تکرار</div>
+        <input class="focus-input" id="focus-reps" type="number" inputmode="numeric" placeholder="${prevSet?.reps||'0'}" value="${curSet?.reps||''}">
+      </div>
+    </div>
+    <button class="focus-done-btn" onclick="focusCompleteSet()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      ست تموم شد
+    </button>`;
+}
+
+function focusCompleteSet() {
+  const day = appData.days.find(d=>d.id===currentDayId);
+  if (!day) return;
+  const ex = day.exercises[focusExIdx];
+  if (!ex) return;
+  const session = currentSession[ex.id];
+  const wEl = document.getElementById('focus-weight');
+  const rEl = document.getElementById('focus-reps');
+  const w = wEl?.value || '';
+  const r = rEl?.value || '';
+  if (!w && !r) { showToast('❌ وزن یا تکرار وارد کنید'); return; }
+
+  session.sets[focusSetIdx].weight = w;
+  session.sets[focusSetIdx].reps   = r;
+  session.sets[focusSetIdx].done   = true;
+  if (w) checkNewPR(ex.id, parseFloat(w)||0, parseInt(r)||0);
+  saveSessionBackup();
+
+  if (appData.settings.vibrate && navigator.vibrate) navigator.vibrate([60,30,60]);
+
+  const nextSetIdx = focusSetIdx + 1;
+  if (nextSetIdx < session.sets.length) {
+    // بیشتر ست داریم — استراحت
+    focusSetIdx    = nextSetIdx;
+    focusResting   = true;
+    focusRestRemaining = appData.restTimes[ex.category||'medium']||120;
+    renderFocusBody();
+  } else {
+    // همه ست‌ها تموم — حرکت بعدی
+    focusAdvanceExercise();
+  }
+}
+
+function focusSkipRest() {
+  if (focusRestTimer) { clearInterval(focusRestTimer); focusRestTimer=null; }
+  focusResting = false;
+  renderFocusBody();
+}
+
+function startFocusRestTick() {
+  if (focusRestTimer) { clearInterval(focusRestTimer); focusRestTimer=null; }
+  focusRestTimer = setInterval(()=>{
+    focusRestRemaining = Math.max(0, focusRestRemaining-1);
+    const el = document.getElementById('focus-rest-disp');
+    if (el) el.textContent = formatTime(focusRestRemaining);
+    if (focusRestRemaining<=0) {
+      clearInterval(focusRestTimer); focusRestTimer=null;
+      timerComplete();
+      focusResting=false;
+      renderFocusBody();
+    }
+  },1000);
+}
+
+function focusAdvanceExercise() {
+  if (focusRestTimer) { clearInterval(focusRestTimer); focusRestTimer=null; }
+  focusResting = false;
+  const day = appData.days.find(d=>d.id===currentDayId);
+  if (!day) return;
+  const nextExIdx = focusExIdx + 1;
+  if (nextExIdx < day.exercises.length) {
+    focusExIdx  = nextExIdx;
+    focusSetIdx = 0;
+    showToast('✅ حرکت تکمیل! بریم سراغ بعدی');
+    renderFocusBody();
+  } else {
+    showToast('🎉 همه حرکات تمام شد!');
+    exitFocusMode();
+  }
+}
+
+function focusNavExercise(dir) {
+  const day = appData.days.find(d=>d.id===currentDayId);
+  if (!day) return;
+  const newIdx = focusExIdx + dir;
+  if (newIdx < 0 || newIdx >= day.exercises.length) return;
+  if (focusRestTimer) { clearInterval(focusRestTimer); focusRestTimer=null; }
+  focusResting = false;
+  focusExIdx   = newIdx;
+  focusSetIdx  = currentSession[day.exercises[newIdx].id]?.sets?.findLastIndex(s=>s.done)??-1;
+  focusSetIdx  = Math.max(0, focusSetIdx === (currentSession[day.exercises[newIdx].id]?.sets?.length-1) && currentSession[day.exercises[newIdx].id]?.sets?.every(s=>s.done) ? focusSetIdx : focusSetIdx+1 < (currentSession[day.exercises[newIdx].id]?.sets?.length||1) ? focusSetIdx+1 : 0);
+  renderFocusBody();
+}
+
+// ═══════════════════════════════════════════════════
 //  WELCOME SCREEN
 // ═══════════════════════════════════════════════════
 function checkFirstVisit() {
   const visited = localStorage.getItem('ironlog_visited');
-  if (!visited) {
-    // اولین بار — نمایش صفحه خوش‌آمد
+  if (!visited || appData.days.length === 0) {
+    // اولین بار یا هنوز برنامه‌ای ندارد — نمایش صفحه خوش‌آمد
     document.getElementById('welcome-screen').classList.remove('hidden');
   } else {
     // بازگشت — مستقیم وارد برنامه
@@ -2309,14 +2986,35 @@ function goToSetupProgram() {
   ws.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
   ws.style.opacity = '0';
   ws.style.transform = 'scale(0.96)';
-  setTimeout(() => { ws.classList.add('hidden'); ws.style.transition=''; ws.style.opacity=''; ws.style.transform=''; }, 400);
-  // رفتن به تب تنظیمات و اسکرول به بخش مدیریت روزها
-  switchPage('settings');
   setTimeout(() => {
-    const dayManager = document.getElementById('day-manager');
-    if (dayManager) dayManager.scrollIntoView({behavior:'smooth', block:'start'});
-    showToast('💡 از اینجا روزها و حرکاتت را اضافه کن');
+    ws.classList.add('hidden');
+    ws.style.transition=''; ws.style.opacity=''; ws.style.transform='';
+    showSetupWizard();
   }, 400);
+}
+
+function showSetupWizard() {
+  // نمایش wizard افزودن اولین روز تمرینی
+  showInputModal('نام اولین روز تمرینی', 'روز اول', val => {
+    if (!val?.trim()) {
+      // اگر کنسل کرد، برو به صفحه settings
+      switchPage('settings');
+      showToast('💡 از اینجا روزها و حرکاتت را اضافه کن');
+      return;
+    }
+    const dayId = 'day_' + Date.now();
+    appData.days.push({id:dayId, name:val.trim(), icon:'💪', desc:'', totalSets:0, exercises:[]});
+    saveData();
+    switchPage('settings');
+    setTimeout(() => {
+      renderSettings();
+      renderDayCards();
+      showToast('✅ روز اول اضافه شد — حالا حرکات را اضافه کن');
+      // اسکرول به بخش مدیریت حرکات این روز
+      const exMgr = document.getElementById('exercise-manager-days');
+      if (exMgr) exMgr.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 300);
+  });
 }
 
 // ═══════════════════════════════════════════════════
@@ -2328,6 +3026,10 @@ function init() {
   applyAppName(appData.settings.appName);
   const dateEl=document.getElementById('workout-date-text');
   if(dateEl) dateEl.textContent=new Date().toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  // مقداردهی تقویم شمسی
+  const nowJ = toJalali(new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate());
+  calViewYear  = nowJ.y;
+  calViewMonth = nowJ.m;
   checkAndResumeWorkout();
   registerSW();
   checkFirstVisit();
