@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IronLog">
+<link rel="manifest" href="manifest.json">
+<title id="app-title">IronLog — دفترچه تمرین</title>
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+/* ═══ THEMES ═══ */
+:root {
+  --bg:#0a0a0f; --bg2:#111118; --bg3:#18181f; --bg4:#1e1e28;
+  --glass:rgba(255,255,255,0.04); --glass2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
+  --accent:#7c6fff; --accent2:#5b4fff;
+  --accent-glow:rgba(124,111,255,0.3); --accent-soft:rgba(124,111,255,0.12);
+  --green:#22c55e; --green-soft:rgba(34,197,94,0.12);
+  --red:#ef4444; --orange:#f97316; --yellow:#eab308;
+  --text:#f0f0f8; --text2:#a0a0b8; --text3:#606078;
+  --radius:16px; --radius-sm:10px; --nav-h:68px;
+  --transition:0.25s cubic-bezier(0.4,0,0.2,1);
+  --blur:blur(20px);
+  --glass-bg:rgba(10,10,15,0.85);
+  --glass-card:rgba(255,255,255,0.05);
+  --glass-border:rgba(255,255,255,0.10);
+}
+[data-theme="ocean"]{--bg:#040d18;--bg2:#071525;--bg3:#0a1e35;--bg4:#0f2847;--accent:#38bdf8;--accent2:#0ea5e9;--accent-glow:rgba(56,189,248,0.3);--accent-soft:rgba(56,189,248,0.12);--glass-card:rgba(56,189,248,0.04);--glass-border:rgba(56,189,248,0.12);}
+[data-theme="rose"]{--bg:#120810;--bg2:#1c0f1a;--bg3:#261525;--bg4:#321c30;--accent:#f472b6;--accent2:#ec4899;--accent-glow:rgba(244,114,182,0.3);--accent-soft:rgba(244,114,182,0.12);--glass-card:rgba(244,114,182,0.04);--glass-border:rgba(244,114,182,0.12);}
+[data-theme="forest"]{--bg:#050f08;--bg2:#0a1a0f;--bg3:#0f2416;--bg4:#163020;--accent:#4ade80;--accent2:#22c55e;--accent-glow:rgba(74,222,128,0.3);--accent-soft:rgba(74,222,128,0.12);--glass-card:rgba(74,222,128,0.04);--glass-border:rgba(74,222,128,0.12);}
+[data-theme="amber"]{--bg:#100b00;--bg2:#1a1200;--bg3:#241900;--bg4:#2e2100;--accent:#fbbf24;--accent2:#f59e0b;--accent-glow:rgba(251,191,36,0.3);--accent-soft:rgba(251,191,36,0.12);--glass-card:rgba(251,191,36,0.04);--glass-border:rgba(251,191,36,0.12);}
+[data-theme="light"]{--bg:#f0f2f8;--bg2:#e8eaf5;--bg3:#dde0f0;--bg4:#d0d4eb;--glass:rgba(0,0,0,0.03);--glass2:rgba(0,0,0,0.06);--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);--text:#111128;--text2:#404060;--text3:#808098;--glass-bg:rgba(240,242,248,0.85);--glass-card:rgba(0,0,0,0.03);--glass-border:rgba(124,111,255,0.2);}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;line-height:1.6;overflow:hidden;}
+#app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto;position:relative;overflow:hidden;}
+
+.page{display:none;flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + 16px);scroll-behavior:smooth;-webkit-overflow-scrolling:touch;}
+.page.active{display:block;}
+.page::-webkit-scrollbar{display:none;}
+
+.page-header{position:sticky;top:0;z-index:10;background:var(--glass-bg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);padding:16px 20px 12px;border-bottom:1px solid var(--glass-border);}
+.page-header h1{font-size:22px;font-weight:700;}
+.page-header p{font-size:12px;color:var(--text3);margin-top:2px;}
+
+.bottom-nav{height:var(--nav-h);background:var(--glass-bg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-around;padding:0 8px;flex-shrink:0;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:none;background:none;cursor:pointer;transition:var(--transition);border-radius:var(--radius-sm);color:var(--text3);}
+.nav-btn svg{width:22px;height:22px;transition:var(--transition);}
+.nav-btn span{font-size:10px;font-weight:500;}
+.nav-btn.active{color:var(--accent);}
+.nav-btn.active svg{filter:drop-shadow(0 0 6px var(--accent));}
+.nav-btn:active{transform:scale(0.93);}
+
+.card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;transition:var(--transition);}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-accent{background:var(--accent-soft);color:var(--accent);}
+.badge-green{background:var(--green-soft);color:var(--green);}
+.badge-orange{background:rgba(249,115,22,0.12);color:var(--orange);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:var(--transition);user-select:none;}
+.btn:active{transform:scale(0.95);}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 15px var(--accent-glow);}
+.btn-ghost{background:var(--glass2);color:var(--text2);border:1px solid var(--border);}
+.btn-danger{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.2);}
+.btn-coach{background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.08));color:var(--green);border:1px solid rgba(34,197,94,0.25);}
+.btn-coach:active{background:var(--green-soft);}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.btn-xs{padding:4px 9px;font-size:11px;border-radius:8px;}
+
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);padding:0 20px;margin:20px 0 10px;}
+.input-field{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:14px;padding:10px 14px;width:100%;outline:none;transition:var(--transition);}
+.input-field:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+.input-field::placeholder{color:var(--text3);}
+.toggle{width:42px;height:24px;background:var(--bg4);border-radius:12px;border:1px solid var(--border);position:relative;cursor:pointer;transition:var(--transition);flex-shrink:0;}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:var(--text3);border-radius:50%;top:2px;right:2px;transition:var(--transition);}
+.toggle.on{background:var(--accent);border-color:var(--accent);}
+.toggle.on::after{right:auto;left:2px;background:#fff;}
+
+/* ═══ WORKOUT ═══ */
+.workout-timer-badge{display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--green-soft);border:1px solid rgba(34,197,94,0.2);border-radius:20px;font-size:11px;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums;}
+.day-cards-wrapper{padding:16px 20px;display:flex;flex-direction:column;gap:12px;}
+.day-card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;backdrop-filter:blur(10px);box-shadow:0 2px 12px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.06);}
+.day-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,var(--accent-soft));opacity:0;transition:var(--transition);}
+.day-card:hover::before,.day-card.selected::before{opacity:1;}
+.day-card.selected{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 8px 32px var(--accent-glow);}
+@keyframes cardPulse{0%{transform:scale(1);}50%{transform:scale(0.97);}100%{transform:scale(1);}}
+.day-card-pulse{animation:cardPulse 0.35s cubic-bezier(0.4,0,0.2,1);}
+.day-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.day-icon{width:44px;height:44px;background:var(--accent-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.day-info{flex:1;}
+.day-name{font-size:15px;font-weight:700;}
+.day-desc{font-size:12px;color:var(--text3);margin-top:2px;}
+.progress-bar-wrap{margin-top:8px;}
+.progress-bar-track{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:4px;}
+
+/* ═══ EXERCISE CARD ═══ */
+.exercise-section{padding:0 12px;}
+.exercise-card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition);backdrop-filter:blur(10px);}
+.exercise-card.completed{border-color:rgba(34,197,94,0.35);}
+.exercise-header{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.exercise-title{font-size:15px;font-weight:700;}
+.exercise-meta{font-size:11px;color:var(--text3);margin-top:3px;}
+.exercise-superset{font-size:11px;color:var(--orange);background:rgba(249,115,22,0.1);border-radius:6px;padding:2px 8px;margin-top:4px;display:inline-block;}
+.exercise-record{font-size:11px;color:var(--text3);margin-top:3px;}
+.exercise-record strong{color:var(--accent);}
+.exercise-suggestion{font-size:11px;color:var(--green);background:var(--green-soft);border-radius:6px;padding:2px 8px;margin-top:3px;display:inline-block;}
+.exercise-actions{display:flex;gap:5px;flex-shrink:0;}
+
+/* ═══ SETS ═══ */
+.sets-container{padding:0 10px 10px;}
+.set-row{display:flex;align-items:center;gap:5px;margin-bottom:6px;animation:fadeSlideIn 0.25s ease;}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.set-num{width:22px;height:22px;background:var(--bg4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text3);flex-shrink:0;}
+.set-num.done{background:var(--green);color:#fff;}
+.set-input{background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:inherit;font-size:13px;font-weight:600;padding:6px 4px;text-align:center;outline:none;transition:var(--transition);min-width:0;width:100%;}
+.set-input:focus{border-color:var(--accent);}
+.set-input.done{background:var(--green-soft);border-color:rgba(34,197,94,0.3);}
+.set-input-wrap{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;}
+.set-input-label{font-size:9px;color:var(--text3);text-align:center;line-height:1;}
+/* ─── Set Compare Arrow ─── */
+.set-compare{display:flex;flex-direction:column;align-items:center;justify-content:center;width:22px;flex-shrink:0;gap:1px;}
+.set-compare-arrow{font-size:14px;line-height:1;}
+.set-compare-diff{font-size:8px;font-weight:700;line-height:1;text-align:center;}
+.set-compare.up .set-compare-arrow,.set-compare.up .set-compare-diff{color:var(--green);}
+.set-compare.down .set-compare-arrow,.set-compare.down .set-compare-diff{color:var(--red);}
+.set-compare.same .set-compare-arrow,.set-compare.same .set-compare-diff{color:var(--text3);}
+.set-compare.empty{opacity:0;pointer-events:none;}
+.set-check{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;}
+.set-check.done{background:var(--green);border-color:var(--green);}
+.set-check:active{transform:scale(0.9);}
+.set-delete{width:24px;height:24px;border-radius:6px;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.06);color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;font-size:13px;}
+.set-delete:active{transform:scale(0.9);}
+.drop-toggle{width:28px;height:28px;border-radius:6px;border:1px solid rgba(234,179,8,0.2);background:rgba(234,179,8,0.06);color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;font-size:9px;font-weight:700;}
+.drop-toggle.active{background:rgba(234,179,8,0.2);color:var(--yellow);border-color:rgba(234,179,8,0.5);}
+.add-set-btn{width:100%;padding:9px;background:var(--glass);border:1px dashed var(--border2);border-radius:var(--radius-sm);color:var(--accent);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:6px;}
+.add-set-btn:active{background:var(--accent-soft);}
+
+/* ─── Inline Rest Timer ─── */
+.rest-inline{background:linear-gradient(135deg,var(--accent-soft),rgba(91,79,255,0.06));border:1px solid rgba(124,111,255,0.2);border-radius:10px;padding:8px 12px;margin:6px 0;display:flex;align-items:center;gap:10px;animation:fadeSlideIn 0.25s ease;}
+.rest-inline-time{font-size:20px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;min-width:48px;}
+.rest-inline-label{font-size:11px;color:var(--text3);flex:1;}
+.rest-inline-btn{background:var(--accent);border:none;border-radius:8px;color:#fff;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:var(--transition);}
+.rest-inline-btn.skip{background:var(--glass2);color:var(--text3);border:1px solid var(--border);}
+
+.finish-day-btn{margin:16px;width:calc(100% - 32px);padding:14px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;border-radius:var(--radius);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px var(--accent-glow);transition:var(--transition);}
+.finish-day-btn:active{transform:scale(0.97);}
+
+/* ═══ MODAL ═══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-sheet{background:var(--bg2);border:1px solid var(--border2);border-radius:24px 24px 0 0;padding:20px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);backdrop-filter:blur(20px);}
+.modal-overlay.open .modal-sheet{transform:translateY(0);}
+.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px;}
+.modal-title{font-size:18px;font-weight:700;text-align:center;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:var(--text3);text-align:center;margin-bottom:20px;}
+
+/* Timer */
+.timer-ring-wrap{display:flex;flex-direction:column;align-items:center;margin:12px 0;}
+.timer-ring-svg{transform:rotate(-90deg);}
+.timer-ring-bg{fill:none;stroke:var(--bg4);stroke-width:8;}
+.timer-ring-fill{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 0.5s linear;filter:drop-shadow(0 0 8px var(--accent));}
+.timer-ring-text{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;inset:0;}
+.timer-display{font-size:42px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;line-height:1;}
+.timer-unit{font-size:12px;color:var(--text3);margin-top:4px;}
+.timer-ring-container{position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;}
+.timer-presets{display:flex;gap:8px;justify-content:center;margin:14px 0;}
+.timer-preset-btn{flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--glass);color:var(--text2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:var(--transition);text-align:center;}
+.timer-preset-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+.timer-controls{display:flex;gap:10px;margin-top:14px;}
+
+/* ═══ HISTORY ═══ */
+.history-filter-bar{padding:12px 16px;display:flex;gap:8px;overflow-x:auto;}
+.history-filter-bar::-webkit-scrollbar{display:none;}
+.filter-chip{padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--glass);color:var(--text2);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:var(--transition);flex-shrink:0;}
+.filter-chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+.history-empty{text-align:center;padding:60px 20px;color:var(--text3);}
+.history-empty-icon{font-size:48px;margin-bottom:12px;}
+.history-empty h3{font-size:16px;color:var(--text2);margin-bottom:6px;}
+.session-card{margin:0 16px 12px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(10px);}
+.session-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:var(--transition);}
+.session-header:active{background:var(--glass2);}
+.session-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;box-shadow:0 0 8px var(--accent-glow);}
+.session-info{flex:1;}
+.session-title{font-size:14px;font-weight:700;}
+.session-date{font-size:11px;color:var(--text3);margin-top:2px;}
+.session-stats{display:flex;gap:10px;margin-top:4px;flex-wrap:wrap;}
+.session-stat{font-size:11px;color:var(--text3);}
+.session-stat strong{color:var(--text2);}
+.session-chevron{width:20px;height:20px;color:var(--text3);transition:transform 0.25s ease;flex-shrink:0;}
+.session-chevron.open{transform:rotate(90deg);}
+.session-body{display:none;border-top:1px solid var(--border);padding:12px 16px;}
+.session-body.open{display:block;}
+.session-exercise{margin-bottom:10px;}
+.session-ex-name{font-size:13px;font-weight:600;margin-bottom:4px;}
+.session-set-row{display:flex;gap:8px;font-size:12px;color:var(--text2);margin-bottom:3px;flex-wrap:wrap;align-items:center;}
+.session-note{background:var(--bg3);border-radius:8px;padding:10px;font-size:12px;color:var(--text2);border:1px solid var(--border);margin-top:10px;}
+.session-note-label{font-size:10px;color:var(--text3);margin-bottom:3px;}
+.session-actions{display:flex;gap:8px;padding:10px 16px;border-top:1px solid var(--border);flex-wrap:wrap;}
+
+/* ═══ STATS ═══ */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px 0;}
+.stat-card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);padding:16px;text-align:center;backdrop-filter:blur(10px);}
+.stat-card-val{font-size:28px;font-weight:800;color:var(--accent);line-height:1;}
+.stat-card-label{font-size:11px;color:var(--text3);margin-top:4px;}
+.pr-row{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);gap:10px;}
+.pr-row:last-child{border-bottom:none;}
+.pr-icon{font-size:16px;width:28px;text-align:center;flex-shrink:0;}
+.pr-name{flex:1;font-size:13px;font-weight:500;}
+.pr-val{font-size:13px;font-weight:700;color:var(--accent);}
+.pr-1rm{font-size:10px;color:var(--text3);text-align:right;}
+.weight-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);gap:12px;}
+.weight-row:last-child{border-bottom:none;}
+.weight-date{font-size:11px;color:var(--text3);flex:1;}
+.weight-val{font-size:16px;font-weight:700;}
+.weight-kg{font-size:11px;color:var(--text3);}
+.weight-delete{background:none;border:none;color:var(--red);cursor:pointer;padding:4px;font-size:16px;}
+.mini-chart{width:100%;height:80px;}
+.chart-container{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);padding:16px;margin-bottom:12px;backdrop-filter:blur(10px);}
+.volume-bar{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);}
+.volume-bar:last-child{border-bottom:none;}
+.volume-name{flex:1;font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.volume-track{flex:2;height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;}
+.volume-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:3px;}
+.volume-val{font-size:11px;color:var(--text3);min-width:55px;text-align:left;}
+.ex-chart-selector{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;}
+.ex-chart-selector::-webkit-scrollbar{display:none;}
+.ex-chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--glass);color:var(--text2);font-family:inherit;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:var(--transition);}
+.ex-chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+
+/* ═══ SETTINGS ═══ */
+.settings-section{margin:0 16px 16px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(10px);}
+.settings-row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);gap:12px;}
+.settings-row:last-child{border-bottom:none;}
+.settings-icon{width:32px;height:32px;background:var(--accent-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent);}
+.settings-info{flex:1;}
+.settings-label{font-size:13px;font-weight:600;}
+.settings-sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.settings-action{flex-shrink:0;}
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px;}
+.theme-btn{aspect-ratio:1;border-radius:12px;border:2px solid var(--border);cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:8px;}
+.theme-btn.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow);}
+.theme-btn-label{font-size:11px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);}
+.day-editor-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);}
+.day-editor-item:last-child{border-bottom:none;}
+.day-editor-name{flex:1;font-size:13px;font-weight:500;}
+.day-editor-btn{background:none;border:none;color:var(--accent);cursor:pointer;font-size:12px;font-family:inherit;padding:4px 8px;}
+.exercise-editor-item{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);}
+.exercise-editor-item:last-child{border-bottom:none;}
+.exercise-editor-name{flex:1;font-size:12px;color:var(--text2);}
+.exercise-editor-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;}
+
+/* ═══ WELCOME SCREEN ═══ */
+#welcome-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;overflow:hidden;}
+#welcome-screen.hidden{display:none;}
+.welcome-bg-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.welcome-bg-orb1{width:300px;height:300px;background:radial-gradient(circle,rgba(124,111,255,0.25),transparent 70%);top:-80px;right:-80px;}
+.welcome-bg-orb2{width:250px;height:250px;background:radial-gradient(circle,rgba(91,79,255,0.15),transparent 70%);bottom:-60px;left:-60px;}
+.welcome-logo-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:40px;animation:welcomeFadeUp 0.7s cubic-bezier(0.4,0,0.2,1) both;}
+.welcome-logo-icon{width:88px;height:88px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 16px 48px var(--accent-glow);margin-bottom:20px;}
+.welcome-app-name{font-size:32px;font-weight:800;background:linear-gradient(135deg,var(--text),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.welcome-app-sub{font-size:14px;color:var(--text3);margin-top:6px;font-weight:400;}
+.welcome-features{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px;margin-bottom:40px;animation:welcomeFadeUp 0.7s 0.15s cubic-bezier(0.4,0,0.2,1) both;}
+.welcome-feature-row{display:flex;align-items:center;gap:14px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:14px;padding:14px 16px;backdrop-filter:blur(10px);}
+.welcome-feature-icon{width:38px;height:38px;background:var(--accent-soft);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.welcome-feature-text{flex:1;}
+.welcome-feature-title{font-size:13px;font-weight:700;color:var(--text);}
+.welcome-feature-desc{font-size:11px;color:var(--text3);margin-top:2px;}
+.welcome-cta{width:100%;max-width:340px;animation:welcomeFadeUp 0.7s 0.3s cubic-bezier(0.4,0,0.2,1) both;}
+.welcome-cta-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;border-radius:var(--radius);color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px var(--accent-glow);transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:10px;}
+.welcome-cta-btn:active{transform:scale(0.97);}
+.welcome-cta-hint{text-align:center;font-size:11px;color:var(--text3);margin-top:12px;}
+@keyframes welcomeFadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ MISC ═══ */
+.toast{position:fixed;bottom:calc(var(--nav-h) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:50px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--text);z-index:300;opacity:0;transition:all 0.3s ease;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.pr-flash{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px) scale(0.9);background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:var(--radius);padding:12px 20px;font-size:14px;font-weight:700;color:#fff;z-index:300;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;box-shadow:0 8px 24px rgba(249,115,22,0.4);text-align:center;white-space:pre-line;}
+.pr-flash.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
+.undo-bar{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:50px;padding:10px 16px;display:flex;align-items:center;gap:12px;z-index:200;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 20px rgba(0,0,0,0.4);white-space:nowrap;}
+.undo-bar.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+.undo-bar-text{font-size:12px;color:var(--text2);}
+.undo-bar-btn{font-size:12px;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;font-family:inherit;}
+.confirm-dialog{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s ease;}
+.confirm-dialog.open{opacity:1;pointer-events:all;}
+.confirm-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:24px 20px;width:100%;max-width:320px;transform:scale(0.9);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.confirm-dialog.open .confirm-box{transform:scale(1);}
+.confirm-icon{font-size:36px;text-align:center;margin-bottom:12px;}
+.confirm-title{font-size:16px;font-weight:700;text-align:center;margin-bottom:8px;}
+.confirm-text{font-size:13px;color:var(--text2);text-align:center;margin-bottom:20px;line-height:1.7;}
+.confirm-btns{display:flex;gap:10px;}
+.rpe-grid{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0;}
+.rpe-btn{width:52px;height:52px;border-radius:12px;border:2px solid var(--border);background:var(--glass);color:var(--text);font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+.rpe-btn small{font-size:8px;color:var(--text3);font-weight:400;line-height:1;}
+.rpe-btn.selected{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);}
+.note-field{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:13px;padding:10px 14px;width:100%;outline:none;resize:none;transition:var(--transition);min-height:60px;}
+.note-field:focus{border-color:var(--accent);}
+.section-card{margin:0 16px 12px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(10px);}
+.back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--accent);cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;padding:0;transition:var(--transition);}
+.back-btn:active{opacity:0.7;}
+.selected-day-title{font-size:13px;color:var(--text3);}
+.day-selector-header{display:flex;align-items:center;gap:12px;padding:14px 20px 10px;}
+@keyframes confettiBurst{0%{transform:scale(1);}50%{transform:scale(1.02);box-shadow:0 0 0 8px var(--green-soft);}100%{transform:scale(1);}}
+.exercise-card.burst{animation:confettiBurst 0.4s ease;}
+</style>
+</head>
+<body>
+
+<!-- ═══ WELCOME SCREEN ═══ -->
+<div id="welcome-screen">
+  <div class="welcome-bg-orb welcome-bg-orb1"></div>
+  <div class="welcome-bg-orb welcome-bg-orb2"></div>
+  <div class="welcome-logo-wrap">
+    <div class="welcome-logo-icon">🏋️</div>
+    <div class="welcome-app-name">IronLog</div>
+    <div class="welcome-app-sub">دفترچه تمرین هوشمند شما</div>
+  </div>
+  <div class="welcome-features">
+    <div class="welcome-feature-row">
+      <div class="welcome-feature-icon">📋</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">برنامه تمرینی شخصی</div>
+        <div class="welcome-feature-desc">روزها و حرکات دلخواه خودت را بساز</div>
+      </div>
+    </div>
+    <div class="welcome-feature-row">
+      <div class="welcome-feature-icon">⏱️</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">تایمر و ثبت ست‌ها</div>
+        <div class="welcome-feature-desc">تایمر استراحت خودکار و ثبت وزن دقیق</div>
+      </div>
+    </div>
+    <div class="welcome-feature-row">
+      <div class="welcome-feature-icon">📊</div>
+      <div class="welcome-feature-text">
+        <div class="welcome-feature-title">آمار و رکوردها</div>
+        <div class="welcome-feature-desc">پیگیری پیشرفت و بهترین رکوردهای تو</div>
+      </div>
+    </div>
+  </div>
+  <div class="welcome-cta">
+    <button class="welcome-cta-btn" onclick="goToSetupProgram()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+      تنظیم برنامه تمرینی شخصی
+    </button>
+    <div class="welcome-cta-hint">می‌توانی بعداً هم از تنظیمات برنامه‌ات را ویرایش کنی</div>
+  </div>
+</div>
+
+<div id="app">
+
+<!-- ═══ WORKOUT ═══ -->
+<div class="page active" id="page-workout">
+  <div class="page-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <h1 id="app-name-display">IronLog 🏋️</h1>
+        <p id="workout-date-text"></p>
+      </div>
+      <div id="workout-session-timer" style="display:none;" class="workout-timer-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="session-timer-display">00:00</span>
+      </div>
+    </div>
+  </div>
+  <div id="day-selector-view">
+    <div id="install-banner-wrap"></div>
+    <div id="monthly-goal-banner"></div>
+    <div class="sec-title">انتخاب روز تمرین</div>
+    <div class="day-cards-wrapper" id="day-cards-container"></div>
+  </div>
+  <div id="exercise-view" style="display:none">
+    <div class="day-selector-header">
+      <button class="back-btn" onclick="showDaySelector()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        برگشت
+      </button>
+      <span class="selected-day-title" id="selected-day-title"></span>
+    </div>
+    <div class="exercise-section" id="exercise-list"></div>
+    <button class="finish-day-btn" onclick="finishDay()">✓ پایان جلسه و ذخیره</button>
+  </div>
+</div>
+
+<!-- ═══ HISTORY ═══ -->
+<div class="page" id="page-history">
+  <div class="page-header">
+    <h1>تاریخچه</h1>
+    <p>جلسات تمرینی ثبت شده</p>
+  </div>
+  <div class="history-filter-bar" id="history-filter-bar"></div>
+  <div id="history-container"></div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="page" id="page-stats">
+  <div class="page-header"><h1>آمار</h1><p>پیشرفت و رکوردها</p></div>
+  <div class="stats-grid" id="stats-cards"></div>
+  <div class="sec-title">وزن بدن</div>
+  <div style="padding:0 16px;">
+    <div class="chart-container">
+      <div style="display:flex;gap:10px;margin-bottom:12px;">
+        <input type="number" class="input-field" id="weight-input" placeholder="وزن (kg)" step="0.1" style="flex:1;">
+        <button class="btn btn-primary btn-sm" onclick="addWeight()">ثبت</button>
+      </div>
+      <svg class="mini-chart" id="weight-chart"></svg>
+    </div>
+    <div class="section-card" style="margin:0 0 12px;"><div id="weight-log"></div></div>
+  </div>
+  <div class="sec-title">رکورد حرکات</div>
+  <div style="padding:0 16px;margin-bottom:4px;">
+    <div class="chart-container">
+      <div class="ex-chart-selector" id="ex-chart-selector"></div>
+      <svg class="mini-chart" id="ex-progress-chart" style="height:100px;"></svg>
+    </div>
+  </div>
+  <div class="sec-title">رکوردها (PR)</div>
+  <div class="section-card" id="pr-list"></div>
+  <div class="sec-title">حجم تمرین</div>
+  <div class="section-card" style="padding:14px 16px;margin:0 16px 12px;" id="volume-list"></div>
+</div>
+
+<!-- ═══ SETTINGS ═══ -->
+<div class="page" id="page-settings">
+  <div class="page-header"><h1>تنظیمات</h1><p>شخصی‌سازی برنامه</p></div>
+  <div class="sec-title">ظاهر</div>
+  <div class="settings-section">
+    <div class="settings-row">
+      <div class="settings-icon">🎨</div>
+      <div class="settings-info"><div class="settings-label">تم برنامه</div><div class="settings-sub">انتخاب رنگ و تم شیشه‌ای</div></div>
+      <div class="settings-action"><button class="btn btn-ghost btn-sm" onclick="showThemeModal()">تغییر</button></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">✏️</div>
+      <div class="settings-info"><div class="settings-label">نام برنامه</div><div class="settings-sub" id="app-name-sub">IronLog</div></div>
+      <div class="settings-action"><button class="btn btn-ghost btn-sm" onclick="editAppName()">تغییر</button></div>
+    </div>
+  </div>
+  <div class="sec-title">عمومی</div>
+  <div class="settings-section">
+    <div class="settings-row">
+      <div class="settings-icon">📳</div>
+      <div class="settings-info"><div class="settings-label">ویبره</div><div class="settings-sub">لرزش هنگام پایان تایمر</div></div>
+      <div class="settings-action"><div class="toggle on" id="toggle-vibrate" onclick="toggleSetting('vibrate',this)"></div></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">⏱️</div>
+      <div class="settings-info"><div class="settings-label">تایمر خودکار</div><div class="settings-sub">شروع تایمر پس از تکمیل ست</div></div>
+      <div class="settings-action"><div class="toggle on" id="toggle-autotimer" onclick="toggleSetting('autoTimer',this)"></div></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">📊</div>
+      <div class="settings-info"><div class="settings-label">ثبت RPE</div><div class="settings-sub">سطح سختی پس از حرکت</div></div>
+      <div class="settings-action"><div class="toggle" id="toggle-rpe" onclick="toggleSetting('askRPE',this)"></div></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">💪</div>
+      <div class="settings-info"><div class="settings-label">ثبت RIR</div><div class="settings-sub">تکرار باقی‌مانده تا ناتوانی</div></div>
+      <div class="settings-action"><div class="toggle" id="toggle-rir" onclick="toggleSetting('showRIR',this)"></div></div>
+    </div>
+  </div>
+  <div class="sec-title">زمان استراحت پیش‌فرض (ثانیه)</div>
+  <div class="settings-section">
+    <div class="settings-row">
+      <div class="settings-icon">🏋️</div>
+      <div class="settings-info"><div class="settings-label">حرکات سنگین</div></div>
+      <div class="settings-action"><input type="number" class="input-field" id="rest-heavy" value="180" style="width:80px;text-align:center;" onchange="saveRestTimes()"></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">💪</div>
+      <div class="settings-info"><div class="settings-label">حرکات متوسط</div></div>
+      <div class="settings-action"><input type="number" class="input-field" id="rest-medium" value="120" style="width:80px;text-align:center;" onchange="saveRestTimes()"></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">🔥</div>
+      <div class="settings-info"><div class="settings-label">حرکات سبک/ایزوله</div></div>
+      <div class="settings-action"><input type="number" class="input-field" id="rest-light" value="90" style="width:80px;text-align:center;" onchange="saveRestTimes()"></div>
+    </div>
+  </div>
+  <div class="sec-title">هدف ماهانه</div>
+  <div class="settings-section">
+    <div class="settings-row">
+      <div class="settings-icon">🎯</div>
+      <div class="settings-info"><div class="settings-label">تعداد جلسات هدف</div><div class="settings-sub">هدف تمرینی ماه جاری</div></div>
+      <div class="settings-action"><input type="number" class="input-field" id="monthly-goal-input" value="12" min="1" max="31" style="width:70px;text-align:center;" onchange="saveMonthlyGoal()"></div>
+    </div>
+  </div>
+  <div class="sec-title">مدیریت روزها</div>
+  <div class="settings-section" id="day-manager"></div>
+  <div style="padding:0 16px 8px;display:flex;gap:8px;">
+    <button class="btn btn-ghost btn-sm" style="flex:1;" onclick="showAddDayModal()">+ روز جدید</button>
+  </div>
+  <div class="sec-title">مدیریت حرکات</div>
+  <div id="exercise-manager-days"></div>
+  <div class="sec-title">داده‌ها</div>
+  <div class="settings-section">
+    <div class="settings-row">
+      <div class="settings-icon">📤</div>
+      <div class="settings-info"><div class="settings-label">خروجی JSON</div><div class="settings-sub">پشتیبان‌گیری کامل</div></div>
+      <div class="settings-action"><button class="btn btn-ghost btn-sm" onclick="exportData()">دانلود</button></div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">📥</div>
+      <div class="settings-info"><div class="settings-label">وارد کردن JSON</div><div class="settings-sub">بازیابی از فایل</div></div>
+      <div class="settings-action">
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('import-file').click()">انتخاب</button>
+        <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(this)">
+      </div>
+    </div>
+    <div class="settings-row">
+      <div class="settings-icon">🗑️</div>
+      <div class="settings-info"><div class="settings-label">پاک کردن تاریخچه</div><div class="settings-sub">حذف تمام جلسات</div></div>
+      <div class="settings-action"><button class="btn btn-danger btn-sm" onclick="clearHistory()">پاک کردن</button></div>
+    </div>
+  </div>
+  <div style="text-align:center;padding:8px 0 24px;font-size:10px;color:var(--text3);">نسخه ۲.۲ — IronLog</div>
+</div>
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-workout" onclick="switchPage('workout')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><rect x="2" y="9" width="3" height="6" rx="1"/><rect x="19" y="9" width="3" height="6" rx="1"/></svg>
+    <span>تمرین</span>
+  </button>
+  <button class="nav-btn" id="nav-history" onclick="switchPage('history')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    <span>تاریخچه</span>
+  </button>
+  <button class="nav-btn" id="nav-stats" onclick="switchPage('stats')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+    <span>آمار</span>
+  </button>
+  <button class="nav-btn" id="nav-settings" onclick="switchPage('settings')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    <span>تنظیمات</span>
+  </button>
+</nav>
+
+<!-- ═══ MODALS ═══ -->
+<div class="modal-overlay" id="rest-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⏱ استراحت</div>
+    <div class="modal-sub">زمان استراحت بین ست‌ها</div>
+    <div class="timer-ring-wrap">
+      <div class="timer-ring-container">
+        <svg class="timer-ring-svg" width="160" height="160" viewBox="0 0 160 160">
+          <circle class="timer-ring-bg" cx="80" cy="80" r="68"/>
+          <circle class="timer-ring-fill" id="timer-ring-fill" cx="80" cy="80" r="68" stroke-dasharray="427.256" stroke-dashoffset="0"/>
+        </svg>
+        <div class="timer-ring-text">
+          <div class="timer-display" id="timer-display">2:00</div>
+          <div class="timer-unit">استراحت</div>
+        </div>
+      </div>
+    </div>
+    <div class="timer-presets">
+      <button class="timer-preset-btn" onclick="setTimerPreset(60,this)">60s<br><small style="color:var(--text3)">سریع</small></button>
+      <button class="timer-preset-btn" onclick="setTimerPreset(90,this)">90s<br><small style="color:var(--text3)">سبک</small></button>
+      <button class="timer-preset-btn active" onclick="setTimerPreset(120,this)">120s<br><small style="color:var(--text3)">متوسط</small></button>
+      <button class="timer-preset-btn" onclick="setTimerPreset(180,this)">180s<br><small style="color:var(--text3)">سنگین</small></button>
+    </div>
+    <div class="timer-controls">
+      <button class="btn btn-ghost" style="flex:1;" onclick="skipTimer()">رد کردن</button>
+      <button class="btn btn-primary" style="flex:2;" id="timer-main-btn" onclick="toggleTimer()">شروع</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="input-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="input-modal-title">ویرایش</div>
+    <div style="margin-top:16px;">
+      <input type="text" class="input-field" id="input-modal-field" placeholder="">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeInputModal()">انصراف</button>
+      <button class="btn btn-primary" style="flex:2;" onclick="confirmInputModal()">تأیید</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="rpe-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📊 سطح سختی (RPE)</div>
+    <div class="modal-sub" id="rpe-modal-sub">این حرکت چقدر سخت بود؟</div>
+    <div class="rpe-grid">
+      <button class="rpe-btn" onclick="selectRPE(1)">1<small>خیلی سبک</small></button>
+      <button class="rpe-btn" onclick="selectRPE(2)">2<small>سبک</small></button>
+      <button class="rpe-btn" onclick="selectRPE(3)">3<small>متوسط</small></button>
+      <button class="rpe-btn" onclick="selectRPE(4)">4<small>سخت</small></button>
+      <button class="rpe-btn" onclick="selectRPE(5)">5<small>بیشینه</small></button>
+    </div>
+    <button class="btn btn-ghost" style="width:100%;" onclick="skipRPE()">رد کردن</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="theme-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🎨 انتخاب تم</div>
+    <div class="modal-sub">تم و رنگ شیشه‌ای دلخواهت را انتخاب کن</div>
+    <div class="theme-grid" id="theme-grid"></div>
+    <button class="btn btn-ghost" style="width:100%;margin-top:8px;" onclick="closeModal('theme-modal')">بستن</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="summary-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🎉 تمرین تمام شد!</div>
+    <div class="modal-sub" id="summary-sub"></div>
+    <div id="summary-content" style="margin:16px 0;"></div>
+    <div id="weight-reminder" style="display:none;margin-bottom:16px;">
+      <div style="background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:20px;margin-bottom:6px;">⚖️</div>
+        <div style="font-size:13px;font-weight:600;">وزن‌کشی فراموش نشه!</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">ثبت وزن برای پیگیری پیشرفت مهمه</div>
+        <button class="btn btn-primary btn-sm" style="margin-top:10px;" onclick="goToWeight()">ثبت وزن الان</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;" onclick="closeSummaryModal()">عالیه! 💪</button>
+  </div>
+</div>
+
+<div class="confirm-dialog" id="confirm-dialog">
+  <div class="confirm-box">
+    <div class="confirm-icon" id="confirm-icon">⚠️</div>
+    <div class="confirm-title" id="confirm-title">آیا مطمئن هستید؟</div>
+    <div class="confirm-text" id="confirm-text"></div>
+    <div class="confirm-btns">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeConfirm(false)">انصراف</button>
+      <button class="btn btn-danger" style="flex:1;" id="confirm-ok-btn" onclick="closeConfirm(true)">تأیید</button>
+    </div>
+  </div>
+</div>
+
+<div class="undo-bar" id="undo-bar">
+  <span class="undo-bar-text" id="undo-bar-text">حذف شد</span>
+  <button class="undo-bar-btn" onclick="performUndo()">↩ بازگردانی</button>
+</div>
+<div class="pr-flash" id="pr-flash"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════════════
+const DATA_VERSION  = 3;
+const CIRCUMFERENCE = 2 * Math.PI * 68;
+const RPE_LABELS    = ['','خیلی سبک','سبک','متوسط','سخت','بیشینه'];
+const THEMES = [
+  {id:'default',name:'بنفش',  bg:'linear-gradient(135deg,#0a0a0f,#1e1e28)',accent:'#7c6fff'},
+  {id:'ocean',  name:'اقیانوس',bg:'linear-gradient(135deg,#040d18,#0f2847)',accent:'#38bdf8'},
+  {id:'rose',   name:'رز',    bg:'linear-gradient(135deg,#120810,#321c30)',accent:'#f472b6'},
+  {id:'forest', name:'جنگل', bg:'linear-gradient(135deg,#050f08,#163020)',accent:'#4ade80'},
+  {id:'amber',  name:'کهربا',bg:'linear-gradient(135deg,#100b00,#2e2100)',accent:'#fbbf24'},
+  {id:'light',  name:'روشن', bg:'linear-gradient(135deg,#f0f2f8,#d0d4eb)',accent:'#7c6fff'},
+];
+
+const DEFAULT_DAYS = [
+  {id:'d1',name:'روز اول',icon:'💪',desc:'سینه، سرشانه، پشت بازو، جلو بازو',totalSets:25,exercises:[
+    {id:'e1', name:'پرس تخت سینه هالتر',     reps:'6-10', sets:4,category:'heavy', superset:null},
+    {id:'e2', name:'پرس بالا سینه دمبل',      reps:'8-10', sets:3,category:'medium',superset:'سوپرست با کراس از پایین'},
+    {id:'e3', name:'نشر جانب دمبل / سیمکش',  reps:'12-15',sets:4,category:'light', superset:null},
+    {id:'e4', name:'پشت بازو سیمکش بالای سر',reps:'10-12',sets:4,category:'medium',superset:null},
+    {id:'e5', name:'پشت بازو هالتر خوابیده', reps:'8-10', sets:3,category:'medium',superset:null},
+    {id:'e6', name:'جلو بازو هالتر دست جمع', reps:'8-12', sets:4,category:'medium',superset:null},
+    {id:'e7', name:'جلو بازو چکشی دمبل',     reps:'8-12', sets:3,category:'light', superset:null},
+  ]},
+  {id:'d2',name:'روز دوم',icon:'🦵',desc:'پا، ساق، شکم',totalSets:26,exercises:[
+    {id:'e8', name:'اسکوات هالتر',    reps:'8-12', sets:4,category:'heavy', superset:null},
+    {id:'e9', name:'پرس پا دستگاه',   reps:'10-12',sets:4,category:'medium',superset:null},
+    {id:'e10',name:'جلو ران دستگاه',  reps:'12-15',sets:3,category:'light', superset:null},
+    {id:'e11',name:'پشت ران دستگاه',  reps:'10-12',sets:4,category:'medium',superset:null},
+    {id:'e12',name:'ددلیفت رومانیایی',reps:'8-10', sets:4,category:'heavy', superset:null},
+    {id:'e13',name:'خیاطه دمبل',      reps:'10-12',sets:3,category:'medium',superset:null},
+    {id:'e14',name:'ساق پا ایستاده',  reps:'12-15',sets:4,category:'light', superset:null},
+  ]},
+  {id:'d3',name:'روز سوم',icon:'🏋️',desc:'کول، پشت شانه، بازوها',totalSets:30,exercises:[
+    {id:'e15',name:'پرس سرشانه دمبل',        reps:'8-12', sets:3,category:'medium',superset:null},
+    {id:'e16',name:'زیربغل هالتر خم',        reps:'8-10', sets:4,category:'heavy', superset:null},
+    {id:'e17',name:'لت سیمکش دست باز',       reps:'8-12', sets:4,category:'medium',superset:null},
+    {id:'e18',name:'قایقی دست باز',          reps:'10-12',sets:3,category:'medium',superset:null},
+    {id:'e19',name:'فیس پول سیمکش',          reps:'12-15',sets:3,category:'light', superset:null},
+    {id:'e20',name:'فلای معکوس',             reps:'12-15',sets:3,category:'light', superset:null},
+    {id:'e21',name:'نشر جانب سیمکش تک دست', reps:'12-15',sets:3,category:'light', superset:null},
+    {id:'e22',name:'پشت بازو سیمکش طنابی',  reps:'10-12',sets:3,category:'medium',superset:null},
+    {id:'e23',name:'کیک بک پشت بازو',       reps:'10-12',sets:3,category:'light', superset:null},
+    {id:'e24',name:'جلو بازو دمبل',          reps:'8-12', sets:4,category:'medium',superset:null},
+  ]},
+  {id:'d4',name:'روز چهارم',icon:'⚡',desc:'سینه، کول، شکم',totalSets:27,exercises:[
+    {id:'e25',name:'پرس بالا سینه دمبل', reps:'8-10', sets:3,category:'medium',superset:null},
+    {id:'e26',name:'پرس تخت سینه هالتر',reps:'6-10', sets:3,category:'heavy', superset:null},
+    {id:'e27',name:'پرس زیر سینه هالتر',reps:'6-10', sets:3,category:'medium',superset:'سوپرست با کراس از بالا'},
+    {id:'e28',name:'شراگ هالتر / دمبل', reps:'12',   sets:3,category:'medium',superset:null},
+    {id:'e29',name:'بک اکستنشن',         reps:'12',   sets:3,category:'light', superset:null},
+    {id:'e30',name:'خلبانی دمبل',        reps:'15-20',sets:4,category:'light', superset:'سوپرست با پهلو دمبل'},
+    {id:'e31',name:'شکم سیمکش',          reps:'15-20',sets:4,category:'light', superset:null},
+    {id:'e32',name:'ساعد',               reps:'15-20',sets:4,category:'light', superset:null},
+  ]},
+];
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let appData = {
+  version:DATA_VERSION,days:[],history:[],weights:[],
+  settings:{vibrate:true,autoTimer:true,askRPE:false,showRIR:false,theme:'default',appName:'IronLog'},
+  restTimes:{heavy:180,medium:120,light:90},
+  monthlyGoal:12, prLog:{}
+};
+
+let currentDayId         = null;
+let currentSession       = {};
+let sessionStartTime     = null;
+let sessionTimerInterval = null;
+
+// ─── تایمر مودال ───
+// FIX #4: قبل از ایجاد interval جدید، قبلی حتماً پاک می‌شود
+let timerInterval  = null;
+let timerTotal     = 120;
+let timerRemaining = 120;
+let timerRunning   = false;
+let timerStartTS   = null;
+
+// ─── تایمرهای inline ───
+let activeInlineTimers = {};
+
+// ─── WakeLock ───
+// FIX #5: wakeLock در یک متغیر نگه داشته می‌شود و در stopTimer آزاد می‌شود
+let wakeLock = null;
+
+// ─── سایر ───
+let inputModalCallback = null;
+let confirmCallback    = null;
+let rpeExId            = null;
+let undoStack          = [];
+let undoTimeout        = null;
+let historyFilter      = 'all';
+let selectedExChartId  = null;
+let deferredInstall    = null;
+let prevSessionSetsCache = {};
+
+// ═══════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════
+function migrateData(d) {
+  if (!d.version || d.version < 2) {
+    d.settings  = d.settings  || {};
+    d.settings.askRPE  = d.settings.askRPE  ?? false;
+    d.settings.showRIR = d.settings.showRIR ?? false;
+    d.settings.theme   = d.settings.theme   ?? 'default';
+    d.settings.appName = d.settings.appName ?? 'IronLog';
+    d.monthlyGoal      = d.monthlyGoal      ?? 12;
+    d.prLog            = d.prLog            ?? {};
+    d.version = 2;
+  }
+  if (d.version < 3) {
+    (d.days||[]).forEach(day => { if (!day.exercises) day.exercises = []; });
+    d.version = 3;
+  }
+  return d;
+}
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem('ironlog_v3') || localStorage.getItem('ironlog_v2');
+    if (saved) {
+      let parsed = JSON.parse(saved);
+      parsed = migrateData(parsed);
+      appData = Object.assign({}, appData, parsed);
+      appData.settings = Object.assign(
+        {vibrate:true,autoTimer:true,askRPE:false,showRIR:false,theme:'default',appName:'IronLog'},
+        parsed.settings || {}
+      );
+      // اگر کاربر قبلاً برنامه داشته، روز پیش‌فرض لود نمی‌شود
+      if (!appData.days) appData.days = [];
+    } else {
+      // اولین بار — بدون برنامه پیش‌فرض
+      appData.days = [];
+    }
+  } catch(e) { appData.days = []; }
+}
+
+function saveData() {
+  try { localStorage.setItem('ironlog_v3', JSON.stringify(appData)); }
+  catch(e) { showToast('❌ خطا در ذخیره‌سازی'); }
+}
+
+function saveSessionBackup() {
+  if (!currentDayId) return;
+  localStorage.setItem('ironlog_active_day_id', currentDayId);
+  localStorage.setItem('ironlog_active_session', JSON.stringify(currentSession));
+  if (sessionStartTime) localStorage.setItem('ironlog_session_start', sessionStartTime);
+}
+function clearSessionBackup() {
+  localStorage.removeItem('ironlog_active_day_id');
+  localStorage.removeItem('ironlog_active_session');
+  localStorage.removeItem('ironlog_session_start');
+}
+
+// ═══════════════════════════════════════════════════
+//  THEME & APP NAME
+// ═══════════════════════════════════════════════════
+function applyTheme(id) {
+  if (!id || id === 'default') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', id);
+}
+function applyAppName(name) {
+  const n = name || 'IronLog';
+  const el = document.getElementById('app-name-display');
+  if (el) el.textContent = n + ' 🏋️';
+  document.getElementById('app-title').textContent = n + ' — دفترچه تمرین';
+  const sub = document.getElementById('app-name-sub');
+  if (sub) sub.textContent = n;
+}
+function showThemeModal() {
+  document.getElementById('theme-grid').innerHTML = THEMES.map(t =>
+    `<button class="theme-btn ${appData.settings.theme===t.id?'active':''}"
+      style="background:${t.bg};" onclick="selectTheme('${t.id}',this)">
+      <div style="position:absolute;top:8px;right:8px;width:14px;height:14px;border-radius:50%;background:${t.accent};"></div>
+      <span class="theme-btn-label">${t.name}</span>
+    </button>`).join('');
+  openModal('theme-modal');
+}
+function selectTheme(id, btn) {
+  appData.settings.theme = id; saveData(); applyTheme(id);
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showToast('🎨 تم تغییر کرد');
+}
+function editAppName() {
+  showInputModal('نام برنامه', appData.settings.appName||'IronLog', val => {
+    if (val && val.trim()) {
+      appData.settings.appName = val.trim();
+      saveData(); applyAppName(appData.settings.appName); renderSettings();
+      showToast('✅ نام برنامه تغییر کرد');
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  PWA
+// ═══════════════════════════════════════════════════
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredInstall = e; showInstallBanner();
+});
+function showInstallBanner() {
+  const wrap = document.getElementById('install-banner-wrap');
+  if (!wrap || !deferredInstall) return;
+  wrap.innerHTML = `<div style="margin:12px 16px 0;padding:14px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);display:flex;align-items:center;gap:12px;">
+    <div style="font-size:24px;">📱</div>
+    <div style="flex:1;"><div style="font-size:13px;font-weight:700;">نصب اپلیکیشن</div><div style="font-size:11px;color:var(--text3);">روی صفحه اصلی اضافه کن</div></div>
+    <button class="btn btn-primary btn-sm" onclick="installPWA()">نصب</button>
+    <button class="btn btn-ghost btn-xs" onclick="this.closest('div').parentElement.innerHTML=''">×</button>
+  </div>`;
+}
+async function installPWA() {
+  if (!deferredInstall) return;
+  deferredInstall.prompt();
+  const {outcome} = await deferredInstall.userChoice;
+  if (outcome==='accepted') { document.getElementById('install-banner-wrap').innerHTML=''; deferredInstall=null; showToast('✅ نصب شد!'); }
+}
+
+// FIX #5: WakeLock — آزادسازی صحیح
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      if (wakeLock) { await wakeLock.release(); wakeLock = null; }
+      wakeLock = await navigator.wakeLock.request('screen');
+    }
+  } catch(e) {}
+}
+async function releaseWakeLock() {
+  try { if (wakeLock) { await wakeLock.release(); wakeLock = null; } } catch(e) {}
+}
+
+// مدیریت پس‌زمینه
+document.addEventListener('visibilitychange', async () => {
+  if (!document.hidden) {
+    // تصحیح تایمر مودال
+    if (timerRunning && timerStartTS) {
+      timerRemaining = Math.max(0, timerTotal - Math.floor((Date.now()-timerStartTS)/1000));
+      if (timerRemaining <= 0) {
+        // FIX #4: پاک کردن interval قبل از هر کار
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+        timerRunning = false;
+        timerComplete();
+        closeModal('rest-modal');
+      } else updateTimerUI();
+    }
+    // بازیابی WakeLock بعد از برگشت
+    if (currentDayId && sessionStartTime) { requestWakeLock(); }
+  } else {
+    // صفحه رفت به پس‌زمینه — WakeLock ممکن است لغو شود (مرورگر کنترل دارد)
+  }
+});
+
+// ═══════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('nav-'+page).classList.add('active');
+  if (page==='history')  renderHistory();
+  if (page==='stats')    renderStats();
+  if (page==='settings') renderSettings();
+}
+
+// ═══════════════════════════════════════════════════
+//  WORKOUT — DAY SELECTOR
+// ═══════════════════════════════════════════════════
+function renderDayCards() {
+  renderGoalBanner();
+  const container = document.getElementById('day-cards-container');
+  container.innerHTML = '';
+  appData.days.forEach(day => {
+    const progress = getDayProgress(day.id);
+    const card = document.createElement('div');
+    card.className = 'day-card' + (currentDayId===day.id ? ' selected' : '');
+    card.innerHTML = `
+      <div class="day-card-top">
+        <div class="day-icon">${day.icon||'💪'}</div>
+        <div class="day-info"><div class="day-name">${day.name}</div><div class="day-desc">${day.desc||''}</div></div>
+        <div style="font-size:11px;color:var(--text3);">${day.exercises.length} حرکت</div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${progress}%"></div></div>
+        <div class="progress-label"><span>${progress>0?Math.round(progress)+'٪ تکمیل':'شروع نشده'}</span><span>${day.exercises.reduce((a,e)=>a+(e.sets||3),0)} ست</span></div>
+      </div>`;
+    card.onclick = () => selectDay(day.id, card);
+    container.appendChild(card);
+  });
+}
+
+function renderGoalBanner() {
+  const banner = document.getElementById('monthly-goal-banner');
+  if (!banner) return;
+  const goal = appData.monthlyGoal || 12;
+  const now = new Date();
+  const count = appData.history.filter(s => {
+    const d = new Date(s.date);
+    return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();
+  }).length;
+  const pct = Math.min(100, Math.round((count/goal)*100));
+  banner.innerHTML = `<div style="margin:12px 16px 0;padding:14px 16px;background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);backdrop-filter:blur(10px);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <div style="font-size:13px;font-weight:700;">🎯 هدف ماهانه</div>
+      <div style="font-size:12px;color:var(--text3);">${count} از ${goal} جلسه</div>
+    </div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%;background:${pct>=100?'var(--green)':'linear-gradient(90deg,var(--accent2),var(--accent))'}"></div></div>
+    <div style="font-size:11px;color:var(--text3);margin-top:4px;">${pct}٪ ${pct>=100?'🎉 هدف محقق شد!':''}</div>
+  </div>`;
+}
+
+function getDayProgress(dayId) {
+  if (currentDayId !== dayId) return 0;
+  const day = appData.days.find(d => d.id===dayId);
+  if (!day) return 0;
+  let total=0, done=0;
+  day.exercises.forEach(ex => {
+    const s = currentSession[ex.id];
+    if (s) { total += s.sets.length; done += s.sets.filter(x=>x.done).length; }
+    else total += (ex.sets||3);
+  });
+  return total ? Math.round((done/total)*100) : 0;
+}
+
+function selectDay(dayId, cardEl) {
+  cardEl.classList.add('day-card-pulse');
+  setTimeout(() => cardEl.classList.remove('day-card-pulse'), 400);
+  if (currentDayId !== dayId) { currentDayId = dayId; currentSession = {}; }
+  setTimeout(() => showExerciseView(), 250);
+}
+
+function showDaySelector() {
+  stopAllTimers();
+  document.getElementById('day-selector-view').style.display = '';
+  document.getElementById('exercise-view').style.display   = 'none';
+  stopSessionTimer();
+  releaseWakeLock();
+  renderDayCards();
+}
+
+function buildPrevSessionCache(dayId) {
+  prevSessionSetsCache = {};
+  const day = appData.days.find(d => d.id===dayId);
+  if (!day) return;
+  day.exercises.forEach(ex => { prevSessionSetsCache[ex.id] = getLastSets(ex.id) || []; });
+}
+
+function showExerciseView() {
+  const day = appData.days.find(d => d.id===currentDayId);
+  if (!day) return;
+  document.getElementById('day-selector-view').style.display = 'none';
+  document.getElementById('exercise-view').style.display = '';
+  document.getElementById('selected-day-title').textContent = day.name;
+
+  buildPrevSessionCache(currentDayId);
+
+  day.exercises.forEach(ex => {
+    if (!currentSession[ex.id]) {
+      currentSession[ex.id] = {
+        sets: Array.from({length:ex.sets||3}, ()=>({weight:'',reps:'',dropSet:false,done:false,rir:''})),
+        note:'', rpe:null
+      };
+    }
+  });
+
+  if (!sessionStartTime) { sessionStartTime = Date.now(); startSessionTimer(); }
+  requestWakeLock();
+  saveSessionBackup();
+  renderExercises();
+}
+
+function startSessionTimer() {
+  const el = document.getElementById('workout-session-timer');
+  const dp = document.getElementById('session-timer-display');
+  if (el) el.style.display = 'flex';
+  clearInterval(sessionTimerInterval);
+  sessionTimerInterval = setInterval(() => {
+    if (!sessionStartTime) return;
+    const e = Math.floor((Date.now()-sessionStartTime)/1000);
+    if (dp) dp.textContent = formatTime(e);
+  }, 1000);
+}
+
+function stopSessionTimer() {
+  clearInterval(sessionTimerInterval); sessionTimerInterval = null;
+  sessionStartTime = null;
+  const el = document.getElementById('workout-session-timer');
+  if (el) el.style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════
+//  WORKOUT — EXERCISES
+// ═══════════════════════════════════════════════════
+function renderExercises() {
+  const day = appData.days.find(d => d.id===currentDayId);
+  if (!day) return;
+  const list = document.getElementById('exercise-list');
+  list.innerHTML = '';
+
+  day.exercises.forEach(ex => {
+    const session    = currentSession[ex.id];
+    const lastRecord = getLastRecord(ex.id);
+    const suggestion = getSuggestion(ex.id);
+    const allDone    = session.sets.length>0 && session.sets.every(s=>s.done);
+
+    const prevSets = prevSessionSetsCache[ex.id] || [];
+    const prevVol  = prevSets.filter(s=>s.done).reduce((a,s)=>(a+(parseFloat(s.weight)||0)*(parseInt(s.reps)||0)),0);
+    const currVol  = session.sets.filter(s=>s.done).reduce((a,s)=>(a+(parseFloat(s.weight)||0)*(parseInt(s.reps)||0)),0);
+    let compareHTML = '';
+    if (currVol>0 && prevVol>0) {
+      const diff=currVol-prevVol, icon=diff>0?'📈':diff<0?'📉':'➡️', color=diff>0?'var(--green)':diff<0?'var(--red)':'var(--text3)';
+      compareHTML = `<div style="font-size:11px;color:${color};margin-top:3px;">${icon} ${diff>0?'+':''}${Math.round(diff)}kg نسبت به جلسه قبل</div>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'exercise-card' + (allDone?' completed':'');
+    card.id = 'ex-card-'+ex.id;
+    card.innerHTML = `
+      <div class="exercise-header">
+        <div style="flex:1;min-width:0;">
+          <div class="exercise-title">${ex.name}</div>
+          <div class="exercise-meta">${ex.reps?ex.reps+' تکرار':''} ${ex.category==='heavy'?'• سنگین':ex.category==='medium'?'• متوسط':'• سبک'}</div>
+          ${ex.superset?`<div class="exercise-superset">🔗 ${ex.superset}</div>`:''}
+          ${lastRecord?`<div class="exercise-record">آخرین: <strong>${lastRecord.weight}kg × ${lastRecord.reps}</strong></div>`:''}
+          ${suggestion?`<div class="exercise-suggestion">💡 پیشنهاد: ${suggestion}kg</div>`:''}
+          ${compareHTML}
+          ${session.rpe?`<div style="font-size:11px;color:var(--text3);margin-top:3px;">RPE: ${session.rpe}/5 — ${RPE_LABELS[session.rpe]}</div>`:''}
+        </div>
+        <div class="exercise-actions">
+          <button class="btn btn-ghost btn-xs" onclick="copyLastSession('${ex.id}')">📋</button>
+          <button class="btn btn-ghost btn-xs" onclick="openRestModal(${appData.restTimes[ex.category||'medium']||120})">⏱</button>
+        </div>
+      </div>
+      <div class="sets-container" id="sets-${ex.id}"></div>
+      <div style="padding:0 10px 10px;">
+        <button class="add-set-btn" onclick="addSet('${ex.id}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          افزودن ست
+        </button>
+      </div>
+      <div style="padding:0 10px 12px;">
+        <textarea class="note-field" placeholder="یادداشت..." rows="2"
+          onchange="updateNote('${ex.id}',this.value)">${session.note||''}</textarea>
+      </div>`;
+    list.appendChild(card);
+    renderSetsInContainer(ex);
+  });
+}
+
+function renderSetsInContainer(ex) {
+  const container = document.getElementById('sets-'+ex.id);
+  if (!container) return;
+  const session  = currentSession[ex.id];
+  const prevSets = prevSessionSetsCache[ex.id] || [];
+  container.querySelectorAll('.set-row').forEach(r => r.remove());
+  const restEl = document.getElementById('rest-inline-'+ex.id);
+  session.sets.forEach((set, i) => {
+    const row = buildSetRowEl(ex, i, set, prevSets[i]);
+    if (restEl) container.insertBefore(row, restEl);
+    else container.appendChild(row);
+  });
+}
+
+function buildSetRowEl(ex, i, set, prevSet) {
+  const canDelete = currentSession[ex.id].sets.length > 1;
+  const showRIR   = appData.settings.showRIR;
+  const cmpInfo   = calcSetCompare(set, prevSet);
+  const row = document.createElement('div');
+  row.className = 'set-row';
+  row.id = `set-row-${ex.id}-${i}`;
+  row.innerHTML = `
+    <div class="set-num ${set.done?'done':''}">${i+1}</div>
+    <div class="set-input-wrap" style="flex:1.4;">
+      <div class="set-input-label">وزن (kg)</div>
+      <input type="number" class="set-input ${set.done?'done':''}"
+        value="${set.weight}" placeholder="0" step="2.5" min="0" max="500" inputmode="decimal"
+        oninput="onSetInput(this,'${ex.id}',${i},'weight')">
+    </div>
+    <div class="set-input-wrap" style="flex:1.2;">
+      <div class="set-input-label">تکرار</div>
+      <input type="number" class="set-input ${set.done?'done':''}"
+        value="${set.reps}" placeholder="0" min="1" max="200" inputmode="numeric"
+        oninput="onSetInput(this,'${ex.id}',${i},'reps')">
+    </div>
+    ${showRIR?`<div class="set-input-wrap" style="flex:0.7;">
+      <div class="set-input-label">RIR</div>
+      <input type="number" class="set-input ${set.done?'done':''}"
+        value="${set.rir||''}" placeholder="0" min="0" max="10" inputmode="numeric"
+        oninput="onSetInput(this,'${ex.id}',${i},'rir')">
+    </div>`:''}
+    <div class="set-compare ${cmpInfo.cls}" id="cmp-${ex.id}-${i}">
+      <div class="set-compare-arrow">${cmpInfo.arrow}</div>
+      <div class="set-compare-diff">${cmpInfo.diff}</div>
+    </div>
+    <button class="drop-toggle ${set.dropSet?'active':''}" onclick="toggleDropSet('${ex.id}',${i})" title="دراپ ست">DS</button>
+    <button class="set-check ${set.done?'done':''}" onclick="toggleSetDone('${ex.id}',${i})">
+      ${set.done?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}
+    </button>
+    ${canDelete?`<button class="set-delete" onclick="deleteSet('${ex.id}',${i})">×</button>`:'<div style="width:24px;"></div>'}`;
+  return row;
+}
+
+function calcSetCompare(set, prevSet) {
+  const w = parseFloat(set.weight), r = parseInt(set.reps);
+  if (!prevSet || isNaN(w) || isNaN(r) || (!set.weight && !set.reps))
+    return {cls:'empty',arrow:'➡️',diff:''};
+  const pw = parseFloat(prevSet.weight)||0, pr = parseInt(prevSet.reps)||0;
+  if (!pw && !pr) return {cls:'empty',arrow:'➡️',diff:''};
+  const curr1RM = calc1RM(w,r), prev1RM = calc1RM(pw,pr);
+  const diff = curr1RM - prev1RM;
+  if (Math.abs(diff)<1) return {cls:'same',arrow:'➡️',diff:'='};
+  if (diff>0)           return {cls:'up',  arrow:'↑', diff:`+${Math.round(diff)}`};
+  return                       {cls:'down',arrow:'↓', diff:`${Math.round(diff)}`};
+}
+
+// FIX #3: onSetInput — ریست UI در صورت ورودی نامعتبر
+function onSetInput(inputEl, exId, idx, field) {
+  const val = inputEl.value;
+  let isInvalid = false;
+
+  if (field === 'weight') {
+    const v = parseFloat(val);
+    if (val !== '' && (isNaN(v) || v < 0 || v > 500)) isInvalid = true;
+  }
+  if (field === 'reps') {
+    const v = parseInt(val);
+    if (val !== '' && (isNaN(v) || v < 1 || v > 200)) isInvalid = true;
+  }
+  if (field === 'rir') {
+    const v = parseInt(val);
+    if (val !== '' && (isNaN(v) || v < 0 || v > 10)) isInvalid = true;
+  }
+
+  if (isInvalid) {
+    // FIX #3: ریست به آخرین مقدار معتبر ذخیره شده
+    inputEl.value = currentSession[exId].sets[idx][field] || '';
+    showToast('❌ مقدار وارد شده نامعتبر است');
+    return;
+  }
+
+  currentSession[exId].sets[idx][field] = val;
+  saveSessionBackup();
+
+  // به‌روزرسانی فوری فلش مقایسه
+  const prevSets = prevSessionSetsCache[exId] || [];
+  const set = currentSession[exId].sets[idx];
+  const cmpEl = document.getElementById(`cmp-${exId}-${idx}`);
+  if (cmpEl) {
+    const info = calcSetCompare(set, prevSets[idx]);
+    cmpEl.className = `set-compare ${info.cls}`;
+    cmpEl.innerHTML = `<div class="set-compare-arrow">${info.arrow}</div><div class="set-compare-diff">${info.diff}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  SET OPERATIONS
+// ═══════════════════════════════════════════════════
+function updateNote(exId, val) { currentSession[exId].note = val; saveSessionBackup(); }
+
+function toggleDropSet(exId, idx) {
+  currentSession[exId].sets[idx].dropSet = !currentSession[exId].sets[idx].dropSet;
+  refreshSetsUI(exId); saveSessionBackup();
+}
+
+function toggleSetDone(exId, idx) {
+  const set = currentSession[exId].sets[idx];
+  if (!set.done) {
+    const w = set.weight, r = set.reps;
+    if (!w && !r) { showToast('❌ وزن یا تکرار وارد کنید'); return; }
+    if (w!=='' && (parseFloat(w)<0||parseFloat(w)>500)) { showToast('❌ وزن نامعتبر'); return; }
+    if (r!=='' && (parseInt(r)<1||parseInt(r)>200))     { showToast('❌ تکرار نامعتبر'); return; }
+    checkNewPR(exId, parseFloat(w)||0, parseInt(r)||0);
+  }
+  set.done = !set.done;
+  refreshSetsUI(exId); saveSessionBackup();
+
+  if (set.done) {
+    const allDone = currentSession[exId].sets.every(s => s.done);
+    const card = document.getElementById('ex-card-'+exId);
+    if (allDone) {
+      card.classList.add('completed','burst');
+      setTimeout(()=>card.classList.remove('burst'),500);
+      showToast('✅ حرکت تکمیل شد!');
+      if (appData.settings.askRPE) setTimeout(()=>showRPEModal(exId),600);
+    }
+    if (appData.settings.autoTimer) startInlineTimer(exId, idx);
+  } else {
+    document.getElementById('ex-card-'+exId)?.classList.remove('completed');
+  }
+}
+
+function addSet(exId) {
+  const session = currentSession[exId];
+  const last    = session.sets[session.sets.length-1];
+  session.sets.push({weight:last?last.weight:'',reps:last?last.reps:'',dropSet:false,done:false,rir:''});
+  refreshSetsUI(exId); saveSessionBackup();
+  document.getElementById('sets-'+exId)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function deleteSet(exId, idx) {
+  if (currentSession[exId].sets.length<=1) return;
+  showConfirm('حذف ست',`ست ${idx+1} حذف شود؟`,'🗑️',false, ok => {
+    if (!ok) return;
+    const backup = {...currentSession[exId].sets[idx]};
+    currentSession[exId].sets.splice(idx,1);
+    refreshSetsUI(exId); saveSessionBackup();
+    showUndo('ست حذف شد', ()=>{
+      currentSession[exId].sets.splice(idx,0,backup);
+      refreshSetsUI(exId); saveSessionBackup();
+    });
+  });
+}
+
+function refreshSetsUI(exId) {
+  const ex = appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+  if (!ex) return;
+  renderSetsInContainer(ex);
+  const session = currentSession[exId];
+  const allDone = session.sets.length>0 && session.sets.every(s=>s.done);
+  const card = document.getElementById('ex-card-'+exId);
+  if (card) { allDone ? card.classList.add('completed') : card.classList.remove('completed'); }
+}
+
+function copyLastSession(exId) {
+  const lastSets = getLastSets(exId);
+  if (!lastSets?.length) { showToast('❌ هیچ جلسه‌ای ثبت نشده'); return; }
+  const valid = lastSets.filter(s=>s.done&&(s.weight!==''||s.reps!==''));
+  if (!valid.length) { showToast('❌ ست معتبری یافت نشد'); return; }
+  currentSession[exId].sets = valid.map(s=>({weight:s.weight,reps:s.reps,dropSet:s.dropSet||false,done:false,rir:s.rir||''}));
+  refreshSetsUI(exId); saveSessionBackup();
+  showToast('📋 جلسه قبل کپی شد');
+}
+
+// ═══════════════════════════════════════════════════
+//  PR DETECTION
+// ═══════════════════════════════════════════════════
+function checkNewPR(exId, weight, reps) {
+  if (!weight||!reps) return;
+  const new1RM = calc1RM(weight,reps);
+  let prev1RM  = 0;
+  appData.history.forEach(s => {
+    s.exercises?.[exId]?.sets?.forEach(set => {
+      if (set.done) { const rm=calc1RM(parseFloat(set.weight)||0,parseInt(set.reps)||0); if (rm>prev1RM) prev1RM=rm; }
+    });
+  });
+  if (new1RM>prev1RM) {
+    const today = new Date().toDateString();
+    if (!appData.prLog) appData.prLog={};
+    if (appData.prLog[exId]===today) return;
+    appData.prLog[exId]=today; saveData();
+    const ex = appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+    showPRFlash(`🏆 رکورد جدید!\n${ex?ex.name:''}\n1RM ≈ ${new1RM}kg`);
+  }
+}
+function showPRFlash(msg) {
+  const el=document.getElementById('pr-flash');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ═══════════════════════════════════════════════════
+//  SUGGESTION
+// ═══════════════════════════════════════════════════
+function getSuggestion(exId) {
+  const lastSets = getLastSets(exId);
+  if (!lastSets) return null;
+  const done = lastSets.filter(s=>s.done&&s.weight);
+  if (!done.length) return null;
+  const maxW = Math.max(...done.map(s=>parseFloat(s.weight)||0));
+  if (!maxW) return null;
+  return Math.round((maxW*1.025)/2.5)*2.5;
+}
+
+// ═══════════════════════════════════════════════════
+//  HISTORY HELPERS
+// ═══════════════════════════════════════════════════
+function getLastRecord(exId) {
+  for (let i=appData.history.length-1;i>=0;i--) {
+    const exData=appData.history[i].exercises?.[exId];
+    if (exData?.sets?.length) {
+      const done=exData.sets.filter(s=>s.done&&s.weight&&s.reps);
+      if (done.length) return done.reduce((b,s)=>parseFloat(s.weight)>parseFloat(b.weight)?s:b);
+    }
+  }
+  return null;
+}
+function getLastSets(exId) {
+  for (let i=appData.history.length-1;i>=0;i--) {
+    const exData=appData.history[i].exercises?.[exId];
+    if (exData?.sets?.length) return exData.sets;
+  }
+  return null;
+}
+
+// ─── پیدا کردن ست‌های جلسه قبل از یک جلسه مشخص (برای گزارش مربی) ───
+function getPrevSessionSetsForSession(sessionId, exId) {
+  const sessionIdx = appData.history.findIndex(s => s.id === sessionId);
+  if (sessionIdx <= 0) return [];
+  for (let i = sessionIdx-1; i >= 0; i--) {
+    const exData = appData.history[i].exercises?.[exId];
+    if (exData?.sets?.length) return exData.sets;
+  }
+  return [];
+}
+
+// ═══════════════════════════════════════════════════
+//  FINISH SESSION
+// ═══════════════════════════════════════════════════
+function finishDay() {
+  const day = appData.days.find(d=>d.id===currentDayId);
+  if (!day) return;
+  const hasDone = Object.values(currentSession).some(ex=>ex.sets.some(s=>s.done));
+  if (!hasDone) {
+    showConfirm('خروج بدون ذخیره','هیچ ستی تکمیل نشده. خارج می‌شوید؟','⚠️',false,ok=>{
+      if (ok) { currentDayId=null;currentSession={};clearSessionBackup();stopAllTimers();stopSessionTimer();releaseWakeLock();showDaySelector(); }
+    });
+    return;
+  }
+  const duration=sessionStartTime?Math.floor((Date.now()-sessionStartTime)/1000):0;
+  let totalSets=0,totalVol=0;
+  Object.values(currentSession).forEach(ex=>ex.sets.forEach(s=>{
+    if (s.done){totalSets++;totalVol+=(parseFloat(s.weight)||0)*(parseInt(s.reps)||0);}
+  }));
+  appData.history.push({
+    id:Date.now(),date:new Date().toISOString(),
+    startTime:new Date(sessionStartTime||Date.now()).toISOString(),
+    endTime:new Date().toISOString(),
+    duration,dayId:currentDayId,dayName:day.name,
+    exercises:JSON.parse(JSON.stringify(currentSession))
+  });
+  saveData();
+  stopAllTimers();stopSessionTimer();releaseWakeLock();clearSessionBackup();
+  showSummaryModal(day.name,totalSets,totalVol,duration);
+  currentDayId=null;currentSession={};
+  checkBackupReminder();
+}
+
+function showSummaryModal(dayName,totalSets,totalVol,duration) {
+  document.getElementById('summary-sub').textContent=dayName;
+  document.getElementById('summary-content').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;">
+      <div><div style="font-size:26px;font-weight:800;color:var(--accent);">${totalSets}</div><div style="font-size:11px;color:var(--text3);">ست انجام شده</div></div>
+      <div><div style="font-size:26px;font-weight:800;color:var(--green);">${Math.round(totalVol).toLocaleString()}</div><div style="font-size:11px;color:var(--text3);">kg حجم</div></div>
+      <div><div style="font-size:26px;font-weight:800;color:var(--orange);">${formatTime(duration)}</div><div style="font-size:11px;color:var(--text3);">مدت تمرین</div></div>
+    </div>`;
+  const lastW=appData.weights[appData.weights.length-1];
+  const showW=!lastW||(Date.now()-new Date(lastW.date).getTime())>3*24*60*60*1000;
+  document.getElementById('weight-reminder').style.display=showW?'':'none';
+  openModal('summary-modal');
+  showDaySelector();
+}
+function closeSummaryModal(){closeModal('summary-modal');}
+function goToWeight(){closeModal('summary-modal');switchPage('stats');}
+function checkBackupReminder(){
+  const last=parseInt(localStorage.getItem('ironlog_last_backup')||'0');
+  if(Date.now()-last>30*24*60*60*1000) setTimeout(()=>showToast('💾 یادآوری: از اطلاعاتت بکاپ بگیر!'),2000);
+}
+
+// ═══════════════════════════════════════════════════
+//  INLINE TIMER
+// ═══════════════════════════════════════════════════
+function startInlineTimer(exId, setIdx) {
+  stopInlineTimer(exId);
+  const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+  if (!ex) return;
+  const restTime=appData.restTimes[ex.category||'medium']||120;
+  const container=document.getElementById('sets-'+exId);
+  if (!container) return;
+  const restEl=document.createElement('div');
+  restEl.id='rest-inline-'+exId; restEl.className='rest-inline';
+  container.appendChild(restEl);
+  const startTS=Date.now();
+  activeInlineTimers[exId]={startTS,total:restTime,setIdx};
+  const tick=()=>{
+    const remaining=Math.max(0,restTime-Math.floor((Date.now()-startTS)/1000));
+    if (!document.getElementById('rest-inline-'+exId)){stopInlineTimer(exId);return;}
+    if (remaining<=0){stopInlineTimer(exId);timerComplete();return;}
+    const color=remaining<=10?'var(--red)':remaining<=30?'var(--orange)':'var(--accent)';
+    restEl.innerHTML=`
+      <div style="font-size:14px;">⏱</div>
+      <div class="rest-inline-label">استراحت ست ${setIdx+1}</div>
+      <div class="rest-inline-time" style="color:${color}">${formatTime(remaining)}</div>
+      <button class="rest-inline-btn skip" onclick="stopInlineTimer('${exId}')">رد</button>
+      <button class="rest-inline-btn" onclick="openRestModal(${restTime})">کامل ⏱</button>`;
+  };
+  tick();
+  activeInlineTimers[exId].intervalId=setInterval(tick,500);
+}
+
+function stopInlineTimer(exId) {
+  const t=activeInlineTimers[exId];
+  if (t?.intervalId) clearInterval(t.intervalId);
+  delete activeInlineTimers[exId];
+  const el=document.getElementById('rest-inline-'+exId);
+  if (el) el.remove();
+}
+
+function stopAllTimers() {
+  // FIX #4: پاک کردن قاطع timerInterval
+  if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+  timerRunning=false;
+  Object.keys(activeInlineTimers).forEach(id=>stopInlineTimer(id));
+}
+
+// ═══════════════════════════════════════════════════
+//  REST TIMER MODAL
+// ═══════════════════════════════════════════════════
+function openRestModal(seconds) {
+  // FIX #4: پاک کردن interval قبلی قبل از شروع جدید
+  if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+  timerRunning=false;
+  timerTotal=seconds||120; timerRemaining=timerTotal;
+  updateTimerUI();
+  document.querySelectorAll('.timer-preset-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('timer-main-btn').textContent='شروع';
+  openModal('rest-modal');
+}
+
+function setTimerPreset(seconds,btn) {
+  // FIX #4
+  if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+  timerRunning=false;
+  timerTotal=seconds; timerRemaining=seconds;
+  document.querySelectorAll('.timer-preset-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('timer-main-btn').textContent='شروع';
+  updateTimerUI();
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    // مکث
+    if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+    timerRunning=false;
+    document.getElementById('timer-main-btn').textContent='ادامه';
+  } else {
+    // FIX #4: قبل از شروع، مطمئن شو قبلی پاک شده
+    if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+    timerRunning=true;
+    timerStartTS=Date.now()-(timerTotal-timerRemaining)*1000;
+    document.getElementById('timer-main-btn').textContent='مکث';
+    timerInterval=setInterval(()=>{
+      timerRemaining=Math.max(0,timerTotal-Math.floor((Date.now()-timerStartTS)/1000));
+      updateTimerUI();
+      if (timerRemaining<=0) {
+        // FIX #4 + FIX #5
+        if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+        timerRunning=false;
+        timerComplete();
+        // FIX #5: آزاد کردن WakeLock بعد از اتمام تایمر (اگر تمرین تموم شده)
+        if (!currentDayId) releaseWakeLock();
+        closeModal('rest-modal');
+      }
+    },500);
+  }
+}
+
+function skipTimer() {
+  // FIX #4 + FIX #5
+  if (timerInterval) { clearInterval(timerInterval); timerInterval=null; }
+  timerRunning=false;
+  closeModal('rest-modal');
+}
+
+function updateTimerUI() {
+  const display=document.getElementById('timer-display');
+  const fill=document.getElementById('timer-ring-fill');
+  if (!display||!fill) return;
+  display.textContent=formatTime(timerRemaining);
+  fill.style.strokeDashoffset=CIRCUMFERENCE*(1-timerRemaining/(timerTotal||1));
+  fill.style.stroke=timerRemaining<=10?'#ef4444':timerRemaining<=30?'#f97316':'var(--accent)';
+}
+
+function timerComplete() {
+  if (appData.settings.vibrate && navigator.vibrate) {
+    navigator.vibrate([300,100,300,100,300,100,300,100,300]);
+    setTimeout(()=>{ if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]); },1600);
+  }
+  playBeep();
+  showToast('✅ زمان استراحت تمام شد!');
+  if (typeof Notification!=='undefined'&&Notification.permission==='granted') {
+    try { new Notification('IronLog ⏱',{body:'زمان استراحت تمام شد! 💪',silent:false}); }catch(e){}
+  }
+}
+
+function playBeep() {
+  try {
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    [0,0.35,0.70,1.05,1.40].forEach(delay=>{
+      const osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.frequency.value=delay<1?880:1100;osc.type='sine';
+      gain.gain.setValueAtTime(0.45,ctx.currentTime+delay);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+0.28);
+      osc.start(ctx.currentTime+delay);osc.stop(ctx.currentTime+delay+0.28);
+    });
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════════════
+//  RPE
+// ═══════════════════════════════════════════════════
+function showRPEModal(exId) {
+  rpeExId=exId;
+  const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+  document.getElementById('rpe-modal-sub').textContent=ex?ex.name:'';
+  document.querySelectorAll('.rpe-btn').forEach(b=>b.classList.remove('selected'));
+  openModal('rpe-modal');
+}
+function selectRPE(val) {
+  if (rpeExId&&currentSession[rpeExId]) { currentSession[rpeExId].rpe=val; saveSessionBackup(); }
+  document.querySelectorAll('.rpe-btn').forEach((b,i)=>b.classList.toggle('selected',i+1===val));
+  setTimeout(()=>{closeModal('rpe-modal');renderExercises();showToast(`📊 RPE ${val} — ${RPE_LABELS[val]} ثبت شد`);},400);
+}
+function skipRPE(){closeModal('rpe-modal');}
+
+// ═══════════════════════════════════════════════════
+//  HISTORY PAGE
+// ═══════════════════════════════════════════════════
+function renderHistory() { buildHistoryFilters(); renderHistoryList(); }
+
+function buildHistoryFilters() {
+  const bar=document.getElementById('history-filter-bar');
+  bar.innerHTML=`<button class="filter-chip ${historyFilter==='all'?'active':''}" onclick="filterHistory('all',this)">همه</button>`;
+  appData.days.forEach(day=>{
+    bar.innerHTML+=`<button class="filter-chip ${historyFilter===day.id?'active':''}" onclick="filterHistory('${day.id}',this)">${day.name}</button>`;
+  });
+  const exSet=new Set();
+  appData.history.forEach(s=>Object.keys(s.exercises||{}).forEach(id=>exSet.add(id)));
+  exSet.forEach(exId=>{
+    const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+    if (ex) bar.innerHTML+=`<button class="filter-chip ${historyFilter===exId?'active':''}" onclick="filterHistory('${exId}',this)">${ex.name}</button>`;
+  });
+}
+
+function filterHistory(filter,btn) {
+  historyFilter=filter;
+  document.querySelectorAll('.filter-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHistoryList();
+}
+
+function renderHistoryList() {
+  const container=document.getElementById('history-container');
+  let filtered=[...appData.history];
+  if (historyFilter!=='all') {
+    const isDay=appData.days.some(d=>d.id===historyFilter);
+    if (isDay) filtered=filtered.filter(s=>s.dayId===historyFilter);
+    else filtered=filtered.filter(s=>s.exercises?.[historyFilter]?.sets?.some(x=>x.done));
+  }
+  if (!filtered.length){
+    container.innerHTML=`<div class="history-empty"><div class="history-empty-icon">📋</div><h3>جلسه‌ای یافت نشد</h3><p>تمرین کن تا تاریخچه‌ات پر بشه!</p></div>`;
+    return;
+  }
+  container.innerHTML='';
+  [...filtered].reverse().forEach((session,idx)=>{
+    const date=new Date(session.date);
+    const dateStr=date.toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    let totalSets=0,totalVol=0;
+    Object.values(session.exercises||{}).forEach(ex=>ex.sets?.forEach(s=>{
+      if (s.done){totalSets++;totalVol+=(parseFloat(s.weight)||0)*(parseInt(s.reps)||0);}
+    }));
+    const card=document.createElement('div');
+    card.className='session-card';
+    card.innerHTML=`
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot"></div>
+        <div class="session-info">
+          <div class="session-title">${session.dayName||'تمرین'}</div>
+          <div class="session-date">${dateStr}</div>
+          <div class="session-stats">
+            <div class="session-stat"><strong>${totalSets}</strong> ست</div>
+            <div class="session-stat"><strong>${Math.round(totalVol).toLocaleString()}</strong> kg حجم</div>
+            ${session.duration?`<div class="session-stat">⏱ <strong>${formatTime(session.duration)}</strong></div>`:''}
+          </div>
+        </div>
+        <svg class="session-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="session-body">
+        ${buildSessionBody(session)}
+        <div class="session-actions">
+          <button class="btn btn-coach btn-sm" onclick="shareCoachReport(${session.id})">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            ارسال گزارش برای مربی
+          </button>
+          <button class="btn btn-danger btn-xs" onclick="deleteSession(${session.id})">🗑 حذف</button>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function buildSessionBody(session) {
+  const day=appData.days.find(d=>d.id===session.dayId);
+  if (!session.exercises) return '<div style="color:var(--text3);font-size:12px;text-align:center;padding:10px 0;">ستی ثبت نشده</div>';
+  let html='';
+  const exOrder=day?day.exercises.map(e=>e.id):Object.keys(session.exercises);
+  exOrder.forEach(exId=>{
+    const exData=session.exercises[exId];
+    if (!exData?.sets) return;
+    const done=exData.sets.filter(s=>s.done);
+    if (!done.length) return;
+    const exDef=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+    const prevSets=getPrevSessionSetsForSession(session.id,exId);
+    html+=`<div class="session-exercise">
+      <div class="session-ex-name">${exDef?exDef.name:exId}</div>
+      ${done.map((s,i)=>{
+        const cmp=calcSetCompare(s,prevSets[i]);
+        const cmpBadge=cmp.cls!=='empty'?`<span style="font-size:11px;font-weight:700;color:${cmp.cls==='up'?'var(--green)':cmp.cls==='down'?'var(--red)':'var(--text3)'};">${cmp.arrow}${cmp.diff}</span>`:'';
+        return `<div class="session-set-row">
+          <span>ست ${i+1}:</span>
+          <span>${s.weight||'-'}kg × ${s.reps||'-'} تکرار</span>
+          ${cmpBadge}
+          ${s.dropSet?'<span class="badge badge-orange" style="font-size:10px;">دراپ</span>':''}
+          ${s.rir!==''&&s.rir!==undefined?`<span style="font-size:10px;color:var(--text3);">RIR:${s.rir}</span>`:''}
+          <span style="font-size:10px;color:var(--text3);">1RM≈${calc1RM(parseFloat(s.weight)||0,parseInt(s.reps)||0)}kg</span>
+        </div>`;
+      }).join('')}
+      ${exData.rpe?`<div style="font-size:11px;color:var(--text3);margin-top:2px;">RPE: ${exData.rpe}/5 — ${RPE_LABELS[exData.rpe]}</div>`:''}
+      ${exData.note?`<div class="session-note"><div class="session-note-label">یادداشت</div>${exData.note}</div>`:''}
+    </div>`;
+  });
+  return html||'<div style="color:var(--text3);font-size:12px;text-align:center;padding:10px 0;">ستی ثبت نشده</div>';
+}
+
+function toggleSession(headerEl) {
+  const body=headerEl.nextElementSibling;
+  const chevron=headerEl.querySelector('.session-chevron');
+  if (!body) return;
+  const open=body.classList.toggle('open');
+  chevron.classList.toggle('open',open);
+}
+
+function deleteSession(sessionId) {
+  showConfirm('حذف جلسه','این جلسه تمرینی حذف شود؟','🗑️',true,ok=>{
+    if (!ok) return;
+    const idx=appData.history.findIndex(s=>s.id===sessionId);
+    if (idx===-1) return;
+    const removed=appData.history.splice(idx,1)[0];
+    saveData(); renderHistoryList();
+    showUndo('جلسه حذف شد',()=>{
+      appData.history.splice(idx,0,removed);
+      saveData(); renderHistoryList();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  COACH REPORT  (قابلیت جدید)
+// ═══════════════════════════════════════════════════
+async function shareCoachReport(sessionId) {
+  const session = appData.history.find(s => s.id === sessionId);
+  if (!session) return;
+
+  const report = buildCoachReportText(session);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `گزارش تمرین — ${session.dayName||'تمرین'}`,
+        text:  report
+      });
+    } catch(e) {
+      // کاربر کنسل کرد یا خطا
+      if (e.name !== 'AbortError') {
+        copyReportToClipboard(report);
+      }
+    }
+  } else {
+    copyReportToClipboard(report);
+  }
+}
+
+function copyReportToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(()=>showToast('📋 گزارش کپی شد'))
+      .catch(()=>fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta=document.createElement('textarea');
+  ta.value=text;
+  ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try { document.execCommand('copy'); showToast('📋 گزارش کپی شد'); }
+  catch(e) { showToast('❌ کپی انجام نشد'); }
+  document.body.removeChild(ta);
+}
+
+function buildCoachReportText(session) {
+  const appName = appData.settings.appName || 'IronLog';
+  const date    = new Date(session.date).toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const day     = appData.days.find(d=>d.id===session.dayId);
+
+  // آمار کلی
+  let totalSets=0, totalVol=0, duration='—';
+  Object.values(session.exercises||{}).forEach(ex=>ex.sets?.forEach(s=>{
+    if (s.done){totalSets++;totalVol+=(parseFloat(s.weight)||0)*(parseInt(s.reps)||0);}
+  }));
+  if (session.duration) duration = formatTime(session.duration);
+
+  let lines = [];
+  lines.push(`🏋️ گزارش تمرین — ${appName}`);
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`📅 تاریخ: ${date}`);
+  lines.push(`📋 برنامه: ${session.dayName||'تمرین'}`);
+  lines.push(`⏱ مدت تمرین: ${duration}`);
+  lines.push(`📊 تعداد ست: ${totalSets} | حجم کل: ${Math.round(totalVol).toLocaleString()} kg`);
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push('');
+
+  const exOrder = day ? day.exercises.map(e=>e.id) : Object.keys(session.exercises||{});
+
+  exOrder.forEach(exId => {
+    const exData = session.exercises?.[exId];
+    if (!exData?.sets) return;
+    const done = exData.sets.filter(s=>s.done);
+    if (!done.length) return;
+
+    const exDef = appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+    const exName = exDef ? exDef.name : exId;
+
+    // ست‌های جلسه قبل برای مقایسه
+    const prevSets = getPrevSessionSetsForSession(session.id, exId);
+
+    lines.push(`▸ ${exName}`);
+
+    done.forEach((s, i) => {
+      const w  = s.weight||'-';
+      const r  = s.reps||'-';
+      const rm = calc1RM(parseFloat(s.weight)||0, parseInt(s.reps)||0);
+
+      // مقایسه با ست متناظر جلسه قبل
+      const cmp = calcSetCompare(s, prevSets[i]);
+      let cmpText = '';
+      if (cmp.cls === 'up')   cmpText = ` ↑${cmp.diff}`;
+      if (cmp.cls === 'down') cmpText = ` ↓${cmp.diff}`;
+      if (cmp.cls === 'same') cmpText = ' ←';
+
+      let setLine = `  ست ${toPersianNum(i+1)}: ${w}kg × ${r} تکرار`;
+      if (rm>0) setLine += ` (1RM≈${rm}kg)`;
+      setLine += cmpText;
+      if (s.dropSet) setLine += ' 🔻دراپ';
+      if (s.rir!==''&&s.rir!==undefined) setLine += ` | RIR:${s.rir}`;
+      lines.push(setLine);
+    });
+
+    if (exData.rpe) {
+      lines.push(`  📊 سختی (RPE): ${exData.rpe}/5 — ${RPE_LABELS[exData.rpe]}`);
+    }
+    if (exData.note && exData.note.trim()) {
+      lines.push(`  📝 یادداشت: ${exData.note.trim()}`);
+    }
+    lines.push('');
+  });
+
+  lines.push(`━━━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`ارسال شده از ${appName} 💪`);
+
+  return lines.join('\n');
+}
+
+// تبدیل عدد به فارسی
+function toPersianNum(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+// ═══════════════════════════════════════════════════
+//  STATS PAGE
+// ═══════════════════════════════════════════════════
+function renderStats() {
+  renderStatCards(); renderWeightSection();
+  renderExProgressChart(); renderPRList(); renderVolumeList();
+}
+
+function renderStatCards() {
+  let totalSets=0,totalVol=0; const prMap={};
+  appData.history.forEach(s=>Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
+    exData.sets?.forEach(set=>{
+      if (!set.done) return;
+      totalSets++;
+      const w=parseFloat(set.weight)||0,r=parseInt(set.reps)||0;
+      totalVol+=w*r;
+      if (!prMap[exId]||w>prMap[exId]) prMap[exId]=w;
+    });
+  }));
+  const now=new Date();
+  const thisMonth=appData.history.filter(s=>{
+    const d=new Date(s.date);
+    return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
+  }).length;
+  document.getElementById('stats-cards').innerHTML=`
+    <div class="stat-card"><div class="stat-card-val">${appData.history.length}</div><div class="stat-card-label">کل جلسات</div></div>
+    <div class="stat-card"><div class="stat-card-val">${thisMonth}</div><div class="stat-card-label">جلسات این ماه</div></div>
+    <div class="stat-card"><div class="stat-card-val">${totalSets}</div><div class="stat-card-label">ست انجام شده</div></div>
+    <div class="stat-card"><div class="stat-card-val">${(totalVol/1000).toFixed(1)}t</div><div class="stat-card-label">حجم کل</div></div>`;
+}
+
+function renderWeightSection() { renderWeightLog(); }
+
+function addWeight() {
+  const input=document.getElementById('weight-input');
+  const val=parseFloat(input.value);
+  if (!val||val<20||val>400){showToast('❌ وزن باید بین ۲۰ تا ۴۰۰ باشد');return;}
+  appData.weights.push({date:new Date().toISOString(),weight:val});
+  appData.weights.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  saveData(); input.value='';
+  renderWeightLog(); showToast('⚖️ وزن ثبت شد');
+}
+
+// FIX #1 + FIX #2: renderWeightLog با ایندکس واقعی و ذخیره صحیح در Undo
+function renderWeightLog() {
+  const log    =document.getElementById('weight-log');
+  const chartEl=document.getElementById('weight-chart');
+
+  if (!appData.weights.length) {
+    log.innerHTML='<div style="padding:12px;text-align:center;color:var(--text3);font-size:12px;">وزنی ثبت نشده</div>';
+    if (chartEl) chartEl.innerHTML='';
+    return;
+  }
+
+  // FIX #1: نگه‌داشتن ایندکس واقعی در آرایه اصلی
+  const indexedWeights = appData.weights
+    .map((w, realIdx) => ({...w, realIdx}))
+    .reverse()
+    .slice(0, 10);
+
+  log.innerHTML = indexedWeights.map((w, displayIdx) => {
+    const date = new Date(w.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    const prev = indexedWeights[displayIdx+1];
+    let diffHtml = '';
+    if (prev) {
+      const diff = w.weight - prev.weight;
+      diffHtml = `<span style="font-size:11px;color:${diff<0?'var(--green)':diff>0?'var(--red)':'var(--text3)'};">${diff>0?'+':''}${diff.toFixed(1)}</span>`;
+    }
+    // FIX #1: استفاده از realIdx برای حذف
+    return `<div class="weight-row">
+      <div class="weight-date">${date}</div>
+      ${diffHtml}
+      <div><span class="weight-val">${w.weight}</span> <span class="weight-kg">kg</span></div>
+      <button class="weight-delete" onclick="deleteWeight(${w.realIdx})">×</button>
+    </div>`;
+  }).join('');
+
+  drawLineChart(chartEl, appData.weights.slice(-12).map(d=>({
+    x:new Date(d.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric'}),
+    y:d.weight
+  })));
+}
+
+// FIX #1 + FIX #2: حذف با ایندکس واقعی و ذخیره در Undo
+function deleteWeight(realIdx) {
+  if (realIdx < 0 || realIdx >= appData.weights.length) return;
+  showConfirm('حذف وزن','این رکورد وزن حذف شود؟','🗑️',false, ok => {
+    if (!ok) return;
+    const removed = appData.weights.splice(realIdx, 1)[0];
+    saveData(); // ذخیره بلافاصله
+    renderWeightLog();
+    showUndo('وزن حذف شد', () => {
+      appData.weights.splice(realIdx, 0, removed);
+      appData.weights.sort((a,b) => new Date(a.date)-new Date(b.date));
+      saveData(); // FIX #2: ذخیره پس از Undo
+      renderWeightLog();
+    });
+  });
+}
+
+function renderExProgressChart() {
+  const selector=document.getElementById('ex-chart-selector');
+  const chartEl =document.getElementById('ex-progress-chart');
+  if (!selector) return;
+  const exWithData={};
+  appData.history.forEach(s=>{
+    Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
+      if (exData.sets?.some(x=>x.done&&x.weight)) {
+        if (!exWithData[exId]) exWithData[exId]=[];
+        const best=exData.sets.filter(x=>x.done&&x.weight).sort((a,b)=>parseFloat(b.weight)-parseFloat(a.weight))[0];
+        if (best) exWithData[exId].push({date:s.date,weight:parseFloat(best.weight),reps:parseInt(best.reps)||0});
+      }
+    });
+  });
+  const exIds=Object.keys(exWithData);
+  if (!exIds.length){
+    selector.innerHTML='<div style="color:var(--text3);font-size:12px;">هنوز داده‌ای ثبت نشده</div>';
+    if (chartEl) chartEl.innerHTML=''; return;
+  }
+  if (!selectedExChartId||!exWithData[selectedExChartId]) selectedExChartId=exIds[0];
+  selector.innerHTML=exIds.map(id=>{
+    const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===id);
+    return `<button class="ex-chip ${selectedExChartId===id?'active':''}" onclick="selectExChart('${id}')">${ex?ex.name:id}</button>`;
+  }).join('');
+  drawLineChart(chartEl,(exWithData[selectedExChartId]||[]).map(d=>({
+    x:new Date(d.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric'}),y:d.weight
+  })));
+}
+function selectExChart(exId){selectedExChartId=exId;renderExProgressChart();}
+
+function drawLineChart(svgEl, data) {
+  if (!svgEl) return;
+  if (!data||data.length<2){svgEl.innerHTML='';return;}
+  const W=svgEl.clientWidth||340,H=svgEl.clientHeight||80;
+  const pad={top:10,right:10,bottom:22,left:32};
+  const vals=data.map(d=>d.y),minV=Math.min(...vals),maxV=Math.max(...vals),range=maxV-minV||1;
+  const xStep=(W-pad.left-pad.right)/(data.length-1),yScale=(H-pad.top-pad.bottom)/range;
+  const pts=data.map((d,i)=>({x:pad.left+i*xStep,y:H-pad.bottom-(d.y-minV)*yScale,d}));
+  const pathD=pts.map((p,i)=>`${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const areaD=pathD+` L${pts[pts.length-1].x},${H-pad.bottom} L${pts[0].x},${H-pad.bottom} Z`;
+  const uid=svgEl.id||'c';
+  svgEl.innerHTML=`<defs><linearGradient id="cg${uid}" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+  </linearGradient></defs>
+  <path d="${areaD}" fill="url(#cg${uid})"/>
+  <path d="${pathD}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  ${pts.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="var(--accent)"/>
+    <text x="${p.x.toFixed(1)}" y="${(H-2).toFixed(1)}" font-size="8" fill="var(--text3)" text-anchor="middle">${p.d.x}</text>`).join('')}
+  <text x="${(pad.left-2).toFixed(1)}" y="${(pts.reduce((a,b)=>a.y<b.y?a:b).y+4).toFixed(1)}" font-size="8" fill="var(--text3)" text-anchor="end">${maxV}kg</text>
+  <text x="${(pad.left-2).toFixed(1)}" y="${(H-pad.bottom+4).toFixed(1)}" font-size="8" fill="var(--text3)" text-anchor="end">${minV}kg</text>`;
+}
+
+function renderPRList() {
+  const prMap={},exMap={};
+  appData.days.flatMap(d=>d.exercises).forEach(e=>exMap[e.id]=e);
+  appData.history.forEach(s=>Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
+    exData.sets?.forEach(set=>{
+      if (!set.done) return;
+      const w=parseFloat(set.weight)||0;
+      if (!prMap[exId]||w>prMap[exId].weight) prMap[exId]={weight:w,reps:parseInt(set.reps)||0};
+    });
+  }));
+  const entries=Object.entries(prMap).sort((a,b)=>b[1].weight-a[1].weight);
+  document.getElementById('pr-list').innerHTML=entries.length
+    ?entries.map(([id,data])=>`<div class="pr-row">
+        <div class="pr-icon">🏆</div>
+        <div class="pr-name">${exMap[id]?exMap[id].name:id}</div>
+        <div><div class="pr-val">${data.weight}kg</div><div class="pr-1rm">1RM ≈ ${calc1RM(data.weight,data.reps)}kg</div></div>
+      </div>`).join('')
+    :'<div style="padding:20px;text-align:center;color:var(--text3);">هنوز رکوردی ثبت نشده</div>';
+}
+
+function renderVolumeList() {
+  const volMap={},exMap={};
+  appData.days.flatMap(d=>d.exercises).forEach(e=>exMap[e.id]=e);
+  appData.history.forEach(s=>Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
+    exData.sets?.forEach(set=>{if(set.done)volMap[exId]=(volMap[exId]||0)+(parseFloat(set.weight)||0)*(parseInt(set.reps)||0);});
+  }));
+  const entries=Object.entries(volMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxV=entries[0]?.[1]||1;
+  document.getElementById('volume-list').innerHTML=entries.length
+    ?entries.map(([id,vol])=>`<div class="volume-bar">
+        <div class="volume-name">${exMap[id]?exMap[id].name:id}</div>
+        <div class="volume-track"><div class="volume-fill" style="width:${(vol/maxV*100).toFixed(1)}%"></div></div>
+        <div class="volume-val">${Math.round(vol).toLocaleString()} kg</div>
+      </div>`).join('')
+    :'<div style="color:var(--text3);font-size:12px;padding:10px 0;text-align:center;">هنوز داده‌ای ثبت نشده</div>';
+}
+
+function calc1RM(weight,reps) {
+  if (!weight||!reps||reps<1) return 0;
+  if (reps===1) return weight;
+  return Math.round(weight*(1+reps/30));
+}
+
+// ═══════════════════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════════════════
+function renderSettings() {
+  const s=appData.settings;
+  const st=(id,val)=>{const el=document.getElementById(id);if(el)el.className='toggle'+(val?' on':'');};
+  st('toggle-vibrate',s.vibrate);st('toggle-autotimer',s.autoTimer);
+  st('toggle-rpe',s.askRPE);st('toggle-rir',s.showRIR);
+  const h=document.getElementById('rest-heavy'),m=document.getElementById('rest-medium'),l=document.getElementById('rest-light');
+  if(h)h.value=appData.restTimes.heavy||180;
+  if(m)m.value=appData.restTimes.medium||120;
+  if(l)l.value=appData.restTimes.light||90;
+  const gi=document.getElementById('monthly-goal-input');if(gi)gi.value=appData.monthlyGoal||12;
+  const sub=document.getElementById('app-name-sub');if(sub)sub.textContent=s.appName||'IronLog';
+  document.getElementById('day-manager').innerHTML=appData.days.map(day=>`
+    <div class="day-editor-item">
+      <span style="font-size:18px;">${day.icon}</span>
+      <span class="day-editor-name">${day.name}</span>
+      <button class="day-editor-btn" onclick="editDayName('${day.id}')">✏️</button>
+      <button class="day-editor-btn" style="color:var(--red);" onclick="deleteDay('${day.id}')">🗑</button>
+    </div>`).join('');
+  document.getElementById('exercise-manager-days').innerHTML=appData.days.map(day=>`
+    <div class="sec-title" style="margin-top:16px;">${day.name}</div>
+    <div class="settings-section">
+      ${day.exercises.map(ex=>`<div class="exercise-editor-item">
+        <span class="exercise-editor-name">${ex.name}</span>
+        <button class="day-editor-btn" onclick="editExerciseName('${day.id}','${ex.id}')">✏️</button>
+        <button class="exercise-editor-btn" onclick="deleteExercise('${day.id}','${ex.id}')">×</button>
+      </div>`).join('')}
+      <div style="padding:8px 16px;">
+        <button class="btn btn-ghost btn-sm" style="width:100%;" onclick="addExercise('${day.id}')">+ افزودن حرکت</button>
+      </div>
+    </div>`).join('');
+  if (typeof Notification!=='undefined'&&Notification.permission==='default') {
+    Notification.requestPermission().catch(()=>{});
+  }
+}
+
+function toggleSetting(key,el) {
+  appData.settings[key]=!appData.settings[key];
+  el.className='toggle'+(appData.settings[key]?' on':'');
+  saveData();
+}
+function saveRestTimes() {
+  const h=parseInt(document.getElementById('rest-heavy').value);
+  const m=parseInt(document.getElementById('rest-medium').value);
+  const l=parseInt(document.getElementById('rest-light').value);
+  if(h<10||h>600||m<10||m>600||l<10||l>600){showToast('❌ زمان باید بین ۱۰ تا ۶۰۰ ثانیه باشد');return;}
+  appData.restTimes={heavy:h,medium:m,light:l};saveData();showToast('✅ ذخیره شد');
+}
+function saveMonthlyGoal() {
+  const val=parseInt(document.getElementById('monthly-goal-input').value);
+  if(!val||val<1||val>31){showToast('❌ هدف باید بین ۱ تا ۳۱ باشد');return;}
+  appData.monthlyGoal=val;saveData();showToast('🎯 هدف ذخیره شد');
+}
+function editDayName(dayId) {
+  const day=appData.days.find(d=>d.id===dayId);if(!day)return;
+  showInputModal('ویرایش نام روز',day.name,val=>{
+    if(val?.trim()){day.name=val.trim();saveData();renderSettings();showToast('✅ ذخیره شد');}
+  });
+}
+
+// FIX #6: deleteDay — ریست وضعیت تمرین اگر روز فعال حذف شود
+function deleteDay(dayId) {
+  if(appData.days.length<=1){showToast('❌ حداقل یک روز باید وجود داشته باشد');return;}
+  showConfirm('حذف روز','این روز و تمام حرکاتش حذف شود؟','🗑️',true,ok=>{
+    if(!ok)return;
+    const idx=appData.days.findIndex(d=>d.id===dayId);
+    const removed=appData.days.splice(idx,1)[0];
+
+    // FIX #6: اگر روز حذف شده همان روز فعال تمرین است، ریست کن
+    if (currentDayId === dayId) {
+      currentDayId    = null;
+      currentSession  = {};
+      clearSessionBackup();
+      stopAllTimers();
+      stopSessionTimer();
+      releaseWakeLock();
+      // برگشت به نمای انتخاب روز در صورتی که صفحه تمرین نمایش داشت
+      const exerciseView = document.getElementById('exercise-view');
+      const daySelectorView = document.getElementById('day-selector-view');
+      if (exerciseView && exerciseView.style.display !== 'none') {
+        exerciseView.style.display = 'none';
+        if (daySelectorView) daySelectorView.style.display = '';
+      }
+    }
+
+    saveData();renderSettings();renderDayCards();
+    showUndo('روز حذف شد',()=>{
+      appData.days.splice(idx,0,removed);
+      saveData();renderSettings();renderDayCards();
+    });
+  });
+}
+
+function editExerciseName(dayId,exId) {
+  const day=appData.days.find(d=>d.id===dayId);
+  const ex=day?.exercises.find(e=>e.id===exId);if(!ex)return;
+  showInputModal('ویرایش نام حرکت',ex.name,val=>{
+    if(val?.trim()){ex.name=val.trim();saveData();renderSettings();}
+  });
+}
+function deleteExercise(dayId,exId) {
+  showConfirm('حذف حرکت','این حرکت حذف شود؟','🗑️',true,ok=>{
+    if(!ok)return;
+    const day=appData.days.find(d=>d.id===dayId);if(!day)return;
+    const idx=day.exercises.findIndex(e=>e.id===exId);
+    const removed=day.exercises.splice(idx,1)[0];
+    saveData();renderSettings();
+    showUndo('حرکت حذف شد',()=>{day.exercises.splice(idx,0,removed);saveData();renderSettings();});
+  });
+}
+function addExercise(dayId) {
+  showInputModal('نام حرکت جدید','',val=>{
+    if(!val?.trim())return;
+    const day=appData.days.find(d=>d.id===dayId);if(!day)return;
+    day.exercises.push({id:'ex_'+Date.now(),name:val.trim(),reps:'10-12',sets:3,category:'medium',superset:null});
+    saveData();renderSettings();showToast('✅ حرکت اضافه شد');
+  });
+}
+function showAddDayModal() {
+  showInputModal('نام روز تمرین جدید','',val=>{
+    if(!val?.trim())return;
+    appData.days.push({id:'day_'+Date.now(),name:val.trim(),icon:'🏋️',desc:'',totalSets:0,exercises:[]});
+    saveData();renderSettings();showToast('✅ روز اضافه شد');
+  });
+}
+function exportData() {
+  const blob=new Blob([JSON.stringify(appData,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='ironlog-backup-'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+  localStorage.setItem('ironlog_last_backup',Date.now().toString());
+  showToast('💾 بکاپ دانلود شد');
+}
+function importData(input) {
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try {
+      const parsed=JSON.parse(e.target.result);
+      showConfirm('بازیابی بکاپ','تمام اطلاعات فعلی جایگزین می‌شود. ادامه می‌دهید؟','📥',true,ok=>{
+        if(!ok)return;
+        const mig=migrateData(parsed);
+        appData=Object.assign({},appData,mig);
+        if(!appData.days?.length) appData.days=JSON.parse(JSON.stringify(DEFAULT_DAYS));
+        saveData();applyTheme(appData.settings.theme||'default');applyAppName(appData.settings.appName);
+        renderSettings();renderDayCards();showToast('✅ بکاپ بازیابی شد');
+      });
+    }catch(err){showToast('❌ فایل معتبر نیست');}
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+function clearHistory() {
+  showConfirm('پاک کردن تاریخچه','تمام جلسات پاک شود؟','⚠️',true,ok=>{
+    if(!ok)return;
+    appData.history=[];saveData();showToast('🗑 تاریخچه پاک شد');
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  MODALS
+// ═══════════════════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function showInputModal(title,defaultVal,callback) {
+  document.getElementById('input-modal-title').textContent=title;
+  document.getElementById('input-modal-field').value=defaultVal||'';
+  inputModalCallback=callback;
+  openModal('input-modal');
+  setTimeout(()=>document.getElementById('input-modal-field').focus(),300);
+}
+function closeInputModal(){closeModal('input-modal');inputModalCallback=null;}
+function confirmInputModal(){
+  const val=document.getElementById('input-modal-field').value;
+  const cb=inputModalCallback;closeInputModal();if(cb)cb(val);
+}
+function showConfirm(title,text,icon,isDanger,callback) {
+  document.getElementById('confirm-icon').textContent=icon;
+  document.getElementById('confirm-title').textContent=title;
+  document.getElementById('confirm-text').textContent=text;
+  const btn=document.getElementById('confirm-ok-btn');
+  btn.className=isDanger?'btn btn-danger':'btn btn-primary';
+  btn.style.flex='1';
+  confirmCallback=callback;
+  document.getElementById('confirm-dialog').classList.add('open');
+}
+function closeConfirm(result){
+  document.getElementById('confirm-dialog').classList.remove('open');
+  const cb=confirmCallback;confirmCallback=null;if(cb)cb(result);
+}
+function showUndo(text,callback) {
+  document.getElementById('undo-bar-text').textContent=text;
+  undoStack.push(callback);
+  document.getElementById('undo-bar').classList.add('show');
+  clearTimeout(undoTimeout);
+  undoTimeout=setTimeout(()=>{document.getElementById('undo-bar').classList.remove('show');undoStack=[];},4000);
+}
+function performUndo(){
+  const fn=undoStack.pop();if(fn)fn();
+  document.getElementById('undo-bar').classList.remove('show');clearTimeout(undoTimeout);
+}
+
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
+let toastTimeout;
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ═══════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════
+function formatTime(s) {
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;
+  if(h>0)return`${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  return`${m}:${String(sec).padStart(2,'0')}`;
+}
+
+// ═══════════════════════════════════════════════════
+//  EVENT LISTENERS
+// ═══════════════════════════════════════════════════
+document.getElementById('rest-modal').addEventListener('click',function(e){if(e.target===this)skipTimer();});
+document.getElementById('input-modal').addEventListener('click',function(e){if(e.target===this)closeInputModal();});
+document.getElementById('rpe-modal').addEventListener('click',function(e){if(e.target===this)skipRPE();});
+document.getElementById('theme-modal').addEventListener('click',function(e){if(e.target===this)closeModal('theme-modal');});
+document.getElementById('summary-modal').addEventListener('click',function(e){if(e.target===this)closeSummaryModal();});
+document.getElementById('confirm-dialog').addEventListener('click',function(e){if(e.target===this)closeConfirm(false);});
+document.getElementById('input-modal-field').addEventListener('keydown',e=>{if(e.key==='Enter')confirmInputModal();});
+
+// ═══════════════════════════════════════════════════
+//  RESUME SESSION
+// ═══════════════════════════════════════════════════
+function checkAndResumeWorkout() {
+  const savedDayId =localStorage.getItem('ironlog_active_day_id');
+  const savedSess  =localStorage.getItem('ironlog_active_session');
+  const savedStart =localStorage.getItem('ironlog_session_start');
+  if (savedDayId && savedSess) {
+    try {
+      // بررسی که روز هنوز وجود داشته باشد
+      const dayExists = appData.days.some(d => d.id === savedDayId);
+      if (!dayExists) { clearSessionBackup(); renderDayCards(); return; }
+      currentDayId    =savedDayId;
+      currentSession  =JSON.parse(savedSess);
+      sessionStartTime=savedStart?parseInt(savedStart):Date.now();
+      showToast('🔄 تمرین نیمه‌تمام بازیابی شد');
+      showExerciseView();
+    }catch(e){clearSessionBackup();renderDayCards();}
+  } else { renderDayCards(); }
+}
+
+// ═══════════════════════════════════════════════════
+//  SERVICE WORKER
+// ═══════════════════════════════════════════════════
+function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  const sw=`const C='ilv2';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;
+  const blob=new Blob([sw],{type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+}
+
+// ═══════════════════════════════════════════════════
+//  WELCOME SCREEN
+// ═══════════════════════════════════════════════════
+function checkFirstVisit() {
+  const visited = localStorage.getItem('ironlog_visited');
+  if (!visited) {
+    // اولین بار — نمایش صفحه خوش‌آمد
+    document.getElementById('welcome-screen').classList.remove('hidden');
+  } else {
+    // بازگشت — مستقیم وارد برنامه
+    document.getElementById('welcome-screen').classList.add('hidden');
+  }
+}
+function goToSetupProgram() {
+  // علامت‌گذاری بازدید
+  localStorage.setItem('ironlog_visited', '1');
+  // مخفی کردن صفحه خوش‌آمد با انیمیشن
+  const ws = document.getElementById('welcome-screen');
+  ws.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+  ws.style.opacity = '0';
+  ws.style.transform = 'scale(0.96)';
+  setTimeout(() => { ws.classList.add('hidden'); ws.style.transition=''; ws.style.opacity=''; ws.style.transform=''; }, 400);
+  // رفتن به تب تنظیمات و اسکرول به بخش مدیریت روزها
+  switchPage('settings');
+  setTimeout(() => {
+    const dayManager = document.getElementById('day-manager');
+    if (dayManager) dayManager.scrollIntoView({behavior:'smooth', block:'start'});
+    showToast('💡 از اینجا روزها و حرکاتت را اضافه کن');
+  }, 400);
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+function init() {
+  loadData();
+  applyTheme(appData.settings.theme||'default');
+  applyAppName(appData.settings.appName);
+  const dateEl=document.getElementById('workout-date-text');
+  if(dateEl) dateEl.textContent=new Date().toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  checkAndResumeWorkout();
+  registerSW();
+  checkFirstVisit();
+  window.addEventListener('resize',()=>{
+    if(document.getElementById('page-stats').classList.contains('active'))renderStats();
+  });
+}
+init();
+</script>
+</body>
+</html>
