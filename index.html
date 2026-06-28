@@ -16,26 +16,28 @@
 
 /* ═══ THEMES ═══ */
 :root {
-  --bg:#0a0a0f; --bg2:#111118; --bg3:#18181f; --bg4:#1e1e28;
-  --glass:rgba(255,255,255,0.04); --glass2:rgba(255,255,255,0.07);
-  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
-  --accent:#7c6fff; --accent2:#5b4fff;
-  --accent-glow:rgba(124,111,255,0.3); --accent-soft:rgba(124,111,255,0.12);
+  --bg:#08080a; --bg2:#0d0d10; --bg3:#141417; --bg4:#1a1a1e;
+  --glass:rgba(255,255,255,0.03); --glass2:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
+  --accent:#e8431a; --accent2:#c93310;
+  --accent-glow:rgba(232,67,26,0.35); --accent-soft:rgba(232,67,26,0.10);
   --green:#22c55e; --green-soft:rgba(34,197,94,0.12);
   --red:#ef4444; --orange:#f97316; --yellow:#eab308;
-  --text:#f0f0f8; --text2:#a0a0b8; --text3:#606078;
-  --radius:16px; --radius-sm:10px; --nav-h:68px;
-  --transition:0.25s cubic-bezier(0.4,0,0.2,1);
+  --text:#eeeef0; --text2:#909098; --text3:#505058;
+  --radius:12px; --radius-sm:8px; --nav-h:68px;
+  --transition:0.22s cubic-bezier(0.4,0,0.2,1);
   --blur:blur(20px);
-  --glass-bg:rgba(10,10,15,0.85);
-  --glass-card:rgba(255,255,255,0.05);
-  --glass-border:rgba(255,255,255,0.10);
+  --glass-bg:rgba(8,8,10,0.90);
+  --glass-card:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.08);
 }
 [data-theme="ocean"]{--bg:#040d18;--bg2:#071525;--bg3:#0a1e35;--bg4:#0f2847;--accent:#38bdf8;--accent2:#0ea5e9;--accent-glow:rgba(56,189,248,0.3);--accent-soft:rgba(56,189,248,0.12);--glass-card:rgba(56,189,248,0.04);--glass-border:rgba(56,189,248,0.12);}
 [data-theme="rose"]{--bg:#120810;--bg2:#1c0f1a;--bg3:#261525;--bg4:#321c30;--accent:#f472b6;--accent2:#ec4899;--accent-glow:rgba(244,114,182,0.3);--accent-soft:rgba(244,114,182,0.12);--glass-card:rgba(244,114,182,0.04);--glass-border:rgba(244,114,182,0.12);}
 [data-theme="forest"]{--bg:#050f08;--bg2:#0a1a0f;--bg3:#0f2416;--bg4:#163020;--accent:#4ade80;--accent2:#22c55e;--accent-glow:rgba(74,222,128,0.3);--accent-soft:rgba(74,222,128,0.12);--glass-card:rgba(74,222,128,0.04);--glass-border:rgba(74,222,128,0.12);}
 [data-theme="amber"]{--bg:#100b00;--bg2:#1a1200;--bg3:#241900;--bg4:#2e2100;--accent:#fbbf24;--accent2:#f59e0b;--accent-glow:rgba(251,191,36,0.3);--accent-soft:rgba(251,191,36,0.12);--glass-card:rgba(251,191,36,0.04);--glass-border:rgba(251,191,36,0.12);}
-[data-theme="light"]{--bg:#f0f2f8;--bg2:#e8eaf5;--bg3:#dde0f0;--bg4:#d0d4eb;--glass:rgba(0,0,0,0.03);--glass2:rgba(0,0,0,0.06);--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);--text:#111128;--text2:#404060;--text3:#808098;--glass-bg:rgba(240,242,248,0.85);--glass-card:rgba(0,0,0,0.03);--glass-border:rgba(124,111,255,0.2);}
+[data-theme="violet"]{--bg:#0a0a0f;--bg2:#111118;--bg3:#18181f;--bg4:#1e1e28;--accent:#7c6fff;--accent2:#5b4fff;--accent-glow:rgba(124,111,255,0.3);--accent-soft:rgba(124,111,255,0.12);--glass-card:rgba(124,111,255,0.04);--glass-border:rgba(124,111,255,0.10);}
+[data-theme="steel"]{--bg:#060810;--bg2:#0b0e1a;--bg3:#111525;--bg4:#171c30;--accent:#4a9eff;--accent2:#2d7dd6;--accent-glow:rgba(74,158,255,0.3);--accent-soft:rgba(74,158,255,0.10);--glass-card:rgba(74,158,255,0.04);--glass-border:rgba(74,158,255,0.10);}
+[data-theme="light"]{--bg:#f0f0f2;--bg2:#e6e6ea;--bg3:#dcdce2;--bg4:#d0d0d8;--glass:rgba(0,0,0,0.03);--glass2:rgba(0,0,0,0.06);--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);--text:#0e0e10;--text2:#3c3c42;--text3:#606068;--glass-bg:rgba(240,240,242,0.90);--glass-card:rgba(0,0,0,0.03);--glass-border:rgba(232,67,26,0.2);}
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;line-height:1.6;overflow:hidden;}
@@ -45,14 +47,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 .page.active{display:block;}
 .page::-webkit-scrollbar{display:none;}
 
-.page-header{position:sticky;top:0;z-index:10;background:var(--glass-bg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);padding:16px 20px 12px;border-bottom:1px solid var(--glass-border);}
-.page-header h1{font-size:22px;font-weight:700;}
-.page-header p{font-size:12px;color:var(--text3);margin-top:2px;}
+.page-header{position:sticky;top:0;z-index:10;background:var(--glass-bg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);padding:16px 20px 12px;border-bottom:1px solid var(--glass-border);border-top:2px solid var(--accent);}
+.page-header h1{font-size:20px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;}
+.page-header p{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:0.03em;}
 
 .bottom-nav{height:var(--nav-h);background:var(--glass-bg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-around;padding:0 8px;flex-shrink:0;}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border:none;background:none;cursor:pointer;transition:var(--transition);border-radius:var(--radius-sm);color:var(--text3);}
 .nav-btn svg{width:22px;height:22px;transition:var(--transition);}
-.nav-btn span{font-size:10px;font-weight:500;}
+.nav-btn span{font-size:9px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
 .nav-btn.active{color:var(--accent);}
 .nav-btn.active svg{filter:drop-shadow(0 0 6px var(--accent));}
 .nav-btn:active{transform:scale(0.93);}
@@ -65,7 +67,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:var(--transition);user-select:none;}
 .btn:active{transform:scale(0.95);}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 15px var(--accent-glow);}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 18px var(--accent-glow);font-weight:700;letter-spacing:0.02em;}
 .btn-ghost{background:var(--glass2);color:var(--text2);border:1px solid var(--border);}
 .btn-danger{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.2);}
 .btn-coach{background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.08));color:var(--green);border:1px solid rgba(34,197,94,0.25);}
@@ -73,7 +75,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 .btn-sm{padding:6px 12px;font-size:12px;}
 .btn-xs{padding:4px 9px;font-size:11px;border-radius:8px;}
 
-.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);padding:0 20px;margin:20px 0 10px;}
+.sec-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);padding:0 20px;margin:20px 0 10px;border-right:2px solid var(--accent);}
 .input-field{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:14px;padding:10px 14px;width:100%;outline:none;transition:var(--transition);}
 .input-field:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
 .input-field::placeholder{color:var(--text3);}
@@ -94,7 +96,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 .day-card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
 .day-icon{width:44px;height:44px;background:var(--accent-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
 .day-info{flex:1;}
-.day-name{font-size:15px;font-weight:700;}
+.day-name{font-size:15px;font-weight:800;letter-spacing:0.02em;}
 .day-desc{font-size:12px;color:var(--text3);margin-top:2px;}
 .progress-bar-wrap{margin-top:8px;}
 .progress-bar-track{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;}
@@ -106,9 +108,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 .exercise-card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:var(--transition);backdrop-filter:blur(10px);}
 .exercise-card.completed{border-color:rgba(34,197,94,0.35);}
 .exercise-header{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-.exercise-title{font-size:15px;font-weight:700;}
+.exercise-title{font-size:15px;font-weight:800;letter-spacing:0.01em;}
 .exercise-meta{font-size:11px;color:var(--text3);margin-top:3px;}
 .exercise-superset{font-size:11px;color:var(--orange);background:rgba(249,115,22,0.1);border-radius:6px;padding:2px 8px;margin-top:4px;display:inline-block;}
+
+/* ═══ SUPERSET CARD ═══ */
+.superset-divider{display:flex;align-items:center;gap:8px;padding:0 16px;margin:0;background:linear-gradient(90deg,rgba(249,115,22,0.08),rgba(249,115,22,0.04));border-top:1px dashed rgba(249,115,22,0.3);border-bottom:1px dashed rgba(249,115,22,0.3);}
+.superset-divider-label{font-size:10px;font-weight:700;color:var(--orange);letter-spacing:0.08em;white-space:nowrap;padding:5px 0;}
+.superset-divider-line{flex:1;height:1px;background:transparent;}
+.superset-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--orange);background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.25);border-radius:20px;padding:2px 8px;margin-top:3px;}
 .exercise-record{font-size:11px;color:var(--text3);margin-top:3px;}
 .exercise-record strong{color:var(--accent);}
 .exercise-suggestion{font-size:11px;color:var(--green);background:var(--green-soft);border-radius:6px;padding:2px 8px;margin-top:3px;display:inline-block;}
@@ -150,7 +158,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 .rest-inline-btn{background:var(--accent);border:none;border-radius:8px;color:#fff;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:var(--transition);}
 .rest-inline-btn.skip{background:var(--glass2);color:var(--text3);border:1px solid var(--border);}
 
-.finish-day-btn{margin:16px;width:calc(100% - 32px);padding:14px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;border-radius:var(--radius);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px var(--accent-glow);transition:var(--transition);}
+.finish-day-btn{margin:16px;width:calc(100% - 32px);padding:14px;background:linear-gradient(135deg,var(--accent2),var(--accent));border:none;border-radius:var(--radius);color:#fff;font-family:inherit;font-size:14px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 8px 24px var(--accent-glow);transition:var(--transition);}
 .finish-day-btn:active{transform:scale(0.97);}
 
 /* ═══ MODAL ═══ */
@@ -377,11 +385,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 @keyframes welcomeFadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 
 /* ═══ MISC ═══ */
-.toast{position:fixed;bottom:calc(var(--nav-h) + 16px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:50px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--text);z-index:300;opacity:0;transition:all 0.3s ease;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.toast{position:fixed;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:50px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--text);z-index:300;opacity:0;transition:all 0.3s ease;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .pr-flash{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px) scale(0.9);background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:var(--radius);padding:12px 20px;font-size:14px;font-weight:700;color:#fff;z-index:300;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;box-shadow:0 8px 24px rgba(249,115,22,0.4);text-align:center;white-space:pre-line;}
 .pr-flash.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
-.undo-bar{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:50px;padding:10px 16px;display:flex;align-items:center;gap:12px;z-index:200;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 20px rgba(0,0,0,0.4);white-space:nowrap;}
+.undo-bar{position:fixed;bottom:calc(var(--nav-h)+12px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border2);border-radius:50px;padding:10px 16px;display:flex;align-items:center;gap:12px;z-index:200;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 20px rgba(0,0,0,0.4);white-space:nowrap;}
 .undo-bar.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
 .undo-bar-text{font-size:12px;color:var(--text2);}
 .undo-bar-btn{font-size:12px;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;font-family:inherit;}
@@ -415,27 +423,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
   <div class="welcome-bg-orb welcome-bg-orb1"></div>
   <div class="welcome-bg-orb welcome-bg-orb2"></div>
   <div class="welcome-logo-wrap">
-    <div class="welcome-logo-icon">🏋️</div>
+    <div class="welcome-logo-icon" style="font-size:18px;font-weight:900;letter-spacing:0.04em;">PeyByte</div>
     <div class="welcome-app-name">IronLog</div>
-    <div class="welcome-app-sub">دفترچه تمرین هوشمند شما</div>
+    <div class="welcome-app-sub">لاگ تمرین حرفه‌ای</div>
   </div>
   <div class="welcome-features">
     <div class="welcome-feature-row">
-      <div class="welcome-feature-icon">📋</div>
+      <div class="welcome-feature-icon" style="font-size:12px;font-weight:900;letter-spacing:0;">PRG</div>
       <div class="welcome-feature-text">
         <div class="welcome-feature-title">برنامه تمرینی شخصی</div>
         <div class="welcome-feature-desc">روزها و حرکات دلخواه خودت را بساز</div>
       </div>
     </div>
     <div class="welcome-feature-row">
-      <div class="welcome-feature-icon">⏱️</div>
+      <div class="welcome-feature-icon" style="font-size:12px;font-weight:900;">TMR</div>
       <div class="welcome-feature-text">
         <div class="welcome-feature-title">تایمر و ثبت ست‌ها</div>
         <div class="welcome-feature-desc">تایمر استراحت خودکار و ثبت وزن دقیق</div>
       </div>
     </div>
     <div class="welcome-feature-row">
-      <div class="welcome-feature-icon">📊</div>
+      <div class="welcome-feature-icon" style="font-size:12px;font-weight:900;">PRx</div>
       <div class="welcome-feature-text">
         <div class="welcome-feature-title">آمار و رکوردها</div>
         <div class="welcome-feature-desc">پیگیری پیشرفت و بهترین رکوردهای تو</div>
@@ -482,7 +490,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
   <div class="page-header">
     <div style="display:flex;align-items:center;justify-content:space-between;">
       <div>
-        <h1 id="app-name-display">IronLog 🏋️</h1>
+        <h1 id="app-name-display">IronLog</h1>
         <p id="workout-date-text"></p>
       </div>
       <div id="workout-session-timer" style="display:none;" class="workout-timer-badge">
@@ -537,9 +545,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
   <div class="sec-title">تقویم تمرین</div>
   <div class="card" style="margin:0 16px 12px;">
     <div class="cal-month-nav">
-      <button class="cal-nav-btn" onclick="calNavMonth(-1)">›</button>
+      <button class="cal-nav-btn" onclick="calNavMonth(1)">›</button>
       <div class="cal-month-title" id="cal-month-title"></div>
-      <button class="cal-nav-btn" onclick="calNavMonth(1)">‹</button>
+      <button class="cal-nav-btn" onclick="calNavMonth(-1)">‹</button>
     </div>
     <div class="calendar-grid" id="calendar-grid"></div>
   </div>
@@ -556,9 +564,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
         <input type="number" class="input-field" id="weight-input" placeholder="وزن (kg)" step="0.1" style="flex:1;">
         <button class="btn btn-primary btn-sm" onclick="addWeight()">ثبت</button>
       </div>
+      <!-- آمار خلاصه وزن (باگ ۲۱) -->
+      <div id="weight-summary" style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;"></div>
+      <!-- فیلتر بازه زمانی نمودار (باگ ۱۹) -->
+      <div id="weight-range-filter" style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;"></div>
       <svg class="mini-chart" id="weight-chart"></svg>
     </div>
-    <div class="section-card" style="margin:0 0 12px;"><div id="weight-log"></div></div>
+    <div class="section-card" style="margin:0 0 12px;"><div id="weight-log"></div><div id="weight-load-more" style="text-align:center;padding:8px 0;display:none;"><button class="btn btn-ghost btn-sm" onclick="weightLogShowMore()">نمایش بیشتر ↓</button></div></div>
   </div>
   <div class="sec-title">رکورد حرکات</div>
   <div style="padding:0 16px;margin-bottom:4px;">
@@ -666,7 +678,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
       <div class="settings-action"><button class="btn btn-danger btn-sm" onclick="clearHistory()">پاک کردن</button></div>
     </div>
   </div>
-  <div style="text-align:center;padding:8px 0 24px;font-size:10px;color:var(--text3);">نسخه ۲.۲ — IronLog</div>
+  <div style="text-align:center;padding:32px 20px 36px;">
+  <div style="display:inline-block;border-top:1px solid var(--border);padding-top:20px;min-width:180px;">
+    <div style="font-size:15px;font-weight:900;letter-spacing:0.12em;color:var(--text2);">IRONLOG</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:3px;letter-spacing:0.06em;">v2.4.2</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:10px;letter-spacing:0.04em;">by &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight:700;color:var(--accent);">PeyByte</span></div>
+  </div>
+</div>
 </div>
 
 <!-- ═══ BOTTOM NAV ═══ -->
@@ -734,17 +752,59 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
   </div>
 </div>
 
+<!-- مودال افزودن حرکت جدید -->
+<div class="modal-overlay" id="add-exercise-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">➕ افزودن حرکت</div>
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+      <div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">نام حرکت *</div>
+        <input type="text" class="input-field" id="aem-name" placeholder="مثلاً: پرس سینه">
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div style="flex:1;">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">تعداد ست</div>
+          <input type="number" class="input-field" id="aem-sets" value="3" min="1" max="20" style="text-align:center;">
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">تکرار</div>
+          <input type="text" class="input-field" id="aem-reps" value="10-12" placeholder="مثلاً: 8-12" style="text-align:center;">
+        </div>
+      </div>
+      <!-- تاگل سوپرست -->
+      <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--orange);">🔗 سوپرست</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;">دو حرکت پشت سر هم</div>
+          </div>
+          <div class="toggle" id="aem-superset-toggle" onclick="toggleAemSuperset()"></div>
+        </div>
+        <div id="aem-superset-field" style="display:none;margin-top:10px;">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">نام حرکت دوم *</div>
+          <input type="text" class="input-field" id="aem-superset-name" placeholder="مثلاً: زیربغل کابل">
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeAddExModal()">انصراف</button>
+      <button class="btn btn-primary" style="flex:2;" onclick="confirmAddExModal()">افزودن ✓</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="rpe-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">📊 سطح سختی (RPE)</div>
     <div class="modal-sub" id="rpe-modal-sub">این حرکت چقدر سخت بود؟</div>
     <div class="rpe-grid">
-      <button class="rpe-btn" onclick="selectRPE(1)">1<small>خیلی سبک</small></button>
-      <button class="rpe-btn" onclick="selectRPE(2)">2<small>سبک</small></button>
-      <button class="rpe-btn" onclick="selectRPE(3)">3<small>متوسط</small></button>
-      <button class="rpe-btn" onclick="selectRPE(4)">4<small>سخت</small></button>
-      <button class="rpe-btn" onclick="selectRPE(5)">5<small>بیشینه</small></button>
+      <button class="rpe-btn" onclick="selectRPE(6)">6<small>سبک</small></button>
+      <button class="rpe-btn" onclick="selectRPE(7)">7<small>متوسط</small></button>
+      <button class="rpe-btn" onclick="selectRPE(8)">8<small>سخت</small></button>
+      <button class="rpe-btn" onclick="selectRPE(9)">9<small>خیلی سخت</small></button>
+      <button class="rpe-btn" onclick="selectRPE(10)">10<small>بیشینه</small></button>
     </div>
     <button class="btn btn-ghost" style="width:100%;" onclick="skipRPE()">رد کردن</button>
   </div>
@@ -803,9 +863,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Vazirm
 // ═══════════════════════════════════════════════════
 const DATA_VERSION  = 3;
 const CIRCUMFERENCE = 2 * Math.PI * 68;
-const RPE_LABELS    = ['','خیلی سبک','سبک','متوسط','سخت','بیشینه'];
+const RPE_LABELS    = ['','','','','','','سبک','متوسط','سخت','خیلی سخت','بیشینه'];
 const THEMES = [
-  {id:'default',name:'بنفش',  bg:'linear-gradient(135deg,#0a0a0f,#1e1e28)',accent:'#7c6fff'},
+  {id:'default',name:'آتش',   bg:'linear-gradient(135deg,#08080a,#1a1a1e)',accent:'#e8431a'},
+  {id:'violet', name:'بنفش',   bg:'linear-gradient(135deg,#0a0a0f,#1e1e28)',accent:'#7c6fff'},
+  {id:'steel',  name:'فولاد',  bg:'linear-gradient(135deg,#060810,#171c30)',accent:'#4a9eff'},
   {id:'ocean',  name:'اقیانوس',bg:'linear-gradient(135deg,#040d18,#0f2847)',accent:'#38bdf8'},
   {id:'rose',   name:'رز',    bg:'linear-gradient(135deg,#120810,#321c30)',accent:'#f472b6'},
   {id:'forest', name:'جنگل', bg:'linear-gradient(135deg,#050f08,#163020)',accent:'#4ade80'},
@@ -877,7 +939,9 @@ function migrateData(d) {
 
 function loadData() {
   try {
-    const saved = localStorage.getItem('ironlog_v3') || localStorage.getItem('ironlog_v2');
+    const savedV3 = localStorage.getItem('ironlog_v3');
+    const savedV2 = localStorage.getItem('ironlog_v2');
+    const saved = savedV3 || savedV2;
     if (saved) {
       let parsed = JSON.parse(saved);
       parsed = migrateData(parsed);
@@ -886,10 +950,13 @@ function loadData() {
         {vibrate:true,autoTimer:true,askRPE:false,showRIR:false,theme:'default',appName:'IronLog'},
         parsed.settings || {}
       );
-      // اگر کاربر قبلاً برنامه داشته، روز پیش‌فرض لود نمی‌شود
       if (!appData.days) appData.days = [];
+      // اگر از v2 مهاجرت شد، v3 ذخیره و v2 پاک شود
+      if (!savedV3 && savedV2) {
+        saveData();
+        localStorage.removeItem('ironlog_v2');
+      }
     } else {
-      // اولین بار — بدون برنامه پیش‌فرض
       appData.days = [];
     }
   } catch(e) { appData.days = []; }
@@ -922,7 +989,7 @@ function applyTheme(id) {
 function applyAppName(name) {
   const n = name || 'IronLog';
   const el = document.getElementById('app-name-display');
-  if (el) el.textContent = n + ' 🏋️';
+  if (el) el.textContent = n;
   document.getElementById('app-title').textContent = n + ' — دفترچه تمرین';
   const sub = document.getElementById('app-name-sub');
   if (sub) sub.textContent = n;
@@ -1035,7 +1102,7 @@ function renderDayCards() {
   if (!appData.days || appData.days.length === 0) {
     container.innerHTML = `
       <div style="text-align:center;padding:48px 24px 32px;">
-        <div style="font-size:56px;margin-bottom:16px;">🏋️</div>
+        <div style="font-size:18px;font-weight:900;font-style:normal;color:var(--accent);margin-bottom:16px;letter-spacing:0.04em;">PeyByte</div>
         <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;">هنوز برنامه‌ای نداری!</div>
         <div style="font-size:13px;color:var(--text3);margin-bottom:24px;line-height:1.7;">از تنظیمات، روزهای تمرینی و حرکاتت را اضافه کن</div>
         <button class="btn btn-primary" onclick="switchPage('settings');setTimeout(()=>{const dm=document.getElementById('day-manager');if(dm)dm.scrollIntoView({behavior:'smooth',block:'start'});},300);">
@@ -1052,8 +1119,8 @@ function renderDayCards() {
     card.className = 'day-card' + (currentDayId===day.id ? ' selected' : '');
     card.innerHTML = `
       <div class="day-card-top">
-        <div class="day-icon">${day.icon||'💪'}</div>
-        <div class="day-info"><div class="day-name">${day.name}</div><div class="day-desc">${day.desc||''}</div></div>
+        <div class="day-icon" style="font-size:13px;font-weight:900;letter-spacing:0.04em;color:var(--accent);">D${appData.days.indexOf(day)+1}</div>
+        <div class="day-info"><div class="day-name">${escHtml(day.name)}</div><div class="day-desc">${escHtml(day.desc||'')}</div></div>
         <div style="font-size:11px;color:var(--text3);">${day.exercises.length} حرکت</div>
       </div>
       <div class="progress-bar-wrap">
@@ -1111,8 +1178,12 @@ function showDaySelector() {
   stopAllTimers();
   document.getElementById('day-selector-view').style.display = '';
   document.getElementById('exercise-view').style.display   = 'none';
-  stopSessionTimer();
-  releaseWakeLock();
+  // فقط اگر تمرین واقعاً تموم شده (currentDayId=null) تایمر رو متوقف کن
+  // برگشت صرف به صفحه انتخاب روز نباید زمان جلسه رو از بین ببره
+  if (!currentDayId) {
+    stopSessionTimer();
+    releaseWakeLock();
+  }
   renderDayCards();
 }
 
@@ -1134,9 +1205,14 @@ function showExerciseView() {
 
   day.exercises.forEach(ex => {
     if (!currentSession[ex.id]) {
+      const ssCount = ex.sets || 3;
       currentSession[ex.id] = {
-        sets: Array.from({length:ex.sets||3}, ()=>({weight:'',reps:'',dropSet:false,done:false,rir:''})),
-        note:'', rpe:null
+        sets: Array.from({length:ssCount}, ()=>({weight:'',reps:'',dropSet:false,done:false,rir:''})),
+        note:'', rpe:null,
+        // اگه سوپرست داره، ست‌های حرکت دوم رو هم مقداردهی کن
+        supersetSets: ex.superset
+          ? Array.from({length:ssCount}, ()=>({weight:'',reps:'',done:false,rir:''}))
+          : undefined
       };
     }
   });
@@ -1193,23 +1269,41 @@ function renderExercises() {
     const card = document.createElement('div');
     card.className = 'exercise-card' + (allDone?' completed':'');
     card.id = 'ex-card-'+ex.id;
+
+    // نام و متادیتا — اگه سوپرست باشه هر دو نام نشون داده میشن
+    const titleHTML = ex.superset
+      ? `<div class="exercise-title">${escHtml(ex.name)} <span style="color:var(--text3);font-weight:400;font-size:13px;">+</span> ${escHtml(ex.superset)}</div>
+         <div class="superset-badge">🔗 سوپرست</div>`
+      : `<div class="exercise-title">${escHtml(ex.name)}</div>`;
+
     card.innerHTML = `
       <div class="exercise-header">
         <div style="flex:1;min-width:0;">
-          <div class="exercise-title">${ex.name}</div>
+          ${titleHTML}
           <div class="exercise-meta">${ex.reps?ex.reps+' تکرار':''} ${ex.category==='heavy'?'• سنگین':ex.category==='medium'?'• متوسط':'• سبک'}</div>
-          ${ex.superset?`<div class="exercise-superset">🔗 ${ex.superset}</div>`:''}
           ${lastRecord?`<div class="exercise-record">آخرین: <strong>${lastRecord.weight}kg × ${lastRecord.reps}</strong></div>`:''}
           ${suggestion?`<div class="exercise-suggestion">💡 پیشنهاد: ${suggestion}kg</div>`:''}
           ${compareHTML}
-          ${session.rpe?`<div style="font-size:11px;color:var(--text3);margin-top:3px;">RPE: ${session.rpe}/5 — ${RPE_LABELS[session.rpe]}</div>`:''}
+          ${session.rpe?`<div style="font-size:11px;color:var(--text3);margin-top:3px;">RPE: ${session.rpe}/10 — ${RPE_LABELS[session.rpe]||''}</div>`:''}
         </div>
         <div class="exercise-actions">
           <button class="btn btn-ghost btn-xs" onclick="copyLastSession('${ex.id}')">📋</button>
           <button class="btn btn-ghost btn-xs" onclick="openRestModal(${appData.restTimes[ex.category||'medium']||120})">⏱</button>
         </div>
       </div>
+      ${ex.superset ? `
+        <div style="padding:4px 16px 6px;font-size:11px;font-weight:700;color:var(--orange);">${escHtml(ex.name)}</div>
+      ` : ''}
       <div class="sets-container" id="sets-${ex.id}"></div>
+      ${ex.superset ? `
+        <div class="superset-divider">
+          <div class="superset-divider-line"></div>
+          <div class="superset-divider-label">🔗 ${escHtml(ex.superset)}</div>
+          <div class="superset-divider-line"></div>
+        </div>
+        <div style="padding:4px 16px 6px;font-size:11px;font-weight:700;color:var(--orange);">${escHtml(ex.superset)}</div>
+        <div class="sets-container" id="sets-ss-${ex.id}"></div>
+      ` : ''}
       <div style="padding:0 10px 10px;">
         <button class="add-set-btn" onclick="addSet('${ex.id}')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1237,6 +1331,68 @@ function renderSetsInContainer(ex) {
     if (restEl) container.insertBefore(row, restEl);
     else container.appendChild(row);
   });
+  // اگه سوپرست داره، در container دوم هم همون ست‌ها نشون داده میشه (آینه)
+  if (ex.superset) {
+    const ssContainer = document.getElementById('sets-ss-'+ex.id);
+    if (ssContainer) {
+      ssContainer.querySelectorAll('.set-row').forEach(r => r.remove());
+      session.sets.forEach((set, i) => {
+        const row = buildSetRowSS(ex, i, set);
+        ssContainer.appendChild(row);
+      });
+    }
+  }
+}
+
+// ست‌های حرکت دوم سوپرست — فقط تکرار (وزن اختیاری)
+function buildSetRowSS(ex, i, set) {
+  const showRIR = appData.settings.showRIR;
+  const ssData  = currentSession[ex.id].supersetSets?.[i] || {weight:'',reps:'',done:false,rir:''};
+  const row = document.createElement('div');
+  row.className = 'set-row';
+  row.id = `set-row-ss-${ex.id}-${i}`;
+  row.innerHTML = `
+    <div class="set-num ${ssData.done?'done':''}">${i+1}</div>
+    <div class="set-input-wrap" style="flex:1.4;">
+      <div class="set-input-label">وزن (kg)</div>
+      <input type="number" class="set-input ${ssData.done?'done':''}"
+        value="${ssData.weight||''}" placeholder="0" step="2.5" min="0" max="500" inputmode="decimal"
+        oninput="onSSInput(this,'${ex.id}',${i},'weight')">
+    </div>
+    <div class="set-input-wrap" style="flex:1.2;">
+      <div class="set-input-label">تکرار</div>
+      <input type="number" class="set-input ${ssData.done?'done':''}"
+        value="${ssData.reps||''}" placeholder="0" min="1" max="200" inputmode="numeric"
+        oninput="onSSInput(this,'${ex.id}',${i},'reps')">
+    </div>
+    ${showRIR?`<div class="set-input-wrap" style="flex:0.7;">
+      <div class="set-input-label">RIR</div>
+      <input type="number" class="set-input ${ssData.done?'done':''}"
+        value="${ssData.rir||''}" placeholder="0" min="0" max="10" inputmode="numeric"
+        oninput="onSSInput(this,'${ex.id}',${i},'rir')">
+    </div>`:''}
+    <div class="set-compare empty"><div class="set-compare-arrow">—</div><div class="set-compare-diff"></div></div>
+    <button class="set-check ${ssData.done?'done':''}" onclick="toggleSSSetDone('${ex.id}',${i})">
+      ${ssData.done?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}
+    </button>
+    <div style="width:24px;"></div>`;
+  return row;
+}
+
+function onSSInput(el, exId, idx, field) {
+  if (!currentSession[exId].supersetSets) currentSession[exId].supersetSets = [];
+  if (!currentSession[exId].supersetSets[idx]) currentSession[exId].supersetSets[idx] = {weight:'',reps:'',done:false,rir:''};
+  currentSession[exId].supersetSets[idx][field] = el.value;
+  saveSessionBackup();
+}
+
+function toggleSSSetDone(exId, idx) {
+  if (!currentSession[exId].supersetSets) currentSession[exId].supersetSets = [];
+  if (!currentSession[exId].supersetSets[idx]) currentSession[exId].supersetSets[idx] = {weight:'',reps:'',done:false,rir:''};
+  currentSession[exId].supersetSets[idx].done = !currentSession[exId].supersetSets[idx].done;
+  saveSessionBackup();
+  const ex = appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+  if (ex) renderSetsInContainer(ex);
 }
 
 function buildSetRowEl(ex, i, set, prevSet) {
@@ -1348,6 +1504,9 @@ function toggleSetDone(exId, idx) {
     if (w!=='' && (parseFloat(w)<0||parseFloat(w)>500)) { showToast('❌ وزن نامعتبر'); return; }
     if (r!=='' && (parseInt(r)<1||parseInt(r)>200))     { showToast('❌ تکرار نامعتبر'); return; }
     checkNewPR(exId, parseFloat(w)||0, parseInt(r)||0);
+  } else {
+    // un-done: تایمر inline این حرکت باید متوقف شود
+    stopInlineTimer(exId);
   }
   set.done = !set.done;
   refreshSetsUI(exId); saveSessionBackup();
@@ -1371,19 +1530,34 @@ function addSet(exId) {
   const session = currentSession[exId];
   const last    = session.sets[session.sets.length-1];
   session.sets.push({weight:last?last.weight:'',reps:last?last.reps:'',dropSet:false,done:false,rir:''});
+  // اگه سوپرست داره، یه ست خالی برای حرکت دوم هم اضافه کن
+  const ex = appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+  if (ex?.superset) {
+    if (!session.supersetSets) session.supersetSets = [];
+    session.supersetSets.push({weight:'',reps:'',done:false,rir:''});
+  }
   refreshSetsUI(exId); saveSessionBackup();
-  document.getElementById('sets-'+exId)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  // اسکرول به آخرین ست (نه کل container)
+  requestAnimationFrame(()=>{
+    const container = document.getElementById('sets-'+exId);
+    const lastSet = container?.lastElementChild;
+    lastSet?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
 }
 
 function deleteSet(exId, idx) {
   if (currentSession[exId].sets.length<=1) return;
   showConfirm('حذف ست',`ست ${idx+1} حذف شود؟`,'🗑️',false, ok => {
     if (!ok) return;
+    stopInlineTimer(exId);
     const backup = {...currentSession[exId].sets[idx]};
+    const ssBackup = currentSession[exId].supersetSets ? {...(currentSession[exId].supersetSets[idx]||{})} : null;
     currentSession[exId].sets.splice(idx,1);
+    if (currentSession[exId].supersetSets) currentSession[exId].supersetSets.splice(idx,1);
     refreshSetsUI(exId); saveSessionBackup();
     showUndo('ست حذف شد', ()=>{
       currentSession[exId].sets.splice(idx,0,backup);
+      if (currentSession[exId].supersetSets && ssBackup) currentSession[exId].supersetSets.splice(idx,0,ssBackup);
       refreshSetsUI(exId); saveSessionBackup();
     });
   });
@@ -1432,7 +1606,7 @@ function checkNewPR(exId, weight, reps) {
 }
 function showPRFlash(msg) {
   const el=document.getElementById('pr-flash');
-  el.textContent=msg; el.classList.add('show');
+  el.innerHTML=msg.replace(/\n/g,'<br>'); el.classList.add('show');
   setTimeout(()=>el.classList.remove('show'),3500);
 }
 
@@ -1661,10 +1835,16 @@ function timerComplete() {
   }
 }
 
+let _activeBeepCtx = null;
+
 function playBeep() {
   try {
+    // بستن AudioContext قبلی اگه هنوز باز بود
+    if (_activeBeepCtx) { try { _activeBeepCtx.close(); } catch(e){} _activeBeepCtx = null; }
     const ctx=new (window.AudioContext||window.webkitAudioContext)();
-    [0,0.35,0.70,1.05,1.40].forEach(delay=>{
+    _activeBeepCtx = ctx;
+    const beeps = [0,0.35,0.70,1.05,1.40];
+    beeps.forEach(delay=>{
       const osc=ctx.createOscillator(),gain=ctx.createGain();
       osc.connect(gain);gain.connect(ctx.destination);
       osc.frequency.value=delay<1?880:1100;osc.type='sine';
@@ -1672,6 +1852,9 @@ function playBeep() {
       gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+0.28);
       osc.start(ctx.currentTime+delay);osc.stop(ctx.currentTime+delay+0.28);
     });
+    // بستن context بعد از پایان آخرین beep برای جلوگیری از memory leak
+    const lastDelay = beeps[beeps.length-1];
+    setTimeout(()=>{ try{ ctx.close(); }catch(e){} if(_activeBeepCtx===ctx)_activeBeepCtx=null; }, (lastDelay+0.5)*1000);
   }catch(e){}
 }
 
@@ -1701,13 +1884,13 @@ function buildHistoryFilters() {
   const bar=document.getElementById('history-filter-bar');
   bar.innerHTML=`<button class="filter-chip ${historyFilter==='all'?'active':''}" onclick="filterHistory('all',this)">همه</button>`;
   appData.days.forEach(day=>{
-    bar.innerHTML+=`<button class="filter-chip ${historyFilter===day.id?'active':''}" onclick="filterHistory('${day.id}',this)">${day.name}</button>`;
+    bar.innerHTML+=`<button class="filter-chip ${historyFilter===day.id?'active':''}" onclick="filterHistory('${day.id}',this)">${escHtml(day.name)}</button>`;
   });
   const exSet=new Set();
   appData.history.forEach(s=>Object.keys(s.exercises||{}).forEach(id=>exSet.add(id)));
   exSet.forEach(exId=>{
     const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
-    if (ex) bar.innerHTML+=`<button class="filter-chip ${historyFilter===exId?'active':''}" onclick="filterHistory('${exId}',this)">${ex.name}</button>`;
+    if (ex) bar.innerHTML+=`<button class="filter-chip ${historyFilter===exId?'active':''}" onclick="filterHistory('${exId}',this)">${escHtml(ex.name)}</button>`;
   });
 }
 
@@ -1744,7 +1927,7 @@ function renderHistoryList() {
       <div class="session-header" onclick="toggleSession(this)">
         <div class="session-dot"></div>
         <div class="session-info">
-          <div class="session-title">${session.dayName||'تمرین'}</div>
+          <div class="session-title">${escHtml(session.dayName||'تمرین')}</div>
           <div class="session-date">${dateStr}</div>
           <div class="session-stats">
             <div class="session-stat"><strong>${totalSets}</strong> ست</div>
@@ -1781,7 +1964,7 @@ function buildSessionBody(session) {
     const exDef=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
     const prevSets=getPrevSessionSetsForSession(session.id,exId);
     html+=`<div class="session-exercise">
-      <div class="session-ex-name">${exDef?exDef.name:exId}</div>
+      <div class="session-ex-name">${exDef?escHtml(exDef.name):exId}</div>
       ${done.map((s,i)=>{
         const cmp=calcSetCompare(s,prevSets[i]);
         const cmpBadge=cmp.cls!=='empty'?`<span style="font-size:11px;font-weight:700;color:${cmp.cls==='up'?'var(--green)':cmp.cls==='down'?'var(--red)':'var(--text3)'};">${cmp.arrow}${cmp.diff}</span>`:'';
@@ -1984,39 +2167,112 @@ function renderWeightSection() { renderWeightLog(); }
 function addWeight() {
   const input=document.getElementById('weight-input');
   const val=parseFloat(input.value);
-  if (!val||val<20||val>400){showToast('❌ وزن باید بین ۲۰ تا ۴۰۰ باشد');return;}
+  if (!val || isNaN(val) || val<20 || val>400){showToast('❌ وزن باید بین ۲۰ تا ۴۰۰ کیلوگرم باشد');return;}
   appData.weights.push({date:new Date().toISOString(),weight:val});
   appData.weights.sort((a,b)=>new Date(a.date)-new Date(b.date));
   saveData(); input.value='';
+  weightLogPage = 1;
   renderWeightLog(); showToast('⚖️ وزن ثبت شد');
 }
 
-// FIX #1 + FIX #2: renderWeightLog با ایندکس واقعی و ذخیره صحیح در Undo
+// ─── وضعیت نمایش لیست وزن ───
+let weightLogPage = 1;
+const WEIGHT_PAGE_SIZE = 20;
+let weightChartRange = '3m'; // بازه پیش‌فرض نمودار
+
+// FIX #19+20+21: renderWeightLog با آمار خلاصه، فیلتر بازه، pagination
 function renderWeightLog() {
-  const log    =document.getElementById('weight-log');
-  const chartEl=document.getElementById('weight-chart');
+  const log     = document.getElementById('weight-log');
+  const chartEl = document.getElementById('weight-chart');
+  const summaryEl = document.getElementById('weight-summary');
+  const filterEl  = document.getElementById('weight-range-filter');
+  const loadMoreEl = document.getElementById('weight-load-more');
 
   if (!appData.weights.length) {
-    log.innerHTML='<div style="padding:12px;text-align:center;color:var(--text3);font-size:12px;">وزنی ثبت نشده</div>';
-    if (chartEl) chartEl.innerHTML='';
+    if (summaryEl) summaryEl.innerHTML = '';
+    if (filterEl)  filterEl.innerHTML  = '';
+    log.innerHTML = '<div style="padding:12px;text-align:center;color:var(--text3);font-size:12px;">وزنی ثبت نشده</div>';
+    if (chartEl) chartEl.innerHTML = '';
+    if (loadMoreEl) loadMoreEl.style.display = 'none';
     return;
   }
 
-  // FIX #1: نگه‌داشتن ایندکس واقعی در آرایه اصلی
-  const indexedWeights = appData.weights
-    .map((w, realIdx) => ({...w, realIdx}))
-    .reverse()
-    .slice(0, 10);
+  const sorted = [...appData.weights].sort((a,b)=>new Date(a.date)-new Date(b.date));
 
-  log.innerHTML = indexedWeights.map((w, displayIdx) => {
+  // ── آمار خلاصه (باگ ۲۱) ──
+  if (summaryEl) {
+    const last  = sorted[sorted.length-1];
+    const first = sorted[0];
+    const totalChange = (last.weight - first.weight).toFixed(1);
+    const changeColor = totalChange < 0 ? 'var(--green)' : totalChange > 0 ? 'var(--red)' : 'var(--text3)';
+    summaryEl.innerHTML = `
+      <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;">
+        <div style="color:var(--text3);font-size:10px;">آخرین وزن</div>
+        <div style="font-weight:700;color:var(--text);">${last.weight} kg</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;">
+        <div style="color:var(--text3);font-size:10px;">تغییر کل</div>
+        <div style="font-weight:700;color:${changeColor};">${totalChange>0?'+':''}${totalChange} kg</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px;">
+        <div style="color:var(--text3);font-size:10px;">تعداد ثبت</div>
+        <div style="font-weight:700;color:var(--text);">${sorted.length}</div>
+      </div>`;
+  }
+
+  // ── فیلتر بازه نمودار (باگ ۱۹) ──
+  const ranges = [
+    {key:'1m',label:'۱ماه'}, {key:'3m',label:'۳ماه'}, {key:'6m',label:'۶ماه'},
+    {key:'1y',label:'۱سال'}, {key:'all',label:'همه'}
+  ];
+  if (filterEl) {
+    filterEl.innerHTML = ranges.map(r=>
+      `<button class="ex-chip ${weightChartRange===r.key?'active':''}" onclick="setWeightChartRange('${r.key}')">${r.label}</button>`
+    ).join('');
+  }
+
+  // ── نمودار با aggregation هوشمند (باگ ۱۹) ──
+  if (chartEl) {
+    const now = Date.now();
+    const rangeDays = {
+      '1m':30, '3m':90, '6m':180, '1y':365, 'all':Infinity
+    }[weightChartRange] || 90;
+    let filtered = rangeDays===Infinity ? sorted : sorted.filter(d=>
+      (now - new Date(d.date).getTime()) <= rangeDays*24*60*60*1000
+    );
+    if (!filtered.length) filtered = sorted.slice(-30);
+
+    let chartData;
+    if (filtered.length <= 30) {
+      // همه نقاط
+      chartData = filtered;
+    } else if (filtered.length <= 90) {
+      // میانگین هفتگی
+      chartData = aggregateWeightByWeek(filtered);
+    } else {
+      // میانگین ماهانه
+      chartData = aggregateWeightByMonth(filtered);
+    }
+
+    drawLineChart(chartEl, chartData.map(d=>({
+      x: new Date(d.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric'}),
+      y: d.weight
+    })));
+  }
+
+  // ── لیست با pagination (باگ ۲۰) ──
+  const reversed = sorted.map((w,realIdx)=>({...w,realIdx})).reverse();
+  const pageEnd  = weightLogPage * WEIGHT_PAGE_SIZE;
+  const visible  = reversed.slice(0, pageEnd);
+
+  log.innerHTML = visible.map((w, displayIdx) => {
     const date = new Date(w.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-    const prev = indexedWeights[displayIdx+1];
+    const prev = visible[displayIdx+1];
     let diffHtml = '';
     if (prev) {
       const diff = w.weight - prev.weight;
       diffHtml = `<span style="font-size:11px;color:${diff<0?'var(--green)':diff>0?'var(--red)':'var(--text3)'};">${diff>0?'+':''}${diff.toFixed(1)}</span>`;
     }
-    // FIX #1: استفاده از realIdx برای حذف
     return `<div class="weight-row">
       <div class="weight-date">${date}</div>
       ${diffHtml}
@@ -2025,10 +2281,43 @@ function renderWeightLog() {
     </div>`;
   }).join('');
 
-  drawLineChart(chartEl, appData.weights.slice(-12).map(d=>({
-    x:new Date(d.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric'}),
-    y:d.weight
-  })));
+  if (loadMoreEl) {
+    loadMoreEl.style.display = reversed.length > pageEnd ? 'block' : 'none';
+  }
+}
+
+function weightLogShowMore() {
+  weightLogPage++;
+  renderWeightLog();
+}
+
+function setWeightChartRange(range) {
+  weightChartRange = range;
+  renderWeightLog();
+}
+
+function aggregateWeightByWeek(data) {
+  const weeks = {};
+  data.forEach(d=>{
+    const dt = new Date(d.date);
+    const day = dt.getDay();
+    const start = new Date(dt); start.setDate(dt.getDate() - day); start.setHours(0,0,0,0);
+    const key = start.toISOString().slice(0,10);
+    if (!weeks[key]) weeks[key] = {date:d.date, weights:[]};
+    weeks[key].weights.push(d.weight);
+  });
+  return Object.values(weeks).map(w=>({date:w.date, weight:parseFloat((w.weights.reduce((a,b)=>a+b,0)/w.weights.length).toFixed(1))}));
+}
+
+function aggregateWeightByMonth(data) {
+  const months = {};
+  data.forEach(d=>{
+    const dt = new Date(d.date);
+    const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`;
+    if (!months[key]) months[key] = {date:d.date, weights:[]};
+    months[key].weights.push(d.weight);
+  });
+  return Object.values(months).map(m=>({date:m.date, weight:parseFloat((m.weights.reduce((a,b)=>a+b,0)/m.weights.length).toFixed(1))}));
 }
 
 // FIX #1 + FIX #2: حذف با ایندکس واقعی و ذخیره در Undo
@@ -2037,12 +2326,14 @@ function deleteWeight(realIdx) {
   showConfirm('حذف وزن','این رکورد وزن حذف شود؟','🗑️',false, ok => {
     if (!ok) return;
     const removed = appData.weights.splice(realIdx, 1)[0];
-    saveData(); // ذخیره بلافاصله
+    saveData();
+    weightLogPage = 1;
     renderWeightLog();
     showUndo('وزن حذف شد', () => {
       appData.weights.splice(realIdx, 0, removed);
       appData.weights.sort((a,b) => new Date(a.date)-new Date(b.date));
-      saveData(); // FIX #2: ذخیره پس از Undo
+      saveData();
+      weightLogPage = 1;
       renderWeightLog();
     });
   });
@@ -2070,7 +2361,7 @@ function renderExProgressChart() {
   if (!selectedExChartId||!exWithData[selectedExChartId]) selectedExChartId=exIds[0];
   selector.innerHTML=exIds.map(id=>{
     const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===id);
-    return `<button class="ex-chip ${selectedExChartId===id?'active':''}" onclick="selectExChart('${id}')">${ex?ex.name:id}</button>`;
+    return `<button class="ex-chip ${selectedExChartId===id?'active':''}" onclick="selectExChart('${id}')">${ex?escHtml(ex.name):id}</button>`;
   }).join('');
   drawLineChart(chartEl,(exWithData[selectedExChartId]||[]).map(d=>({
     x:new Date(d.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric'}),y:d.weight
@@ -2080,7 +2371,20 @@ function selectExChart(exId){selectedExChartId=exId;renderExProgressChart();}
 
 function drawLineChart(svgEl, data) {
   if (!svgEl) return;
-  if (!data||data.length<2){svgEl.innerHTML='';return;}
+  if (!data||!data.length){svgEl.innerHTML='';return;}
+  // اگه clientWidth هنوز 0 هست (المان تازه در DOM اومده)، با rAF دوباره تلاش کن
+  if (!svgEl.clientWidth) {
+    requestAnimationFrame(()=>drawLineChart(svgEl, data));
+    return;
+  }
+  // یک نقطه تنها — فقط دایره نشون بده
+  if (data.length < 2) {
+    const W=svgEl.clientWidth||340, H=svgEl.clientHeight||80;
+    svgEl.innerHTML=`<circle cx="${W/2}" cy="${H/2}" r="5" fill="var(--accent)"/>
+      <text x="${W/2}" y="${H-4}" font-size="9" fill="var(--text3)" text-anchor="middle">${data[0].x}</text>
+      <text x="${W/2}" y="${H/2-10}" font-size="10" fill="var(--accent)" text-anchor="middle" font-weight="700">${data[0].y}kg</text>`;
+    return;
+  }
   const W=svgEl.clientWidth||340,H=svgEl.clientHeight||80;
   const pad={top:10,right:10,bottom:22,left:32};
   const vals=data.map(d=>d.y),minV=Math.min(...vals),maxV=Math.max(...vals),range=maxV-minV||1;
@@ -2115,7 +2419,7 @@ function renderPRList() {
   document.getElementById('pr-list').innerHTML=entries.length
     ?entries.map(([id,data])=>`<div class="pr-row">
         <div class="pr-icon">🏆</div>
-        <div class="pr-name">${exMap[id]?exMap[id].name:id}</div>
+        <div class="pr-name">${exMap[id]?escHtml(exMap[id].name):id}</div>
         <div><div class="pr-val">${data.weight}kg</div><div class="pr-1rm">1RM ≈ ${calc1RM(data.weight,data.reps)}kg</div></div>
       </div>`).join('')
     :'<div style="padding:20px;text-align:center;color:var(--text3);">هنوز رکوردی ثبت نشده</div>';
@@ -2131,7 +2435,7 @@ function renderVolumeList() {
   const maxV=entries[0]?.[1]||1;
   document.getElementById('volume-list').innerHTML=entries.length
     ?entries.map(([id,vol])=>`<div class="volume-bar">
-        <div class="volume-name">${exMap[id]?exMap[id].name:id}</div>
+        <div class="volume-name">${exMap[id]?escHtml(exMap[id].name):id}</div>
         <div class="volume-track"><div class="volume-fill" style="width:${(vol/maxV*100).toFixed(1)}%"></div></div>
         <div class="volume-val">${Math.round(vol).toLocaleString()} kg</div>
       </div>`).join('')
@@ -2160,16 +2464,16 @@ function renderSettings() {
   const sub=document.getElementById('app-name-sub');if(sub)sub.textContent=s.appName||'IronLog';
   document.getElementById('day-manager').innerHTML=appData.days.map(day=>`
     <div class="day-editor-item">
-      <span style="font-size:18px;">${day.icon}</span>
-      <span class="day-editor-name">${day.name}</span>
+      <span style="font-size:18px;">${escHtml(day.icon)}</span>
+      <span class="day-editor-name">${escHtml(day.name)}</span>
       <button class="day-editor-btn" onclick="editDayName('${day.id}')">✏️</button>
       <button class="day-editor-btn" style="color:var(--red);" onclick="deleteDay('${day.id}')">🗑</button>
     </div>`).join('');
   document.getElementById('exercise-manager-days').innerHTML=appData.days.map(day=>`
-    <div class="sec-title" style="margin-top:16px;">${day.name}</div>
+    <div class="sec-title" style="margin-top:16px;">${escHtml(day.name)}</div>
     <div class="settings-section">
       ${day.exercises.map(ex=>`<div class="exercise-editor-item">
-        <span class="exercise-editor-name">${ex.name}</span>
+        <span class="exercise-editor-name">${escHtml(ex.name)}${ex.superset?` <span style="font-size:10px;color:var(--orange);">🔗 ${escHtml(ex.superset)}</span>`:''}</span>
         <button class="day-editor-btn" onclick="editExerciseName('${day.id}','${ex.id}')">✏️</button>
         <button class="exercise-editor-btn" onclick="deleteExercise('${day.id}','${ex.id}')">×</button>
       </div>`).join('')}
@@ -2177,7 +2481,10 @@ function renderSettings() {
         <button class="btn btn-ghost btn-sm" style="width:100%;" onclick="addExercise('${day.id}')">+ افزودن حرکت</button>
       </div>
     </div>`).join('');
-  if (typeof Notification!=='undefined'&&Notification.permission==='default') {
+  // درخواست مجوز اعلان فقط یک بار — نه در هر بار renderSettings
+  if (typeof Notification!=='undefined' && Notification.permission==='default' &&
+      !localStorage.getItem('ironlog_notif_asked')) {
+    localStorage.setItem('ironlog_notif_asked','1');
     Notification.requestPermission().catch(()=>{});
   }
 }
@@ -2208,7 +2515,7 @@ function editDayName(dayId) {
 
 // FIX #6: deleteDay — ریست وضعیت تمرین اگر روز فعال حذف شود
 function deleteDay(dayId) {
-  if(appData.days.length<1) return;
+  if(appData.days.length<=1) { showToast('❌ حداقل یک روز تمرینی باید وجود داشته باشد'); return; }
   showConfirm('حذف روز','این روز و تمام حرکاتش حذف شود؟','🗑️',true,ok=>{
     if(!ok)return;
     const idx=appData.days.findIndex(d=>d.id===dayId);
@@ -2252,22 +2559,65 @@ function deleteExercise(dayId,exId) {
     const day=appData.days.find(d=>d.id===dayId);if(!day)return;
     const idx=day.exercises.findIndex(e=>e.id===exId);
     const removed=day.exercises.splice(idx,1)[0];
+    // حذف از currentSession تا در ذخیره جلسه داده خراب نباشه
+    delete currentSession[exId];
     saveData();renderSettings();
     showUndo('حرکت حذف شد',()=>{day.exercises.splice(idx,0,removed);saveData();renderSettings();});
   });
 }
+// ─── مودال افزودن حرکت ───
+let _addExDayId = null;
+
 function addExercise(dayId) {
-  showInputModal('نام حرکت جدید','',val=>{
-    if(!val?.trim())return;
-    const day=appData.days.find(d=>d.id===dayId);if(!day)return;
-    day.exercises.push({id:'ex_'+Date.now(),name:val.trim(),reps:'10-12',sets:3,category:'medium',superset:null});
-    saveData();renderSettings();showToast('✅ حرکت اضافه شد');
+  _addExDayId = dayId;
+  document.getElementById('aem-name').value = '';
+  document.getElementById('aem-sets').value = '3';
+  document.getElementById('aem-reps').value = '10-12';
+  document.getElementById('aem-superset-name').value = '';
+  // ریست تاگل سوپرست
+  const tog = document.getElementById('aem-superset-toggle');
+  tog.className = 'toggle';
+  document.getElementById('aem-superset-field').style.display = 'none';
+  openModal('add-exercise-modal');
+  setTimeout(()=>document.getElementById('aem-name').focus(), 300);
+}
+
+function toggleAemSuperset() {
+  const tog = document.getElementById('aem-superset-toggle');
+  const isOn = tog.classList.contains('on');
+  tog.className = 'toggle' + (isOn ? '' : ' on');
+  document.getElementById('aem-superset-field').style.display = isOn ? 'none' : 'block';
+  if (!isOn) setTimeout(()=>document.getElementById('aem-superset-name').focus(), 150);
+}
+
+function closeAddExModal() { closeModal('add-exercise-modal'); _addExDayId = null; }
+
+function confirmAddExModal() {
+  const name = document.getElementById('aem-name').value.trim();
+  if (!name) { showToast('❌ نام حرکت را وارد کنید'); return; }
+  const setsVal = parseInt(document.getElementById('aem-sets').value) || 3;
+  const sets = Math.max(1, Math.min(20, setsVal));
+  const reps = document.getElementById('aem-reps').value.trim() || '10-12';
+  const isSuperset = document.getElementById('aem-superset-toggle').classList.contains('on');
+  const ssName = isSuperset ? document.getElementById('aem-superset-name').value.trim() : null;
+  if (isSuperset && !ssName) { showToast('❌ نام حرکت دوم سوپرست را وارد کنید'); return; }
+
+  const day = appData.days.find(d => d.id === _addExDayId); if (!day) return;
+  day.exercises.push({
+    id: 'ex_' + Date.now(),
+    name,
+    reps,
+    sets,
+    category: 'medium',
+    superset: ssName || null
   });
+  saveData(); renderSettings(); closeAddExModal();
+  showToast('✅ حرکت اضافه شد');
 }
 function showAddDayModal() {
   showInputModal('نام روز تمرین جدید','',val=>{
     if(!val?.trim())return;
-    appData.days.push({id:'day_'+Date.now(),name:val.trim(),icon:'🏋️',desc:'',totalSets:0,exercises:[]});
+    appData.days.push({id:'day_'+Date.now(),name:val.trim(),icon:'',desc:'',totalSets:0,exercises:[]});
     saveData();renderSettings();showToast('✅ روز اضافه شد');
   });
 }
@@ -2280,19 +2630,59 @@ function exportData() {
   localStorage.setItem('ironlog_last_backup',Date.now().toString());
   showToast('💾 بکاپ دانلود شد');
 }
+function validateImportSchema(parsed) {
+  // بررسی ساختار پایه — جلوگیری از داده خراب
+  if (!parsed || typeof parsed !== 'object') return false;
+  if (!Array.isArray(parsed.days)) return false;
+  if (!Array.isArray(parsed.history)) return false;
+  if (parsed.settings && typeof parsed.settings !== 'object') return false;
+  if (parsed.weights && !Array.isArray(parsed.weights)) return false;
+  // بررسی روزها
+  for (const day of parsed.days) {
+    if (!day.id || typeof day.id !== 'string') return false;
+    if (!day.name || typeof day.name !== 'string') return false;
+    if (!Array.isArray(day.exercises)) return false;
+  }
+  // بررسی تاریخچه
+  for (const s of parsed.history) {
+    if (!s.id || !s.date) return false;
+    if (s.exercises && typeof s.exercises !== 'object') return false;
+  }
+  return true;
+}
+
 function importData(input) {
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=e=>{
     try {
       const parsed=JSON.parse(e.target.result);
+      // اعتبارسنجی ساختار قبل از هر چیز
+      if (!validateImportSchema(parsed)) {
+        showToast('❌ فایل ساختار معتبری ندارد');
+        input.value='';
+        return;
+      }
       showConfirm('بازیابی بکاپ','تمام اطلاعات فعلی جایگزین می‌شود. ادامه می‌دهید؟','📥',true,ok=>{
         if(!ok)return;
         const mig=migrateData(parsed);
         appData=Object.assign({},appData,mig);
         if(!appData.days?.length) appData.days=[];
+        // ریست وضعیت جلسه فعال در صورت import
+        currentDayId=null; currentSession={}; clearSessionBackup(); stopAllTimers(); stopSessionTimer(); releaseWakeLock();
+        // برگشت به نمای انتخاب روز
+        const exerciseView=document.getElementById('exercise-view');
+        const daySelectorView=document.getElementById('day-selector-view');
+        if(exerciseView) exerciseView.style.display='none';
+        if(daySelectorView) daySelectorView.style.display='';
         saveData();applyTheme(appData.settings.theme||'default');applyAppName(appData.settings.appName);
-        renderSettings();renderDayCards();showToast('✅ بکاپ بازیابی شد');
+        // ثبت زمان بکاپ پس از import موفق
+        localStorage.setItem('ironlog_last_backup', Date.now().toString());
+        // رندر کامل همه بخش‌ها بعد از import
+        renderSettings();renderDayCards();
+        if(document.getElementById('page-history').classList.contains('active')) renderHistory();
+        if(document.getElementById('page-stats').classList.contains('active')) renderStats();
+        showToast('✅ بکاپ بازیابی شد');
       });
     }catch(err){showToast('❌ فایل معتبر نیست');}
     input.value='';
@@ -2363,6 +2753,9 @@ function showToast(msg) {
 // ═══════════════════════════════════════════════════
 //  HELPERS
 // ═══════════════════════════════════════════════════
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 function formatTime(s) {
   const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;
   if(h>0)return`${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
@@ -2389,12 +2782,23 @@ function checkAndResumeWorkout() {
   const savedStart =localStorage.getItem('ironlog_session_start');
   if (savedDayId && savedSess) {
     try {
-      // بررسی که روز هنوز وجود داشته باشد
       const dayExists = appData.days.some(d => d.id === savedDayId);
       if (!dayExists) { clearSessionBackup(); renderDayCards(); return; }
       currentDayId    =savedDayId;
       currentSession  =JSON.parse(savedSess);
       sessionStartTime=savedStart?parseInt(savedStart):Date.now();
+      // sync: اگه حرکت جدیدی بعد از backup اضافه شده، اضافه‌اش کن
+      const day = appData.days.find(d=>d.id===savedDayId);
+      if (day) {
+        day.exercises.forEach(ex => {
+          if (!currentSession[ex.id]) {
+            currentSession[ex.id] = {
+              sets: Array.from({length:ex.sets||3}, ()=>({weight:'',reps:'',dropSet:false,done:false,rir:''})),
+              note:'', rpe:null
+            };
+          }
+        });
+      }
       showToast('🔄 تمرین نیمه‌تمام بازیابی شد');
       showExerciseView();
     }catch(e){clearSessionBackup();renderDayCards();}
@@ -2406,7 +2810,9 @@ function checkAndResumeWorkout() {
 // ═══════════════════════════════════════════════════
 function registerSW() {
   if (!('serviceWorker' in navigator)) return;
-  const sw=`const C='ilv2';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['/'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/'))));});`;
+  // نسخه کش باید با نسخه برنامه هماهنگ باشد تا آپدیت‌ها اعمال شوند
+  const CACHE_VERSION = 'ilv4-23';
+  const sw=`const C='${CACHE_VERSION}';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll([self.location.pathname,'./'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match(self.location.pathname))));});`;
   const blob=new Blob([sw],{type:'application/javascript'});
   navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
 }
@@ -2423,17 +2829,37 @@ const BADGES_DEF = [
   {id:'early', icon:'🌅',name:'صبح‌زود',  desc:'۵ تمرین قبل ۸', req:(s,str,h)=>h>=5},
 ];
 
+function toLocalDateStr(dateInput) {
+  // تبدیل به رشته تاریخ محلی (YYYY-MM-DD) بدون مشکل UTC
+  const d = dateInput instanceof Date ? dateInput : new Date(dateInput);
+  if (isNaN(d.getTime())) return null;
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
 function calcStreak() {
   if (!appData.history.length) return 0;
-  const dates = [...new Set(appData.history.map(s => s.date.split('T')[0]))].sort().reverse();
-  let streak = 0;
-  const today = new Date().toISOString().split('T')[0];
-  const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0];
+  const dates = [...new Set(
+    appData.history
+      .map(s => { try { return toLocalDateStr(s.date); } catch(e) { return null; } })
+      .filter(Boolean)
+  )].sort().reverse();
+  if (!dates.length) return 0;
+  const today     = toLocalDateStr(new Date());
+  const todayD    = new Date(); todayD.setHours(0,0,0,0);
+  const yesterdayD = new Date(todayD.getFullYear(), todayD.getMonth(), todayD.getDate()-1);
+  const yesterday = toLocalDateStr(yesterdayD);
   if (dates[0] !== today && dates[0] !== yesterday) return 0;
-  let prev = dates[0];
-  for (const d of dates) {
-    const diff = (new Date(prev) - new Date(d)) / 86400000;
-    if (diff <= 1) { streak++; prev = d; }
+  let streak = 1;
+  for (let i = 1; i < dates.length; i++) {
+    const [py,pm,pd] = dates[i-1].split('-').map(Number);
+    const [cy,cm,cd] = dates[i].split('-').map(Number);
+    const prevMs = new Date(py,pm-1,pd).getTime();
+    const currMs = new Date(cy,cm-1,cd).getTime();
+    const diff = (prevMs - currMs) / 86400000;
+    if (Math.round(diff) === 1) { streak++; }
     else break;
   }
   return streak;
@@ -2529,7 +2955,7 @@ function renderSmartSuggestions() {
       <div class="smart-card-title">💡 پیشنهاد هوشمند</div>
       ${suggestions.map(s=>`<div class="smart-item">
         <div class="smart-item-icon">⬆️</div>
-        <div class="smart-item-text"><strong>${s.ex}</strong>وقتشه وزن رو از ${s.w}kg به ${s.newW}kg ببری</div>
+        <div class="smart-item-text"><strong>${escHtml(s.ex)}</strong> وقتشه وزن رو از ${s.w}kg به ${s.newW}kg ببری</div>
       </div>`).join('')}
     </div>`;
   }
@@ -2538,7 +2964,7 @@ function renderSmartSuggestions() {
       <div class="fatigue-card-title">⚠️ هشدار خستگی</div>
       ${fatigues.map(f=>`<div class="smart-item">
         <div class="smart-item-icon">📉</div>
-        <div class="smart-item-text"><strong>${f.ex}</strong>عملکرد ${f.drop}٪ افت داشته — استراحت بیشتر بده</div>
+        <div class="smart-item-text"><strong>${escHtml(f.ex)}</strong> عملکرد ${f.drop}٪ افت داشته — استراحت بیشتر بده</div>
       </div>`).join('')}
     </div>`;
   }
@@ -2560,7 +2986,7 @@ function toJalali(gy, gm, gd) {
   var jy=979+33*j_np+4*Math.floor(j_d_no/1461); j_d_no%=1461;
   if(j_d_no>=366){jy+=Math.floor((j_d_no-1)/365);j_d_no=(j_d_no-1)%365;}
   var jml=[31,31,31,31,31,31,30,30,30,30,30,29];
-  var jm=0;
+  let jm=0;
   for(var i=0;i<11&&j_d_no>=jml[i];i++) j_d_no-=jml[i];
   jm=i+1;
   return {y:jy,m:jm,d:j_d_no+1};
@@ -2593,9 +3019,9 @@ function jalaliMonthLen(jy,jm) {
 }
 
 function isJalaliLeap(jy) {
-  var b=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
-  var jp=b[0],jm2=0,jump=0;
-  for(var i=1;i<b.length;i++){var jb=b[i];jump=jb-jp;if(jy<jb)break;jm2+=Math.floor(jump/2820)*683;jp=jb;}
+  let b=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+  let jp=b[0],jm2=0,jump=0;
+  for(var i=1;i<b.length;i++){let jb=b[i];jump=jb-jp;if(jy<jb)break;jm2+=Math.floor(jump/2820)*683;jp=jb;}
   jm2+=Math.floor((jy-jp)*683/2820);
   return (jm2+29)%2820<684;
 }
@@ -2735,12 +3161,25 @@ function renderMuscleMap() {
 function renderWeeklyCompare() {
   const wrap = document.getElementById('weekly-compare-wrap');
   if (!wrap) return;
-  const now = Date.now();
+  // محاسبه ابتدای هفته شمسی (شنبه) برای این هفته و هفته قبل
+  const nowG = new Date();
+  const nowJ = toJalali(nowG.getFullYear(), nowG.getMonth()+1, nowG.getDate());
+  // روز هفته شمسی: 0=شنبه ... 6=جمعه (طبق jalaliFirstWeekday)
+  const jsDay = nowG.getDay(); // 0=Sun..6=Sat
+  const jalaliDow = (jsDay + 1) % 7; // Sat→0, Sun→1 ... Fri→6
+  // ابتدای این هفته شمسی (شنبه)
+  const thisWeekStartG = jalaliToGregorian(nowJ.y, nowJ.m, nowJ.d - jalaliDow);
+  const thisWeekStart = new Date(thisWeekStartG.y, thisWeekStartG.m-1, thisWeekStartG.d).getTime();
   const weekMs = 7*24*60*60*1000;
-  const thisWeek = appData.history.filter(s=>now-new Date(s.date).getTime()<weekMs);
-  const prevWeek = appData.history.filter(s=>{
-    const age=now-new Date(s.date).getTime();
-    return age>=weekMs && age<2*weekMs;
+  const prevWeekStart = thisWeekStart - weekMs;
+
+  const thisWeek = appData.history.filter(s => {
+    const t = new Date(s.date).getTime();
+    return t >= thisWeekStart;
+  });
+  const prevWeek = appData.history.filter(s => {
+    const t = new Date(s.date).getTime();
+    return t >= prevWeekStart && t < thisWeekStart;
   });
   if (!thisWeek.length && !prevWeek.length) { wrap.innerHTML=''; return; }
 
@@ -2803,6 +3242,7 @@ function enterFocusMode() {
 function exitFocusMode() {
   document.getElementById('focus-mode-overlay').classList.remove('active');
   stopFocusTimers();
+  stopAllTimers();
   renderExercises();
 }
 
@@ -2842,11 +3282,12 @@ function renderFocusBody() {
   const prevSet  = prevSets[focusSetIdx];
 
   if (focusResting) {
-    // نمایش استراحت
+    // نمایش استراحت — focusSetIdx الان به ست بعدی اشاره دارد، پس ست قبلی = focusSetIdx
+    const completedSetNum = focusSetIdx; // چون قبلاً focusSetIdx++ شده
     document.getElementById('focus-body').innerHTML = `
       <div style="font-size:14px;color:var(--text3);">استراحت</div>
       <div class="focus-rest-display" id="focus-rest-disp">${formatTime(focusRestRemaining)}</div>
-      <div class="focus-rest-label">ست ${focusSetIdx} از ${session.sets.length} — ${ex.name}</div>
+      <div class="focus-rest-label">بعد از ست ${completedSetNum} — ${escHtml(ex.name)}</div>
       <button class="focus-rest-skip" onclick="focusSkipRest()">رد کردن ✕</button>`;
     startFocusRestTick();
     return;
@@ -2860,8 +3301,9 @@ function renderFocusBody() {
     ? `<div class="focus-last-hint">جلسه قبل: <span>${prevSet.weight||'—'}kg × ${prevSet.reps||'—'} تکرار</span></div>`
     : '';
 
+  const allSetsDone = session.sets.length > 0 && session.sets.every(s => s.done);
   document.getElementById('focus-body').innerHTML = `
-    <div class="focus-exercise-name">${ex.name}</div>
+    <div class="focus-exercise-name">${escHtml(ex.name)}</div>
     <div class="focus-exercise-meta">${ex.reps||''} تکرار &nbsp;•&nbsp; ست ${focusSetIdx+1} از ${session.sets.length}</div>
     <div class="focus-set-counter">${dotsHtml}</div>
     ${lastHint}
@@ -2875,10 +3317,16 @@ function renderFocusBody() {
         <input class="focus-input" id="focus-reps" type="number" inputmode="numeric" placeholder="${prevSet?.reps||'0'}" value="${curSet?.reps||''}">
       </div>
     </div>
-    <button class="focus-done-btn" onclick="focusCompleteSet()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-      ست تموم شد
-    </button>`;
+    ${allSetsDone
+      ? `<button class="focus-done-btn" style="background:linear-gradient(135deg,var(--green),#16a34a);" onclick="focusNavExercise(1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+          حرکت بعدی
+        </button>`
+      : `<button class="focus-done-btn" onclick="focusCompleteSet()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          ست تموم شد
+        </button>`
+    }`;
 }
 
 function focusCompleteSet() {
@@ -2896,7 +3344,7 @@ function focusCompleteSet() {
   session.sets[focusSetIdx].weight = w;
   session.sets[focusSetIdx].reps   = r;
   session.sets[focusSetIdx].done   = true;
-  if (w) checkNewPR(ex.id, parseFloat(w)||0, parseInt(r)||0);
+  if (w) checkNewPR(ex.id, parseFloat(w)||0, parseInt(r)||1);
   saveSessionBackup();
 
   if (appData.settings.vibrate && navigator.vibrate) navigator.vibrate([60,30,60]);
@@ -2960,8 +3408,26 @@ function focusNavExercise(dir) {
   if (focusRestTimer) { clearInterval(focusRestTimer); focusRestTimer=null; }
   focusResting = false;
   focusExIdx   = newIdx;
-  focusSetIdx  = currentSession[day.exercises[newIdx].id]?.sets?.findLastIndex(s=>s.done)??-1;
-  focusSetIdx  = Math.max(0, focusSetIdx === (currentSession[day.exercises[newIdx].id]?.sets?.length-1) && currentSession[day.exercises[newIdx].id]?.sets?.every(s=>s.done) ? focusSetIdx : focusSetIdx+1 < (currentSession[day.exercises[newIdx].id]?.sets?.length||1) ? focusSetIdx+1 : 0);
+
+  // پیدا کردن ست مناسب برای حرکت جدید
+  const newEx = day.exercises[newIdx];
+  const newSession = currentSession[newEx.id];
+  if (!newSession) { focusSetIdx = 0; renderFocusBody(); return; }
+
+  const sets = newSession.sets;
+  const lastDoneIdx = sets.reduce((last, s, i) => s.done ? i : last, -1);
+
+  if (lastDoneIdx === -1) {
+    // هیچ ستی انجام نشده — از اول شروع کن
+    focusSetIdx = 0;
+  } else if (lastDoneIdx === sets.length - 1 && sets.every(s => s.done)) {
+    // همه ست‌ها انجام شده — روی آخری بمان
+    focusSetIdx = sets.length - 1;
+  } else {
+    // بعد از آخرین ست انجام شده
+    focusSetIdx = lastDoneIdx + 1;
+  }
+
   renderFocusBody();
 }
 
@@ -3003,7 +3469,7 @@ function showSetupWizard() {
       return;
     }
     const dayId = 'day_' + Date.now();
-    appData.days.push({id:dayId, name:val.trim(), icon:'💪', desc:'', totalSets:0, exercises:[]});
+    appData.days.push({id:dayId, name:val.trim(), icon:'', desc:'', totalSets:0, exercises:[]});
     saveData();
     switchPage('settings');
     setTimeout(() => {
