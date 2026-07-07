@@ -209,13 +209,6 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .set-input-wrap{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;}
 .set-input-label{font-size:9px;color:var(--text3);text-align:center;line-height:1;}
 /* ─── Set Compare Arrow ─── */
-.set-compare{display:flex;flex-direction:column;align-items:center;justify-content:center;width:22px;flex-shrink:0;gap:1px;}
-.set-compare-arrow{font-size:14px;line-height:1;}
-.set-compare-diff{font-size:8px;font-weight:700;line-height:1;text-align:center;}
-.set-compare.up .set-compare-arrow,.set-compare.up .set-compare-diff{color:var(--green);}
-.set-compare.down .set-compare-arrow,.set-compare.down .set-compare-diff{color:var(--red);}
-.set-compare.same .set-compare-arrow,.set-compare.same .set-compare-diff{color:var(--text3);}
-.set-compare.empty{opacity:0;pointer-events:none;}
 .set-check{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;}
 .set-check.done{background:var(--green);border-color:var(--green);animation:setPop 0.42s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes setPop{0%{transform:scale(0.6);}55%{transform:scale(1.22);}100%{transform:scale(1);}}
@@ -777,6 +770,11 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
       <div class="settings-info"><div class="settings-label">تعداد جلسات هدف</div><div class="settings-sub">هدف تمرینی ماه جاری</div></div>
       <div class="settings-action"><input type="number" class="input-field" id="monthly-goal-input" value="12" min="1" max="31" style="width:70px;text-align:center;" onchange="saveMonthlyGoal()"></div>
     </div>
+    <div class="settings-row">
+      <div class="settings-icon" id="si-freq"></div>
+      <div class="settings-info"><div class="settings-label">روزهای تمرین در هفته</div><div class="settings-sub">برای محاسبه‌ی درست رگه تمرین (streak) — نه لزوماً هر روز</div></div>
+      <div class="settings-action"><input type="number" class="input-field" id="training-freq-input" value="4" min="1" max="7" style="width:70px;text-align:center;" onchange="saveTrainingFrequency()"></div>
+    </div>
   </div>
   <div class="sec-title">مدیریت روزها</div>
   <div class="settings-section" id="day-manager"></div>
@@ -884,7 +882,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 <div class="modal-overlay" id="add-exercise-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title"><span class="modal-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>افزودن حرکت</div>
+    <div class="modal-title" id="aem-modal-title"><span class="modal-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span><span id="aem-modal-title-text">افزودن حرکت</span></div>
     <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
       <div>
         <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">نام حرکت *</div>
@@ -898,6 +896,15 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
         <div style="flex:1;">
           <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">تکرار</div>
           <input type="text" class="input-field" id="aem-reps" value="10-12" placeholder="مثلاً: 8-12" style="text-align:center;">
+        </div>
+      </div>
+      <!-- FIX: انتخاب دسته حرکت — بدون این، تنظیمات زمان استراحت سنگین/سبک هیچ‌وقت فعال نمی‌شد -->
+      <div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">دسته (برای زمان استراحت)</div>
+        <div style="display:flex;gap:6px;" id="aem-category-chips">
+          <button type="button" class="ex-chip" data-cat="heavy" onclick="selectAemCategory('heavy')" style="flex:1;text-align:center;">سنگین</button>
+          <button type="button" class="ex-chip" data-cat="medium" onclick="selectAemCategory('medium')" style="flex:1;text-align:center;">متوسط</button>
+          <button type="button" class="ex-chip" data-cat="light" onclick="selectAemCategory('light')" style="flex:1;text-align:center;">سبک</button>
         </div>
       </div>
       <!-- تاگل سوپرست -->
@@ -917,7 +924,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
     </div>
     <div style="display:flex;gap:10px;margin-top:16px;">
       <button class="btn btn-ghost" style="flex:1;" onclick="closeAddExModal()">انصراف</button>
-      <button class="btn btn-primary" style="flex:2;" onclick="confirmAddExModal()">افزودن ✓</button>
+      <button class="btn btn-primary" style="flex:2;" id="aem-confirm-btn" onclick="confirmAddExModal()">افزودن ✓</button>
     </div>
   </div>
 </div>
@@ -989,7 +996,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 // ═══════════════════════════════════════════════════
 //  CONSTANTS
 // ═══════════════════════════════════════════════════
-const DATA_VERSION  = 3;
+const DATA_VERSION  = 4;
 const CIRCUMFERENCE = 2 * Math.PI * 68;
 const RPE_LABELS    = ['','','','','','','سبک','متوسط','سخت','خیلی سخت','بیشینه'];
 const THEMES = [
@@ -1051,7 +1058,7 @@ let appData = {
   version:DATA_VERSION,days:[],history:[],weights:[],
   settings:{vibrate:true,autoTimer:true,askRPE:false,showRIR:false,theme:'default',appName:'IronLog',keepAliveAudio:false},
   restTimes:{heavy:180,medium:120,light:90},
-  monthlyGoal:12, prLog:{}
+  monthlyGoal:12, trainingDaysPerWeek:4, prLog:{}
 };
 
 let currentDayId         = null;
@@ -1110,6 +1117,10 @@ function migrateData(d) {
     (d.days||[]).forEach(day => { if (!day.exercises) day.exercises = []; });
     d.version = 3;
   }
+  if (d.version < 4) {
+    d.trainingDaysPerWeek = d.trainingDaysPerWeek ?? 4;
+    d.version = 4;
+  }
   return d;
 }
 
@@ -1145,9 +1156,11 @@ function saveData() {
 
 function saveSessionBackup() {
   if (!currentDayId) return;
-  localStorage.setItem('ironlog_active_day_id', currentDayId);
-  localStorage.setItem('ironlog_active_session', JSON.stringify(currentSession));
-  if (sessionStartTime) localStorage.setItem('ironlog_session_start', sessionStartTime);
+  try {
+    localStorage.setItem('ironlog_active_day_id', currentDayId);
+    localStorage.setItem('ironlog_active_session', JSON.stringify(currentSession));
+    if (sessionStartTime) localStorage.setItem('ironlog_session_start', sessionStartTime);
+  } catch(e) { /* حافظه پر است؛ بی‌صدا رد می‌شویم تا وارد کردن داده مسدود نشود */ }
 }
 function clearSessionBackup() {
   localStorage.removeItem('ironlog_active_day_id');
@@ -1282,6 +1295,7 @@ function switchPage(page) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.getElementById('nav-'+page).classList.add('active');
+  if (page==='workout')  renderDayCards();
   if (page==='history')  renderHistory();
   if (page==='stats')    renderStats();
   if (page==='settings') renderSettings();
@@ -1359,7 +1373,10 @@ function getDayProgress(dayId) {
   let total=0, done=0;
   day.exercises.forEach(ex => {
     const s = currentSession[ex.id];
-    if (s) { total += s.sets.length; done += s.sets.filter(x=>x.done).length; }
+    if (s) {
+      total += s.sets.length; done += s.sets.filter(x=>x.done).length;
+      if (s.supersetSets) { total += s.supersetSets.length; done += s.supersetSets.filter(x=>x.done).length; }
+    }
     else total += (ex.sets||3);
   });
   return total ? Math.round((done/total)*100) : 0;
@@ -1570,7 +1587,6 @@ function buildSetRowSS(ex, i, set) {
         value="${ssData.rir||''}" placeholder="0" min="0" max="10" inputmode="numeric"
         oninput="onSSInput(this,'${ex.id}',${i},'rir')">
     </div>`:''}
-    <div class="set-compare empty"><div class="set-compare-arrow">—</div><div class="set-compare-diff"></div></div>
     <button class="set-check ${ssData.done?'done':''}" onclick="toggleSSSetDone('${ex.id}',${i})">
       ${ssData.done?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}
     </button>
@@ -1597,7 +1613,6 @@ function toggleSSSetDone(exId, idx) {
 function buildSetRowEl(ex, i, set, prevSet) {
   const canDelete = currentSession[ex.id].sets.length > 1;
   const showRIR   = appData.settings.showRIR;
-  const cmpInfo   = calcSetCompare(set, prevSet);
   const row = document.createElement('div');
   row.className = 'set-row';
   row.id = `set-row-${ex.id}-${i}`;
@@ -1621,10 +1636,6 @@ function buildSetRowEl(ex, i, set, prevSet) {
         value="${set.rir||''}" placeholder="0" min="0" max="10" inputmode="numeric"
         oninput="onSetInput(this,'${ex.id}',${i},'rir')">
     </div>`:''}
-    <div class="set-compare ${cmpInfo.cls}" id="cmp-${ex.id}-${i}">
-      <div class="set-compare-arrow">${cmpInfo.arrow}</div>
-      <div class="set-compare-diff">${cmpInfo.diff}</div>
-    </div>
     <button class="drop-toggle ${set.dropSet?'active':''}" onclick="toggleDropSet('${ex.id}',${i})" title="دراپ ست">DS</button>
     <button class="set-check ${set.done?'done':''}" onclick="toggleSetDone('${ex.id}',${i})">
       ${set.done?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`:''}
@@ -1651,18 +1662,19 @@ function attachSwipeDelete(row, exId, idx) {
       if (Math.abs(dx)>8 || Math.abs(dy)>8) { decided=true; horizontal=Math.abs(dx)>Math.abs(dy); }
     }
     if (decided && horizontal) {
+      e.preventDefault();
       curX = Math.min(0, dx);
       row.style.transform=`translateX(${curX}px)`;
       row.style.background = curX<THRESH ? 'rgba(239,68,68,0.18)' : '';
     }
-  }, {passive:true});
+  }, {passive:false});
   row.addEventListener('touchend', ()=>{
     if (!dragging) return; dragging=false;
     row.style.transition='transform 0.25s cubic-bezier(0.22,1,0.36,1), background 0.25s';
     if (curX < THRESH) {
       if (appData.settings.vibrate && navigator.vibrate) navigator.vibrate(25);
       row.style.transform='translateX(-100%)'; row.style.opacity='0';
-      setTimeout(()=>deleteSet(exId, idx), 180);
+      setTimeout(()=>performDeleteSet(exId, idx), 180);
     } else {
       row.style.transform='translateX(0)'; row.style.background='';
     }
@@ -1710,16 +1722,6 @@ function onSetInput(inputEl, exId, idx, field) {
 
   currentSession[exId].sets[idx][field] = val;
   saveSessionBackup();
-
-  // به‌روزرسانی فوری فلش مقایسه
-  const prevSets = prevSessionSetsCache[exId] || [];
-  const set = currentSession[exId].sets[idx];
-  const cmpEl = document.getElementById(`cmp-${exId}-${idx}`);
-  if (cmpEl) {
-    const info = calcSetCompare(set, prevSets[idx]);
-    cmpEl.className = `set-compare ${info.cls}`;
-    cmpEl.innerHTML = `<div class="set-compare-arrow">${info.arrow}</div><div class="set-compare-diff">${info.diff}</div>`;
-  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -1802,17 +1804,23 @@ function deleteSet(exId, idx) {
   if (currentSession[exId].sets.length<=1) return;
   showConfirm('حذف ست',`ست ${idx+1} حذف شود؟`,ICONS.trash,false, ok => {
     if (!ok) return;
-    stopInlineTimer(exId);
-    const backup = {...currentSession[exId].sets[idx]};
-    const ssBackup = currentSession[exId].supersetSets ? {...(currentSession[exId].supersetSets[idx]||{})} : null;
-    currentSession[exId].sets.splice(idx,1);
-    if (currentSession[exId].supersetSets) currentSession[exId].supersetSets.splice(idx,1);
+    performDeleteSet(exId, idx);
+  });
+}
+
+// حذف واقعی ست + Undo — بدون دیالوگ تاییدیه (برای swipe که خودش نوعی تاییده)
+function performDeleteSet(exId, idx) {
+  if (currentSession[exId].sets.length<=1) return;
+  stopInlineTimer(exId);
+  const backup = {...currentSession[exId].sets[idx]};
+  const ssBackup = currentSession[exId].supersetSets ? {...(currentSession[exId].supersetSets[idx]||{})} : null;
+  currentSession[exId].sets.splice(idx,1);
+  if (currentSession[exId].supersetSets) currentSession[exId].supersetSets.splice(idx,1);
+  refreshSetsUI(exId); saveSessionBackup();
+  showUndo('ست حذف شد', ()=>{
+    currentSession[exId].sets.splice(idx,0,backup);
+    if (currentSession[exId].supersetSets && ssBackup) currentSession[exId].supersetSets.splice(idx,0,ssBackup);
     refreshSetsUI(exId); saveSessionBackup();
-    showUndo('ست حذف شد', ()=>{
-      currentSession[exId].sets.splice(idx,0,backup);
-      if (currentSession[exId].supersetSets && ssBackup) currentSession[exId].supersetSets.splice(idx,0,ssBackup);
-      refreshSetsUI(exId); saveSessionBackup();
-    });
   });
 }
 
@@ -1916,7 +1924,7 @@ function getPrevSessionSetsForSession(sessionId, exId) {
 function finishDay() {
   const day = appData.days.find(d=>d.id===currentDayId);
   if (!day) return;
-  const hasDone = Object.values(currentSession).some(ex=>ex.sets.some(s=>s.done));
+  const hasDone = Object.values(currentSession).some(ex=>ex.sets.some(s=>s.done) || ex.supersetSets?.some(s=>s.done));
   if (!hasDone) {
     showConfirm('خروج بدون ذخیره','هیچ ستی تکمیل نشده. خارج می‌شوید؟',ICONS.alert,false,ok=>{
       if (ok) { currentDayId=null;currentSession={};clearSessionBackup();stopAllTimers();stopSessionTimer();releaseWakeLock();showDaySelector(); }
@@ -1925,11 +1933,26 @@ function finishDay() {
   }
   const duration=sessionStartTime?Math.floor((Date.now()-sessionStartTime)/1000):0;
   let totalSets=0,totalVol=0;
-  Object.values(currentSession).forEach(ex=>ex.sets.forEach(s=>{
-    if (s.done){totalSets++;totalVol+=(parseFloat(s.weight)||0)*(parseInt(s.reps)||0);}
-  }));
+  Object.values(currentSession).forEach(ex=>{
+    ex.sets.forEach(s=>{
+      if (s.done){totalSets++;totalVol+=(parseFloat(s.weight)||0)*(parseInt(s.reps)||0);}
+    });
+    ex.supersetSets?.forEach(s=>{
+      if (s.done){totalSets++;totalVol+=(parseFloat(s.weight)||0)*(parseInt(s.reps)||0);}
+    });
+  });
+  // اسم و دسته‌ی هر حرکت (و اسم سوپرست، اگه داشته باشه) رو همین الان توی خودِ جلسه ثبت می‌کنیم (snapshot)،
+  // تا اگه بعداً از تنظیمات حذفش کردی یا اسمش رو عوض کردی، این تاریخچه دست‌نخورده و درست بمونه
+  day.exercises.forEach(ex => {
+    if (currentSession[ex.id]) {
+      currentSession[ex.id]._name = ex.name;
+      currentSession[ex.id]._category = ex.category || 'medium';
+      if (ex.superset) currentSession[ex.id]._supersetName = ex.superset;
+    }
+  });
   appData.history.push({
-    id:Date.now(),date:new Date().toISOString(),
+    id: Date.now(),
+    date:new Date().toISOString(),
     startTime:new Date(sessionStartTime||Date.now()).toISOString(),
     endTime:new Date().toISOString(),
     duration,dayId:currentDayId,dayName:day.name,
@@ -2267,16 +2290,20 @@ function buildSessionBody(session) {
   const day=appData.days.find(d=>d.id===session.dayId);
   if (!session.exercises) return '<div style="color:var(--text3);font-size:12px;text-align:center;padding:10px 0;">ستی ثبت نشده</div>';
   let html='';
-  const exOrder=day?day.exercises.map(e=>e.id):Object.keys(session.exercises);
+  // ترتیب حرکات فعلی روز رو حفظ می‌کنیم، ولی حرکاتی که از اون موقع حذف شدن رو هم (چون واقعاً تمرین شدن) نشون می‌دیم
+  const dayOrder = day ? day.exercises.map(e=>e.id) : [];
+  const sessionKeys = Object.keys(session.exercises);
+  const exOrder = [...dayOrder, ...sessionKeys.filter(id=>!dayOrder.includes(id))];
   exOrder.forEach(exId=>{
     const exData=session.exercises[exId];
     if (!exData?.sets) return;
     const done=exData.sets.filter(s=>s.done);
     if (!done.length) return;
     const exDef=appData.days.flatMap(d=>d.exercises).find(e=>e.id===exId);
+    const exName = exData._name || (exDef?exDef.name:'حرکت حذف‌شده');
     const prevSets=getPrevSessionSetsForSession(session.id,exId);
     html+=`<div class="session-exercise">
-      <div class="session-ex-name">${exDef?escHtml(exDef.name):exId}</div>
+      <div class="session-ex-name">${escHtml(exName)}</div>
       ${done.map((s,i)=>{
         const cmp=calcSetCompare(s,prevSets[i]);
         const cmpBadge=cmp.cls!=='empty'?`<span style="font-size:11px;font-weight:700;color:${cmp.cls==='up'?'var(--green)':cmp.cls==='down'?'var(--red)':'var(--text3)'};">${cmp.arrow}${cmp.diff}</span>`:'';
@@ -2458,9 +2485,10 @@ function renderWeeklySummary() {
   appData.history.forEach(s=>{
     if (now - new Date(s.date).getTime() > weekMs) return;
     sessions++;
-    Object.values(s.exercises||{}).forEach(ex=>ex.sets?.forEach(set=>{
-      if (set.done) vol += (parseFloat(set.weight)||0)*(parseInt(set.reps)||0);
-    }));
+    Object.values(s.exercises||{}).forEach(ex=>{
+      ex.sets?.forEach(set=>{ if (set.done) vol += (parseFloat(set.weight)||0)*(parseInt(set.reps)||0); });
+      ex.supersetSets?.forEach(set=>{ if (set.done) vol += (parseFloat(set.weight)||0)*(parseInt(set.reps)||0); });
+    });
   });
   const streak = calcStreak();
   const notes = [
@@ -2488,9 +2516,10 @@ function renderHeatmap() {
   appData.history.forEach(s=>{
     const key = new Date(s.date).toDateString();
     let dv = 0;
-    Object.values(s.exercises||{}).forEach(ex=>ex.sets?.forEach(set=>{
-      if (set.done) dv += (parseFloat(set.weight)||0)*(parseInt(set.reps)||0);
-    }));
+    Object.values(s.exercises||{}).forEach(ex=>{
+      ex.sets?.forEach(set=>{ if (set.done) dv += (parseFloat(set.weight)||0)*(parseInt(set.reps)||0); });
+      ex.supersetSets?.forEach(set=>{ if (set.done) dv += (parseFloat(set.weight)||0)*(parseInt(set.reps)||0); });
+    });
     volByDay[key] = (volByDay[key]||0) + dv;
   });
   const vols = Object.values(volByDay).filter(v=>v>0).sort((a,b)=>a-b);
@@ -2522,14 +2551,17 @@ function renderHeatmap() {
 }
 
 function renderStatCards() {
-  let totalSets=0,totalVol=0; const prMap={};
+  let totalSets=0,totalVol=0;
   appData.history.forEach(s=>Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
     exData.sets?.forEach(set=>{
       if (!set.done) return;
       totalSets++;
-      const w=parseFloat(set.weight)||0,r=parseInt(set.reps)||0;
-      totalVol+=w*r;
-      if (!prMap[exId]||w>prMap[exId]) prMap[exId]=w;
+      totalVol+=(parseFloat(set.weight)||0)*(parseInt(set.reps)||0);
+    });
+    exData.supersetSets?.forEach(set=>{
+      if (!set.done) return;
+      totalSets++;
+      totalVol+=(parseFloat(set.weight)||0)*(parseInt(set.reps)||0);
     });
   }));
   const now=new Date();
@@ -2727,13 +2759,21 @@ function renderExProgressChart() {
   const selector=document.getElementById('ex-chart-selector');
   const chartEl =document.getElementById('ex-progress-chart');
   if (!selector) return;
-  const exWithData={};
+  const exWithData={},nameMap={};
   appData.history.forEach(s=>{
     Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
       if (exData.sets?.some(x=>x.done&&x.weight)) {
         if (!exWithData[exId]) exWithData[exId]=[];
         const best=exData.sets.filter(x=>x.done&&x.weight).sort((a,b)=>parseFloat(b.weight)-parseFloat(a.weight))[0];
         if (best) exWithData[exId].push({date:s.date,weight:parseFloat(best.weight),reps:parseInt(best.reps)||0});
+        if (!nameMap[exId]) nameMap[exId] = exData._name;
+      }
+      if (exData.supersetSets?.some(x=>x.done&&x.weight)) {
+        const ssId = exId+':ss';
+        if (!exWithData[ssId]) exWithData[ssId]=[];
+        const best=exData.supersetSets.filter(x=>x.done&&x.weight).sort((a,b)=>parseFloat(b.weight)-parseFloat(a.weight))[0];
+        if (best) exWithData[ssId].push({date:s.date,weight:parseFloat(best.weight),reps:parseInt(best.reps)||0});
+        if (!nameMap[ssId]) nameMap[ssId] = exData._supersetName;
       }
     });
   });
@@ -2745,7 +2785,8 @@ function renderExProgressChart() {
   if (!selectedExChartId||!exWithData[selectedExChartId]) selectedExChartId=exIds[0];
   selector.innerHTML=exIds.map(id=>{
     const ex=appData.days.flatMap(d=>d.exercises).find(e=>e.id===id);
-    return `<button class="ex-chip ${selectedExChartId===id?'active':''}" onclick="selectExChart('${id}')">${ex?escHtml(ex.name):id}</button>`;
+    const label = ex ? ex.name : (nameMap[id] || (id.endsWith(':ss') ? 'سوپرست' : 'حرکت حذف‌شده'));
+    return `<button class="ex-chip ${selectedExChartId===id?'active':''}" onclick="selectExChart('${id}')">${escHtml(label)}</button>`;
   }).join('');
   drawLineChart(chartEl,(exWithData[selectedExChartId]||[]).map(d=>({
     x:new Date(d.date).toLocaleDateString('fa-IR',{month:'short',day:'numeric'}),y:d.weight
@@ -2790,36 +2831,58 @@ function drawLineChart(svgEl, data) {
 }
 
 function renderPRList() {
-  const prMap={},exMap={};
+  const prMap={},nameMap={},exMap={};
   appData.days.flatMap(d=>d.exercises).forEach(e=>exMap[e.id]=e);
   appData.history.forEach(s=>Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
     exData.sets?.forEach(set=>{
       if (!set.done) return;
       const w=parseFloat(set.weight)||0;
       if (!prMap[exId]||w>prMap[exId].weight) prMap[exId]={weight:w,reps:parseInt(set.reps)||0};
+      nameMap[exId] = exMap[exId]?.name || exData._name || 'حرکت حذف‌شده';
     });
+    if (exData.supersetSets?.length) {
+      const ssId = exId+':ss';
+      exData.supersetSets.forEach(set=>{
+        if (!set.done) return;
+        const w=parseFloat(set.weight)||0;
+        if (!prMap[ssId]||w>prMap[ssId].weight) prMap[ssId]={weight:w,reps:parseInt(set.reps)||0};
+        nameMap[ssId] = exData._supersetName || exMap[exId]?.superset || 'سوپرست';
+      });
+    }
   }));
   const entries=Object.entries(prMap).sort((a,b)=>b[1].weight-a[1].weight);
   document.getElementById('pr-list').innerHTML=entries.length
     ?entries.map(([id,data])=>`<div class="pr-row">
         <div class="pr-icon">${ICONS.trophy}</div>
-        <div class="pr-name">${exMap[id]?escHtml(exMap[id].name):id}</div>
+        <div class="pr-name">${escHtml(nameMap[id]||id)}</div>
         <div><div class="pr-val">${data.weight}kg</div><div class="pr-1rm">1RM ≈ ${calc1RM(data.weight,data.reps)}kg</div></div>
       </div>`).join('')
     :'<div style="padding:20px;text-align:center;color:var(--text3);">هنوز رکوردی ثبت نشده</div>';
 }
 
 function renderVolumeList() {
-  const volMap={},exMap={};
+  const volMap={},nameMap={},exMap={};
   appData.days.flatMap(d=>d.exercises).forEach(e=>exMap[e.id]=e);
   appData.history.forEach(s=>Object.entries(s.exercises||{}).forEach(([exId,exData])=>{
-    exData.sets?.forEach(set=>{if(set.done)volMap[exId]=(volMap[exId]||0)+(parseFloat(set.weight)||0)*(parseInt(set.reps)||0);});
+    exData.sets?.forEach(set=>{
+      if(!set.done) return;
+      volMap[exId]=(volMap[exId]||0)+(parseFloat(set.weight)||0)*(parseInt(set.reps)||0);
+      nameMap[exId] = exMap[exId]?.name || exData._name || 'حرکت حذف‌شده';
+    });
+    if (exData.supersetSets?.length) {
+      const ssId = exId+':ss';
+      exData.supersetSets.forEach(set=>{
+        if(!set.done) return;
+        volMap[ssId]=(volMap[ssId]||0)+(parseFloat(set.weight)||0)*(parseInt(set.reps)||0);
+        nameMap[ssId] = exData._supersetName || exMap[exId]?.superset || 'سوپرست';
+      });
+    }
   }));
   const entries=Object.entries(volMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
   const maxV=entries[0]?.[1]||1;
   document.getElementById('volume-list').innerHTML=entries.length
     ?entries.map(([id,vol])=>`<div class="volume-bar">
-        <div class="volume-name">${exMap[id]?escHtml(exMap[id].name):id}</div>
+        <div class="volume-name">${escHtml(nameMap[id]||id)}</div>
         <div class="volume-track"><div class="volume-fill" style="width:${(vol/maxV*100).toFixed(1)}%"></div></div>
         <div class="volume-val">${Math.round(vol).toLocaleString()} kg</div>
       </div>`).join('')
@@ -2846,6 +2909,7 @@ function renderSettings() {
   if(m)m.value=appData.restTimes.medium||120;
   if(l)l.value=appData.restTimes.light||90;
   const gi=document.getElementById('monthly-goal-input');if(gi)gi.value=appData.monthlyGoal||12;
+  const fi=document.getElementById('training-freq-input');if(fi)fi.value=appData.trainingDaysPerWeek||4;
   const sub=document.getElementById('app-name-sub');if(sub)sub.textContent=s.appName||'IronLog';
   document.getElementById('day-manager').innerHTML=appData.days.map(day=>`
     <div class="day-editor-item">
@@ -2858,8 +2922,8 @@ function renderSettings() {
     <div class="sec-title" style="margin-top:16px;">${escHtml(day.name)}</div>
     <div class="settings-section">
       ${day.exercises.map(ex=>`<div class="exercise-editor-item">
-        <span class="exercise-editor-name">${escHtml(ex.name)}${ex.superset?` <span style="font-size:10px;color:var(--orange);">— ${escHtml(ex.superset)}</span>`:''}</span>
-        <button class="day-editor-btn" onclick="editExerciseName('${day.id}','${ex.id}')" style="width:22px;height:22px;display:inline-flex;">${ICONS.edit}</button>
+        <span class="exercise-editor-name">${escHtml(ex.name)}${ex.superset?` <span style="font-size:10px;color:var(--orange);">— ${escHtml(ex.superset)}</span>`:''} <span style="font-size:10px;color:var(--text3);">(${ex.category==='heavy'?'سنگین':ex.category==='light'?'سبک':'متوسط'})</span></span>
+        <button class="day-editor-btn" onclick="editExercise('${day.id}','${ex.id}')" style="width:22px;height:22px;display:inline-flex;">${ICONS.edit}</button>
         <button class="exercise-editor-btn" onclick="deleteExercise('${day.id}','${ex.id}')">×</button>
       </div>`).join('')}
       <div style="padding:8px 16px;">
@@ -2892,6 +2956,11 @@ function saveMonthlyGoal() {
   const val=parseInt(document.getElementById('monthly-goal-input').value);
   if(!val||val<1||val>31){showToast('هدف باید بین ۱ تا ۳۱ باشد','error');return;}
   appData.monthlyGoal=val;saveData();showToast('هدف ذخیره شد','success');
+}
+function saveTrainingFrequency() {
+  const val=parseInt(document.getElementById('training-freq-input').value);
+  if(!val||val<1||val>7){showToast('عدد باید بین ۱ تا ۷ باشد','error');return;}
+  appData.trainingDaysPerWeek=val;saveData();showToast('ذخیره شد','success');
 }
 function editDayName(dayId) {
   const day=appData.days.find(d=>d.id===dayId);if(!day)return;
@@ -2933,12 +3002,25 @@ function deleteDay(dayId) {
   });
 }
 
-function editExerciseName(dayId,exId) {
-  const day=appData.days.find(d=>d.id===dayId);
-  const ex=day?.exercises.find(e=>e.id===exId);if(!ex)return;
-  showInputModal('ویرایش نام حرکت',ex.name,val=>{
-    if(val?.trim()){ex.name=val.trim();saveData();renderSettings();}
-  });
+function editExercise(dayId, exId) {
+  const day = appData.days.find(d => d.id === dayId);
+  const ex = day?.exercises.find(e => e.id === exId);
+  if (!ex) return;
+  _addExDayId = dayId;
+  _editExId = exId;
+  document.getElementById('aem-name').value = ex.name || '';
+  document.getElementById('aem-sets').value = ex.sets || 3;
+  document.getElementById('aem-reps').value = ex.reps || '10-12';
+  selectAemCategory(ex.category || 'medium');
+  const tog = document.getElementById('aem-superset-toggle');
+  const hasSuperset = !!ex.superset;
+  tog.className = 'toggle' + (hasSuperset ? ' on' : '');
+  document.getElementById('aem-superset-field').style.display = hasSuperset ? 'block' : 'none';
+  document.getElementById('aem-superset-name').value = ex.superset || '';
+  document.getElementById('aem-modal-title-text').textContent = 'ویرایش حرکت';
+  document.getElementById('aem-confirm-btn').textContent = 'ذخیره ✓';
+  openModal('add-exercise-modal');
+  setTimeout(()=>document.getElementById('aem-name').focus(), 300);
 }
 function deleteExercise(dayId,exId) {
   showConfirm('حذف حرکت','این حرکت حذف شود؟',ICONS.trash,true,ok=>{
@@ -2954,17 +3036,32 @@ function deleteExercise(dayId,exId) {
 }
 // ─── مودال افزودن حرکت ───
 let _addExDayId = null;
+let _editExId = null;
+let _aemCategory = 'medium';
+
+// FIX: بدون این تابع، دسته‌ی حرکت هیچ‌وقت قابل انتخاب نبود و همیشه «متوسط» ثبت می‌شد،
+// در نتیجه زمان استراحت سنگین/سبک در تنظیمات، عملاً برای هیچ حرکتی به کار نمی‌رفت
+function selectAemCategory(cat) {
+  _aemCategory = cat;
+  document.querySelectorAll('#aem-category-chips .ex-chip').forEach(b=>{
+    b.classList.toggle('active', b.dataset.cat===cat);
+  });
+}
 
 function addExercise(dayId) {
   _addExDayId = dayId;
+  _editExId = null;
   document.getElementById('aem-name').value = '';
   document.getElementById('aem-sets').value = '3';
   document.getElementById('aem-reps').value = '10-12';
   document.getElementById('aem-superset-name').value = '';
+  selectAemCategory('medium');
   // ریست تاگل سوپرست
   const tog = document.getElementById('aem-superset-toggle');
   tog.className = 'toggle';
   document.getElementById('aem-superset-field').style.display = 'none';
+  document.getElementById('aem-modal-title-text').textContent = 'افزودن حرکت';
+  document.getElementById('aem-confirm-btn').textContent = 'افزودن ✓';
   openModal('add-exercise-modal');
   setTimeout(()=>document.getElementById('aem-name').focus(), 300);
 }
@@ -2977,7 +3074,7 @@ function toggleAemSuperset() {
   if (!isOn) setTimeout(()=>document.getElementById('aem-superset-name').focus(), 150);
 }
 
-function closeAddExModal() { closeModal('add-exercise-modal'); _addExDayId = null; }
+function closeAddExModal() { closeModal('add-exercise-modal'); _addExDayId = null; _editExId = null; }
 
 function confirmAddExModal() {
   const name = document.getElementById('aem-name').value.trim();
@@ -2990,12 +3087,22 @@ function confirmAddExModal() {
   if (isSuperset && !ssName) { showToast('نام حرکت دوم سوپرست را وارد کنید','error'); return; }
 
   const day = appData.days.find(d => d.id === _addExDayId); if (!day) return;
+
+  if (_editExId) {
+    const ex = day.exercises.find(e => e.id === _editExId);
+    if (!ex) { closeAddExModal(); return; }
+    ex.name = name; ex.sets = sets; ex.reps = reps; ex.superset = ssName || null; ex.category = _aemCategory;
+    saveData(); renderSettings(); closeAddExModal();
+    showToast('حرکت ذخیره شد','success');
+    return;
+  }
+
   day.exercises.push({
-    id: 'ex_' + Date.now(),
+    id: 'ex_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
     name,
     reps,
     sets,
-    category: 'medium',
+    category: _aemCategory,
     superset: ssName || null
   });
   saveData(); renderSettings(); closeAddExModal();
@@ -3004,7 +3111,7 @@ function confirmAddExModal() {
 function showAddDayModal() {
   showInputModal('نام روز تمرین جدید','',val=>{
     if(!val?.trim())return;
-    appData.days.push({id:'day_'+Date.now(),name:val.trim(),icon:'',desc:'',totalSets:0,exercises:[]});
+    appData.days.push({id:'day_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),name:val.trim(),icon:'',desc:'',totalSets:0,exercises:[]});
     saveData();renderSettings();showToast('روز اضافه شد','success');
   });
 }
@@ -3200,10 +3307,18 @@ function checkAndResumeWorkout() {
 // ═══════════════════════════════════════════════════
 //  SERVICE WORKER
 // ═══════════════════════════════════════════════════
+function simpleHash(str) {
+  let h = 0;
+  for (let i=0;i<str.length;i++){ h = (Math.imul(31,h)+str.charCodeAt(i))|0; }
+  return (h>>>0).toString(36);
+}
 function registerSW() {
   if (!('serviceWorker' in navigator)) return;
-  // نسخه کش باید با نسخه برنامه هماهنگ باشد تا آپدیت‌ها اعمال شوند
-  const CACHE_VERSION = 'ilv4-23';
+  // نسخه کش به‌صورت خودکار از هش محتوای فعلی صفحه محاسبه می‌شود — با هر تغییری در کد،
+  // این مقدار عوض می‌شود و مرورگر مجبور به دریافت و جایگزینی نسخه‌ی جدید می‌شود
+  // (قبلاً این عدد به‌صورت ثابت نوشته شده بود و در صورت فراموشی آپدیتش، کاربرِ نصب‌کرده
+  //  روی گوشی برای همیشه نسخه‌ی قدیمی رو از کش می‌دید، حتی با جایگزینی فایل)
+  const CACHE_VERSION = 'ilv4-' + simpleHash(document.documentElement.outerHTML);
   const sw=`const C='${CACHE_VERSION}';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll([self.location.pathname,'./'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match(self.location.pathname))));});`;
   const blob=new Blob([sw],{type:'application/javascript'});
   navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
@@ -3239,19 +3354,27 @@ function calcStreak() {
       .filter(Boolean)
   )].sort().reverse();
   if (!dates.length) return 0;
-  const today     = toLocalDateStr(new Date());
-  const todayD    = new Date(); todayD.setHours(0,0,0,0);
-  const yesterdayD = new Date(todayD.getFullYear(), todayD.getMonth(), todayD.getDate()-1);
-  const yesterday = toLocalDateStr(yesterdayD);
-  if (dates[0] !== today && dates[0] !== yesterday) return 0;
+
+  // حداکثر فاصله‌ی مجاز بین دو جلسه، بر اساس تعداد روزهای تمرین هدف در هفته
+  // (مثلاً برای ۴ روز در هفته، فاصله‌ی طبیعی بین جلسات می‌تونه تا ۳-۴ روز باشه؛
+  //  این عدد رو مستقیماً از تنظیمات کاربر می‌گیریم، نه از هدف ماهانه که ممکنه هم‌خوانی نداشته باشه)
+  const daysPerWeek = Math.min(7, Math.max(1, appData.trainingDaysPerWeek || 4));
+  const avgGap = 7 / daysPerWeek;
+  const maxGapDays = Math.max(2, Math.ceil(avgGap) + 2); // بافر اضافه برای انعطاف در برنامه‌ریزی هفتگی
+
+  const todayD = new Date(); todayD.setHours(0,0,0,0);
+  const lastSessionD = (()=>{ const [y,m,d]=dates[0].split('-').map(Number); return new Date(y,m-1,d); })();
+  const daysSinceLast = Math.round((todayD - lastSessionD) / 86400000);
+  if (daysSinceLast > maxGapDays) return 0;
+
   let streak = 1;
   for (let i = 1; i < dates.length; i++) {
     const [py,pm,pd] = dates[i-1].split('-').map(Number);
     const [cy,cm,cd] = dates[i].split('-').map(Number);
     const prevMs = new Date(py,pm-1,pd).getTime();
     const currMs = new Date(cy,cm-1,cd).getTime();
-    const diff = (prevMs - currMs) / 86400000;
-    if (Math.round(diff) === 1) { streak++; }
+    const gap = Math.round((prevMs - currMs) / 86400000);
+    if (gap <= maxGapDays) { streak++; }
     else break;
   }
   return streak;
@@ -3527,6 +3650,14 @@ function renderMuscleMap() {
       const vol = (exData.sets||[]).filter(s=>s.done).reduce((a,s)=>(a+(parseFloat(s.weight)||0)*(parseInt(s.reps)||0)),0);
       for (const [muscle, kws] of Object.entries(MUSCLE_KEYWORDS)) {
         if (kws.some(kw=>exDef.name.includes(kw))) { volMap[muscle]+=vol; break; }
+      }
+      // FIX: حجم حرکت دوم سوپرست قبلاً به هیچ گروه عضلانی نسبت داده نمی‌شد و کامل نادیده گرفته می‌شد
+      const ssName = exData._supersetName || exDef.superset;
+      if (ssName && exData.supersetSets?.length) {
+        const ssVol = exData.supersetSets.filter(s=>s.done).reduce((a,s)=>(a+(parseFloat(s.weight)||0)*(parseInt(s.reps)||0)),0);
+        for (const [muscle, kws] of Object.entries(MUSCLE_KEYWORDS)) {
+          if (kws.some(kw=>ssName.includes(kw))) { volMap[muscle]+=ssVol; break; }
+        }
       }
     });
   });
@@ -3928,7 +4059,7 @@ function showSetupWizard() {
       showToast('از اینجا روزها و حرکاتت را اضافه کن','info');
       return;
     }
-    const dayId = 'day_' + Date.now();
+    const dayId = 'day_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
     appData.days.push({id:dayId, name:val.trim(), icon:'', desc:'', totalSets:0, exercises:[]});
     saveData();
     switchPage('settings');
@@ -3950,7 +4081,7 @@ function applyStaticIcons() {
   const map = {
     'si-theme':ICONS.palette,'si-name':ICONS.edit,'si-vibrate':ICONS.vibrate,'si-autotimer':ICONS.clock,
     'si-rpe':ICONS.barchart,'si-rir':ICONS.dumbbell,'si-volume':ICONS.volume,'si-rest-heavy':ICONS.dumbbell,
-    'si-rest-medium':ICONS.barchart,'si-rest-light':ICONS.flame,'si-goal':ICONS.target,
+    'si-rest-medium':ICONS.barchart,'si-rest-light':ICONS.flame,'si-goal':ICONS.target,'si-freq':ICONS.clock,
     'si-export':ICONS.upload,'si-import':ICONS.download,'si-clear':ICONS.trash,
   };
   Object.keys(map).forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=map[id]; });
